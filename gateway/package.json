@@ -1,0 +1,29 @@
+{
+  "name": "gateway",
+  "version": "0.0.0",
+  "description": "The gateway HTTP service that coordinates all traffic.",
+  "main": "index.js",
+  "contributors": [
+    {
+      "name": "Mathias Maes"
+    },
+    {
+      "name": "Cato van Hooijdonk"
+    },
+    {
+      "name": "Arash Nouri"
+    },
+    {
+      "name": "Dimitriy Vassilchenko"
+    }
+  ],
+  "scripts": {},
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "morgan": "^1.10.0",
+    "redis": "^4.0.3",
+    "rotating-file-stream": "^3.0.2",
+    "winston": "^3.5.1"
+  }
+}
