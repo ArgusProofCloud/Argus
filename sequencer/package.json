@@ -1,0 +1,35 @@
+{
+  "name": "sequencer",
+  "version": "0.0.0",
+  "description": "A service that dequeues tasks and queues check results",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/WatcherWhale/SecProA.git"
+  },
+  "contributors": [
+    {
+      "name": "Mathias Maes"
+    },
+    {
+      "name": "Cato van Hooijdonk"
+    },
+    {
+      "name": "Arash Nouri"
+    },
+    {
+      "name": "Dimitriy Vassilchenko"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/WatcherWhale/SecProA/issues"
+  },
+  "homepage": "https://github.com/WatcherWhale/SecProA#readme",
+  "dependencies": {
+    "express": "^4.17.3",
+    "logfile": "file:../logger"
+  }
+}
