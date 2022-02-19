@@ -1,0 +1,33 @@
+from node:16-alpine
+
+# Specify project directory
+ARG project
+
+#################
+# Build modules #
+#################
+
+WORKDIR /$project/logger
+COPY ./logger/package* ./
+COPY ./logger/lib/ ./lib
+RUN npm ci --production
+
+#############
+# Build app #
+#############
+
+WORKDIR /$project/app
+
+# Install modules
+COPY ./$project/package* ./
+RUN npm ci --production
+
+# Copy src files
+COPY ./$project/src/ ./
+
+# Set default environment variables
+ENV PORT=3000
+ENV LOGLEVEL=info
+
+# Set entrypoint
+CMD [ "node", "index.js" ]
