@@ -6,14 +6,17 @@ const redis = require("redis");
  */
 class Redis
 {
+    /**
+     * @param {string} host 
+     * @param {number} port 
+     */
     constructor(host, port=6379)
     {
         this.client = redis.createClient(port, host);
     }
 
     /**
-     * 
-     * @returns Promise<void>
+     * @returns {Promise<void>}
      */
     connect()
     {
@@ -21,29 +24,27 @@ class Redis
     }
 
     /**
-     * @returns Promise<void>
+     * @returns {Promise<void>}
      */
     disconnect()
     {
-
         return this.client.disconnect();
     }
 
     /**
      * @param {string} Id 
-     * @param {any} Value 
-     * @returns Promise<number>
+     * @param {any} Value JSON-object that gets parsed to a string
+     * @returns {Promise<number>}
      */
     insert(Id, Value)
     {
         //inserts Id with value at the bottom => FIFO
         return this.client.RPUSH(Id, JSON.stringify(Value));
-
     }
 
     /**
      * @param {string} Id 
-     * @returns Promise<string>
+     * @returns {Promise<string>}
      */
     pop(Id)
     {
@@ -53,7 +54,7 @@ class Redis
 
     /**
      * @param {string} Id 
-     * @returns Promise<string[]>
+     * @returns {Promise<string[]>}
      */
     async PopEmpty(Id)
     {
@@ -103,8 +104,6 @@ class Redis
     {
         this.client.on("reconnect", callback)
     }
-
-
 }
 
 module.exports = Redis;
