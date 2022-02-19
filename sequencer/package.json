@@ -27,6 +27,7 @@
   "homepage": "https://github.com/WatcherWhale/SecProA#readme",
   "dependencies": {
     "express": "^4.17.3",
-    "logfile": "file:../logger"
+    "logfile": "file:../logger",
+    "redis": "file:../redis"
   }
 }

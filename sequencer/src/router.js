@@ -1,10 +1,38 @@
+const process = require("process");
 const express = require("express");
 const LogFile = require("logfile");
+const RedisClient = require("redis");
 
 // Get the logger instance
 const logFile = LogFile.createLogFile("sequencer.log");
 const logger = logFile.getLogger();
 
+// Create redis client
+const redisClient = new RedisClient(process.env.REDIS_HOST || "localhost", process.env.REDIS_PORT || 6379);
+
+// Register redis events
+redisClient.onError((err) => {
+    logger.error(err);
+});
+
+redisClient.onConnect(() => {
+    logger.debug("Connecting to the redis database.");
+});
+
+redisClient.onReconnect(() => {
+    logger.debug("Reconnecting to the redis database.");
+});
+
+redisClient.onReady(() => {
+    logger.info("Connected to the redis database.");
+});
+
+redisClient.onDisconnect(() => {
+    logger.info("Disconnected from the redis database.")
+});
+
+// Connect to the redis client
+redisClient.connect();
 
 // Create an express router
 const router = express.Router();
@@ -15,13 +43,20 @@ router.get("/job/:id", async (req, res) => {
     const queueId = req.params.id;
     logger.debug(`Finding jobs in ${queueId} queue.`);
 
-    // TODO: Query Redis
+    const job = await redisClient.pop("jobs:" + queueId);
 
-    res.status(404).send({status: 404, message: "No jobs are ready for execution"});
+    if(!job || job === "")
+    {
+        res.status(404).send({status: 404, message: "No jobs are ready for execution"});
+        return;
+    }
+
+    res.status(200).contentType("application/json").send(job);
+
 });
 
 // Post results
-router.post("/result/:id", async (req, res) => {
+router.post("/results/:id", async (req, res) => {
 
     const queueId = req.params.id;
     logger.debug(`Adding results to ${queueId} queue.`);
@@ -29,7 +64,7 @@ router.post("/result/:id", async (req, res) => {
     const results = req.body;
     logger.debug(JSON.stringify(req.body));
 
-    // TODO: Add to redis queue
+    await redisClient.insert("results:" + queueId, results)
 
     res.status(201).send({status: 201, message: "Results successfully registered."})
 });
@@ -37,7 +72,7 @@ router.post("/result/:id", async (req, res) => {
 
 // Create graceful shutdown method
 router.close = async () => {
-    logger.info("Closed Redis connection.");
+    await redisClient.disconnect();
 };
 
 // Export the router
