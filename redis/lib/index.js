@@ -1,42 +1,51 @@
 const redis = require("redis");
 
-const port= 6363 //in conf file
-const host='127.0.0.1' //in conf file
 
 class Redis
 {
-    constructor()
+    constructor(port, host)
     {
-        const client = redis.createClient(port, host)
+        this.client = redis.createClient(port, host)
 
-        client.on("error", function(err){
-            console.log(err)
-        });
-
-        client.on("connect", function(err){
+        this.client.on("connect", function(err){
+            this.Onerror(err)
             console.log("connected")
         })
     }
 
-    InsertInstr = ()=>
+    async InsertCheck(check, domain)
     {
-        await client.connect()
-        //RPUSH (json to string!)
-        await client.quit()
+        //inserts checks at the bottom => FIFO
+        await this.client.rpush(check, JSON.stringify(domain), (err, res)=>{
+            this.Onerror(err)
+            return res
+        })
     }
 
-    GetInstr = ()=>
+    async DelCheck(check)
     {
-        await client.connect()
-        //LPOP
-        await client.quit()
+        //delete the oldest in the "check" list
+        await this.client.lpop(check, (err, res)=>{
+            this.Onerror(err)
+            return res
+        })
     }
 
-    ReadInstr = ()=>
+    async ReadCheck(check)
     {
-        await client.connect()
-        //lrange
-        await client.quit()
+        //return the oldest in the check list
+        await this.client.lrange(check, 0, 0, (err, res)=>{
+            this.Onerror(err)
+            return res
+        })
+    }
+
+
+    Onerror(err)
+    {
+        this.client.on("error", function (){
+            //logger err
+        })
     }
 
 }
