@@ -56,7 +56,7 @@ class Redis
      * @param {string} Id 
      * @returns {Promise<string[]>}
      */
-    async PopEmpty(Id)
+    async popEmpty(Id)
     {
         //delete and return entire Id list
         const amount= await this.client.LLEN(Id);
