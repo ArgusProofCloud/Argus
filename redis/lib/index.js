@@ -12,7 +12,10 @@ class Redis
      */
     constructor(host, port=6379)
     {
-        this.client = redis.createClient(port, host);
+        redis.createClient()
+        this.client = redis.createClient({
+            url: `redis://${host}:${port}`
+        });
     }
 
     /**
