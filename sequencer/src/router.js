@@ -12,7 +12,7 @@ const redisClient = new RedisClient(process.env.REDIS_HOST || "localhost", proce
 
 // Register redis events
 redisClient.onError((err) => {
-    logger.error(err);
+    logger.error(err.message);
 });
 
 redisClient.onConnect(() => {
@@ -32,6 +32,7 @@ redisClient.onDisconnect(() => {
 });
 
 // Connect to the redis client
+logger.debug(`Connecting to the redis database at ${process.env.REDIS_HOST || "localhost"}:${process.env.REDIS_PORT || 6379}`)
 redisClient.connect();
 
 // Create an express router
