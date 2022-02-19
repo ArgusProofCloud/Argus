@@ -29,9 +29,6 @@ router.post("/result/:id", async (req, res) => {
     res.status(201).send({status: 201, message: "Results successfully registered."})
 });
 
-router.all("*", async (req, res) => {
-    res.status(404).send({status: 404, message: "This route does not exist!"})
-});
 
 router.close = async () => {
     logger.info("Closed Redis connection.");

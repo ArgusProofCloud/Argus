@@ -6,12 +6,21 @@ const logFile = LogFile.createLogFile("sequencer.log", process.env.LOGLEVEL || "
 const logger = logFile.getLogger();
 
 const app = express();
-const apiRouter = require("./router");
 
 app.use(logFile.createMiddleware("info", "access.log"));
 app.use(express.json());
+
+// Register api routes
+const apiRouter = require("./router");
 app.use("/api/v1", apiRouter);
 
+// Register 404 route
+app.all("*", async (req, res) => {
+    res.status(404).send({status: 404, message: "This route does not exist!"})
+});
+
+
+// Start server
 const server = app.listen(process.env.PORT || 3000, () => {
     logger.info(`Server started on port ${process.env.PORT || 3000}.`);
 });
