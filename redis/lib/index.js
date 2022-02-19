@@ -1,44 +1,109 @@
 const redis = require("redis");
 
+/**
+ * this class contains all methods needed to connect with a redis server
+ * the constructor demands a host and port. If no port is given, the default port 6379 will be used
+ */
 class Redis
 {
-    constructor(port, host)
+    constructor(host, port=6379)
     {
         this.client = redis.createClient(port, host);
-
-        this.client.on("connect", function(err){
-            this.Onerror(err);
-            console.log("connected");
-        });
     }
 
-    Insert(Id, Value)
+    /**
+     * 
+     * @returns Promise<void>
+     */
+    connect()
+    {
+        return this.client.connect();
+    }
+
+    /**
+     * @returns Promise<void>
+     */
+    disconnect()
+    {
+
+        return this.client.disconnect();
+    }
+
+    /**
+     * @param {string} Id 
+     * @param {any} Value 
+     * @returns Promise<number>
+     */
+    insert(Id, Value)
     {
         //inserts Id with value at the bottom => FIFO
         return this.client.RPUSH(Id, JSON.stringify(Value));
-        this.Onerror();
+
     }
 
-    Pop(Id){
+    /**
+     * @param {string} Id 
+     * @returns Promise<string>
+     */
+    pop(Id)
+    {
         //delete and return Oldest Id
         return this.client.LPOP(Id);
-        this.Onerror();
     }
 
-    async PopEmpty(Id){
-        //delete and return entire Id list
-        amount= await this.client.LLEN(Id);
-        return this.client.LPOP(Id, amount);
-        this.Onerror();
-    }
-
-
-    Onerror()
+    /**
+     * @param {string} Id 
+     * @returns Promise<string[]>
+     */
+    async PopEmpty(Id)
     {
-        this.client.on("error", function (){
-            //logger err
-        });
+        //delete and return entire Id list
+        const amount= await this.client.LLEN(Id);
+        return this.client.LPOP_COUNT(Id, amount);
     }
+
+    /**
+     * @param {(...args: any[])=> void} callback
+     */
+    onError(callback)
+    {
+        this.client.on("error", callback)
+    }
+
+    /**
+     * @param {(...args: any[])=> void} callback
+     */
+
+    onConnect(callback)
+    {
+        this.client.on("connect", callback)
+    }
+
+    /**
+     * @param {(...args: any[])=> void} callback
+     */
+
+    onReady()
+    {
+        this.client.on("ready", callback)
+    }
+
+    /**
+     * @param {(...args: any[])=> void} callback
+     */
+    onDisconnect()
+    {
+        this.client.on("end", callback)
+    }
+
+    /**
+     * @param {(...args: any[])=> void} callback
+     */
+    onReconnect()
+    {
+        this.client.on("reconnect", callback)
+    }
+
 
 }
 
