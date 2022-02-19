@@ -2,12 +2,20 @@ const process = require("process");
 const express = require("express");
 const LogFile = require("logfile");
 
+
+// Create logger
 const logFile = LogFile.createLogFile("sequencer.log", process.env.LOGLEVEL || "info");
 const logger = logFile.getLogger();
 
+
+// Create Webserver
 const app = express();
 
+
+// Register logging middleware
 app.use(logFile.createMiddleware("info", "access.log"));
+
+// Register body parser middleware
 app.use(express.json());
 
 // Register api routes
@@ -26,7 +34,9 @@ const server = app.listen(process.env.PORT || 3000, () => {
 });
 
 
-process.on("SIGINT", shutdown).on("SIGTERM", shutdown);
+// Graceful shutdown
+process.on("SIGINT", shutdown)
+       .on("SIGTERM", shutdown);
 
 async function shutdown()
 {

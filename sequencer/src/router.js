@@ -1,11 +1,15 @@
 const express = require("express");
 const LogFile = require("logfile");
 
+// Get the logger instance
 const logFile = LogFile.createLogFile("sequencer.log");
 const logger = logFile.getLogger();
 
+
+// Create an express router
 const router = express.Router();
 
+// Get job from specified queue
 router.get("/job/:id", async (req, res) => {
 
     const queueId = req.params.id;
@@ -16,6 +20,7 @@ router.get("/job/:id", async (req, res) => {
     res.status(404).send({status: 404, message: "No jobs are ready for execution"});
 });
 
+// Post results
 router.post("/result/:id", async (req, res) => {
 
     const queueId = req.params.id;
@@ -30,8 +35,10 @@ router.post("/result/:id", async (req, res) => {
 });
 
 
+// Create graceful shutdown method
 router.close = async () => {
     logger.info("Closed Redis connection.");
 };
 
+// Export the router
 module.exports = router;
