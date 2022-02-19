@@ -83,7 +83,6 @@ class Redis
     /**
      * @param {(...args: any[])=> void} callback
      */
-
     onReady()
     {
         this.client.on("ready", callback)
