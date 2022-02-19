@@ -7,9 +7,16 @@ ARG project
 # Build modules #
 #################
 
+# Logger
 WORKDIR /$project/logger
 COPY ./logger/package* ./
 COPY ./logger/lib/ ./lib
+RUN npm ci --production
+
+# Redis
+WORKDIR /$project/redis
+COPY ./redis/package* ./
+COPY ./redis/lib/ ./lib
 RUN npm ci --production
 
 #############
