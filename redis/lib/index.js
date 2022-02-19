@@ -1,53 +1,45 @@
 const redis = require("redis");
 
-
 class Redis
 {
     constructor(port, host)
     {
-        this.client = redis.createClient(port, host)
+        this.client = redis.createClient(port, host);
 
         this.client.on("connect", function(err){
-            this.Onerror(err)
-            console.log("connected")
-        })
+            this.Onerror(err);
+            console.log("connected");
+        });
     }
 
-    async InsertCheck(check, domain)
+    Insert(Id, Value)
     {
-        //inserts checks at the bottom => FIFO
-        await this.client.rpush(check, JSON.stringify(domain), (err, res)=>{
-            this.Onerror(err)
-            return res
-        })
+        //inserts Id with value at the bottom => FIFO
+        return this.client.RPUSH(Id, JSON.stringify(Value));
+        this.Onerror();
     }
 
-    async DelCheck(check)
-    {
-        //delete the oldest in the "check" list
-        await this.client.lpop(check, (err, res)=>{
-            this.Onerror(err)
-            return res
-        })
+    Pop(Id){
+        //delete and return Oldest Id
+        return this.client.LPOP(Id);
+        this.Onerror();
     }
 
-    async ReadCheck(check)
-    {
-        //return the oldest in the check list
-        await this.client.lrange(check, 0, 0, (err, res)=>{
-            this.Onerror(err)
-            return res
-        })
+    async PopEmpty(Id){
+        //delete and return entire Id list
+        amount= await this.client.LLEN(Id);
+        return this.client.LPOP(Id, amount);
+        this.Onerror();
     }
 
 
-    Onerror(err)
+    Onerror()
     {
         this.client.on("error", function (){
             //logger err
-        })
+        });
     }
 
 }
 
-module.exports = Redis
+module.exports = Redis;
