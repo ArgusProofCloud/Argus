@@ -9,8 +9,15 @@ loadKeys();
 
 function loadKeys()
 {
-    let rawdata = fs.readFileSync("./api.json").toString();
-    keys = JSON.parse(rawdata);
+    try
+    {
+        let rawdata = fs.readFileSync("./api.json").toString();
+        keys = JSON.parse(rawdata);
+    }
+    catch(err)
+    {
+        keys = [];
+    }
 }
 
 router.use((req, res, next) => {
