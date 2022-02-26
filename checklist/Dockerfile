@@ -9,4 +9,4 @@ RUN pip install -r requirements.txt
 COPY ./modules/ ./modules/
 COPY checklist.py ./
 
-CMD [ "python", "checklist.py"]
+CMD [ "python", "/app/checklist.py"]
