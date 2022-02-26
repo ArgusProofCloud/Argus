@@ -1,0 +1,6 @@
+name: ip
+stages:
+  - name: IP Checks
+    checks:
+      - geoIP.py
+      - check_rbl.py
