@@ -1,9 +1,12 @@
-FROM python:alpine
+FROM python:3.10-alpine
 
 WORKDIR /app
 
 COPY ./requirements.txt .
 
 RUN pip install -r requirements.txt
+
+COPY ./modules/ ./modules/
+COPY checklist.py ./
 
 CMD [ "python", "checklist.py"]
