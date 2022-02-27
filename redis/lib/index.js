@@ -1,8 +1,9 @@
-const redis = require("redis");
+const ioredis = require("ioredis");
 
 /**
- * this class contains all methods needed to connect with a redis server
+ * this class contains all methods needed to connect with an ioredis server
  * the constructor demands a host and port. If no port is given, the default port 6379 will be used
+ * good to know: when ioredis returns a "null" opbject; it returns an empty string instead
  */
 class Redis
 {
@@ -12,21 +13,16 @@ class Redis
      */
     constructor(host, port=6379)
     {
-        this.client = redis.createClient({
-            url: `redis://${host}:${port}`
-        });
+        this.client = new ioredis({
+            port: port,
+            host: host
+            //password: x
+        })
     }
 
     /**
      * @returns {Promise<void>}
-     */
-    connect()
-    {
-        return this.client.connect();
-    }
-
-    /**
-     * @returns {Promise<void>}
+     * closes connection immediately, regardless of pending replies
      */
     disconnect()
     {
@@ -34,35 +30,44 @@ class Redis
     }
 
     /**
-     * @param {string} Id
+     * @returns {Promise<void>}
+     * closes connection after all pending replies are resolved
+     */
+    quit()
+    {
+        return this.client.quit();
+    }
+
+    /**
+     * @param {string} Job
      * @param {any} Value JSON-object that gets parsed to a string
      * @returns {Promise<number>}
+     * returns Job with value according to the FIFO principle
      */
-    insert(Id, Value)
+    insert(Job, Value)
     {
-        //inserts Id with value at the bottom => FIFO
-        return this.client.RPUSH(Id, JSON.stringify(Value));
+        return this.client.rpush(Job, JSON.stringify(Value));
     }
 
     /**
-     * @param {string} Id
+     * @param {string} Job
      * @returns {Promise<string>}
+     * deletes and returns the oldest job
      */
-    pop(Id)
+    pop(Job)
     {
-        //delete and return Oldest Id
-        return this.client.LPOP(Id);
+        return this.client.lpop(Job);
     }
 
     /**
-     * @param {string} Id
+     * @param {string} Job
      * @returns {Promise<string[]>}
+     * deletes and returns a job list
      */
-    async popEmpty(Id)
+    async popEmpty(Job)
     {
-        //delete and return entire Id list
-        const amount= await this.client.LLEN(Id);
-        return this.client.LPOP_COUNT(Id, amount);
+        const amount= await this.client.llen(Job);
+        return this.client.lpop_count(Job, amount);
     }
 
     /**
