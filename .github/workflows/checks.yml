@@ -4,6 +4,7 @@ on:
     paths:
       - 'check/**'
       - 'checklist/**'
+      - '.github/workflows/checks.yml'
 jobs:
   build:
     runs-on: ubuntu-latest
