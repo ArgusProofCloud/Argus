@@ -1,0 +1,13 @@
+- name: Remove fluentd deployment
+  hosts: configurator
+  tasks:
+    - name: Remove Configmap
+      kubernetes.core.k8s:
+        state: absent
+        kind: ConfigMap
+        name: fluentd-config
+    - name: Remove Namespace
+      kubernetes.core.k8s:
+        state: absent
+        kind: Namespace
+        name: "{{ fluentd.namespace }}"

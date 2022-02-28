@@ -1,0 +1,94 @@
+- name: Deploy Fluentd
+  hosts: configurator
+  tasks:
+    - name: Create Service Account
+      kubernetes.core.k8s:
+        state: present
+        namespace: "{{ fluentd.namespace }}"
+        definition:
+          apiVersion: v1
+          kind: ServiceAccount
+          metadata:
+            name: fluentd
+            namespace: "{{ fluentd.namespace }}"
+
+    - name: Create ClusterRoleBinding
+      kubernetes.core.k8s:
+        state: present
+        namespace: "{{ fluentd.namespace }}"
+        definition:
+          apiVersion: rbac.authorization.k8s.io/v1
+          metadata:
+            name: fluentd
+          roleRef:
+            kind: ClusterRole
+            name: fluentd
+            apiGroup: rbac.authorization.k8s.io
+          subjects:
+            - kind: ServiceAccount
+              name: fluentd
+              namespace: "{{ fluentd.namespace }}"
+
+    - name: Create Daemonset
+      kubernetes.core.k8s:
+        state: present
+        namespace: "{{ fluentd.namespace }}"
+        definition:
+          apiVersion: apps/v1
+          kind: DaemonSet
+          metadata:
+            name: fluentd
+            namespace: kube-system
+            labels:
+              k8s-app: fluentd-logging
+              version: v1
+          spec:
+            selector:
+              matchLabels:
+                k8s-app: fluentd-logging
+                version: v1
+            template:
+              metadata:
+                labels:
+                  k8s-app: fluentd-logging
+                  version: v1
+              spec:
+                tolerations:
+                - key: node-role.kubernetes.io/master
+                  effect: NoSchedule
+                containers:
+                - name: fluentd
+                  image: "{{ fluentd.image }}:{{ fluentd.tag }}"
+                  env:
+                    - name: aa
+                      value: aa
+                  resources:
+                    limits:
+                      memory: 200Mi
+                    requests:
+                      cpu: 100m
+                      memory: 200Mi
+                  volumeMounts:
+                  - name: varlog
+                    mountPath: /var/log
+                  # When actual pod logs in /var/lib/docker/containers, the following lines should be used.
+                  # - name: dockercontainerlogdirectory
+                  #   mountPath: /var/lib/docker/containers
+                  #   readOnly: true
+                  # When actual pod logs in /var/log/pods, the following lines should be used.
+                  - name: dockercontainerlogdirectory
+                    mountPath: /var/log/pods
+                    readOnly: true
+                terminationGracePeriodSeconds: 30
+                volumes:
+                - name: varlog
+                  hostPath:
+                    path: /var/log
+                # When actual pod logs in /var/lib/docker/containers, the following lines should be used.
+                # - name: dockercontainerlogdirectory
+                #   hostPath:
+                #     path: /var/lib/docker/containers
+                # When actual pod logs in /var/log/pods, the following lines should be used.
+                - name: dockercontainerlogdirectory
+                  hostPath:
+                    path: /var/log/pods
