@@ -32,7 +32,7 @@ class Flow:
 
             for j in range(len(stage['checks'])):
                 check = stage['checks'][j]
-                checks.append(Popen(["./checks/" + check, domain], stdout=PIPE, encoding="utf-8", env=env))
+                checks.append(Popen(["./" + check, domain], stdout=PIPE, encoding="utf-8", env=env))
 
             for j in range(len(checks)):
                 check = checks[j]
