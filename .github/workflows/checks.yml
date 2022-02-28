@@ -1,0 +1,29 @@
+name: Test checklist flows
+on:
+  push:
+    paths:
+      - 'check/**'
+      - 'checklist/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download Maxmind GeoIP database
+        run: |
+          sh -c "curl $MAXMIND -o GeoLite2-City.tar.gz \
+          && tar -xzvf GeoLite2-Country.tar.gz \
+          && mv GeoLite2-City_* .."
+        working-directory: checks
+        env:
+          MAXMIND: https://github.com/DocSpring/geolite2-city-mirror/raw/master/GeoLite2-City.tar.gz
+
+      - name: Build base image
+        run: docker build -t checklist ./checklist
+
+      - name: Test check flows
+        run: ./test.sh $DOMAIN
+        working-directory: checks
+        env:
+          DOMAIN: ${{ secrets.DOMAIN }}
