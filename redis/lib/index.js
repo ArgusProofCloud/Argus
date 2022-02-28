@@ -1,10 +1,9 @@
-const Ioredis = require("ioredis");
-const Redlock = require("redlock");
+const IoRedis = require("ioredis");
+const RedLock = require("redlock").default;
 
 /**
- * this class contains all methods needed to connect with an ioredis server
+ * this class contains all methods needed to connect with a redis server
  * the constructor demands a host and port. If no port is given, the default port 6379 will be used
- * good to know: when ioredis returns a "null" opbject; it returns an empty string instead
  */
 class Redis
 {
@@ -14,12 +13,12 @@ class Redis
      */
     constructor(host, port=6379)
     {
-        this.client = new Ioredis({
+        this.client = new IoRedis({
             port: port,
             host: host
             //password: x
         });
-        this.redlock = new Redlock([this.client]);
+        this.redLock = new RedLock([this.client]);
     }
 
     /**
@@ -41,43 +40,46 @@ class Redis
     }
 
     /**
-     * @param {string} Job
-     * @param {any} Value JSON-object that gets parsed to a string
+     * @param {string} key
+     * @param {any} value JSON-object that gets parsed to a string
      * @returns {Promise<number>}
-     * returns Job with value according to the FIFO principle
+     * returns Key with value according to the FIFO principle
      */
-    insert(Job, Value)
+    insert(key, value)
     {
-        return this.client.rpush(Job, JSON.stringify(Value));
+        return this.client.rpush(key, JSON.stringify(value));
     }
 
     /**
-     * @param {string} Job
+     * @param {string} key
      * @returns {Promise<string>}
      * deletes and returns the oldest job
      */
-    pop(Job)
+    pop(key)
     {
-        return this.client.lpop(Job);
+        return this.client.lpop(key);
     }
 
     /**
-     * @param {string} Job
+     * @param {string} key
      * @returns {Promise<string[]>}
-     * deletes and returns a job list
+     * deletes and returns a list
      */
-    async popEmpty(Job)
+    async popEmpty(key)
     {
-        let lock = await this.redlock.acquire(["Lock"], 5000);
-        try
-        {
-            const amount= await this.client.llen(Job);
-            return this.client.lpop_count(Job, amount);
-        }
-        finally
-        {
-            await lock.unlock();
-        }
+        const self = this;
+        let list;
+        await this.redLock.using([key + ":lock"], 5000, async signal => {
+            const amount = await self.client.llen(key);
+
+            if (signal.aborted)
+            {
+                throw signal.error;
+            }
+
+            list = await self.client.lpop(key, amount);
+        });
+        return list;
     }
 
     /**
@@ -85,7 +87,7 @@ class Redis
      */
     onErrorRedLock(callback)
     {
-        this.redlock.on("error", callback);
+        this.redLock.on("error", callback);
     }
 
     /**
