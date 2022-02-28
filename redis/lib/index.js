@@ -1,4 +1,5 @@
-const ioredis = require("ioredis");
+const Ioredis = require("ioredis");
+const Redlock = require("redlock");
 
 /**
  * this class contains all methods needed to connect with an ioredis server
@@ -13,11 +14,12 @@ class Redis
      */
     constructor(host, port=6379)
     {
-        this.client = new ioredis({
+        this.client = new Ioredis({
             port: port,
             host: host
             //password: x
-        })
+        });
+        this.redlock = new Redlock([this.client]);
     }
 
     /**
@@ -66,8 +68,24 @@ class Redis
      */
     async popEmpty(Job)
     {
-        const amount= await this.client.llen(Job);
-        return this.client.lpop_count(Job, amount);
+        let lock = await this.redlock.acquire(["Lock"], 5000);
+        try
+        {
+            const amount= await this.client.llen(Job);
+            return this.client.lpop_count(Job, amount);
+        }
+        finally
+        {
+            await lock.unlock();
+        }
+    }
+
+    /**
+     * @param {(...args: any[])=> void} callback
+     */
+    onErrorRedLock(callback)
+    {
+        this.redlock.on("error", callback);
     }
 
     /**
@@ -81,7 +99,6 @@ class Redis
     /**
      * @param {(...args: any[])=> void} callback
      */
-
     onConnect(callback)
     {
         this.client.on("connect", callback);
