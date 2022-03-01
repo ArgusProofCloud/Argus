@@ -1,14 +1,14 @@
 build:
   # Build all images before deploying
-  enabled: true
+  enabled: false
 
 docker:
   # Registry / account to push the images to
   #  <registry>/<image name>:<tag>
-  registry: howsami
+  registry: "ghcr.io/watcherwhale"
 
   # Push to registry
-  push: no
+  push: yes
 
   # The tag of the build
   #  <registry>/<image name>:<tag>
@@ -49,6 +49,18 @@ sequencer:
   # - IfNotPresent
   pullPolicy: IfNotPresent
 
+# All checks to deploy (and/or build) to the cluster.
+#   Name is the name of the image
+checks:
+  - name: dns
+    replicas: 1
+
+  - name: https
+    replicas: 1
+
+  - name: ip
+    replicas: 1
+
 # Logging
 fluentd:
   # Deploy fluentd
@@ -84,11 +96,3 @@ fluentd:
   #     ./fluentd/fluentd-config/custom.conf
   custom:
     enabled: false
-
-
-
-
-
-
-
-

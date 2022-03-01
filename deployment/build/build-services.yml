@@ -20,4 +20,34 @@
 
         push: "{{ docker.push }}"
 
+    - name: Build Checklist template
+      community.docker.docker_image:
+        name: "{{ docker.registry }}/checklist"
+
+        source: build
+
+        build:
+          path:
+            ../../checklist
+
+          pull: yes
+
+    - name: Build All checklists
+      community.docker.docker_image:
+        name: "{{ docker.registry }}/{{ item.name }}"
+        tag: "{{ docker.buildTag }}"
+
+        source: build
+
+        build:
+          path: ../../checks
+          dockerfile: Dockerfile
+
+          args:
+            registry: "{{ docker.registry }}"
+            checklist: "{{ item.name }}"
+
+        push: "{{ docker.push }}"
+
+      loop: "{{ checks }}"
 
