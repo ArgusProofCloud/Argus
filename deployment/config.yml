@@ -1,6 +1,6 @@
 build:
   # Build all images before deploying
-  enabled: false
+  enabled: true
 
 docker:
   # Registry / account to push the images to

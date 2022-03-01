@@ -23,6 +23,7 @@
     - name: Build Checklist template
       community.docker.docker_image:
         name: "{{ docker.registry }}/checklist"
+        tag: template
 
         source: build
 
@@ -32,10 +33,12 @@
 
           pull: yes
 
+        push: "{{ docker.push }}"
+
     - name: Build All checklists
       community.docker.docker_image:
-        name: "{{ docker.registry }}/{{ item.name }}"
-        tag: "{{ docker.buildTag }}"
+        name: "{{ docker.registry }}/checklist"
+        tag: "{{ item.name }}"
 
         source: build
 
