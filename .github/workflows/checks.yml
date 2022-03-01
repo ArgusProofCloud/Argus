@@ -6,7 +6,7 @@ on:
       - 'checklist/**'
       - '.github/workflows/checks.yml'
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
