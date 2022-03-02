@@ -1,7 +1,6 @@
 const express = require("express");
 const winston = require("winston");
 const morgan = require("morgan");
-const {format} = require("winston");
 
 /**
  * A rolling log file with pre configured loggers.
