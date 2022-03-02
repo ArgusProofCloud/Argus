@@ -72,14 +72,8 @@ fluentd:
   # Docker Image
   #   Best practice is to create a custom fluentd dockerfile
   #   with preinstalled plugins of choice.
-
-  # Default image
-  #image: fluent/fluentd
-  #tag: v1.14-1
-
-  # Fluentd with preinstalled plugins
-  image: theasp/fluentd-plugins
-  tag: common
+  image: fluent/fluentd-kubernetes-daemonset
+  tag: v1-debian-elasticsearch
 
   # Elasticsearch
   #   Additional settings can be configured in:
@@ -88,7 +82,7 @@ fluentd:
     enabled: false
 
     # Connection details
-    host: elastic-server
+    host: elasticsearch
     port: 9200
 
   # Custom fluentd config file

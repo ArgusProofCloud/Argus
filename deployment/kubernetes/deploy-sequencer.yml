@@ -35,6 +35,8 @@
                         value: "{{ redis.name }}-redis-sentinel.{{ cluster.namespace }}.svc.cluster.local"
                       - name: REDIS_PORT
                         value: "26379"
+                      - name: LOGLEVEL
+                        value: "http"
 
     - name: Deploy Sequencer Service
       kubernetes.core.k8s:
