@@ -7,6 +7,9 @@ docker:
   #  <registry>/<image name>:<tag>
   registry: "ghcr.io/watcherwhale"
 
+  imagePullSecrets:
+    - name: ghcr-io
+
   # Push to registry
   push: yes
 
@@ -24,7 +27,7 @@ redis:
   name: howsami
 
   # Run all instances on speperate hosts
-  hostSeperated: false
+  hostSeperated: true
 
   # Docker tag of the redis pods
   tag: 6-alpine

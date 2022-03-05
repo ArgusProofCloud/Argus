@@ -22,6 +22,7 @@
                 labels:
                   app: "sequencer"
               spec:
+                imagePullSecrets: "{{ docker.imagePullSecrets }}"
                 containers:
                   - name: "sequencer"
                     image: "{{ docker.registry }}/sequencer:{{ sequencer.tag }}"
