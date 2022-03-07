@@ -53,7 +53,14 @@ router.get("/job/:id", async (req, res) => {
     }
 
     res.status(200).contentType("application/json").send(job);
+});
 
+router.post("/jobs", async (req, res) => {
+
+    const queueId = req.body.resource.metadata.labels.checklist;
+    const len = await redisClient.length("jobs:" + queueId);
+
+    res.status(200).contentType("application/json").send(len.toString());
 });
 
 // Post results

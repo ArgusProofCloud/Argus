@@ -87,6 +87,16 @@ class Redis
     }
 
     /**
+     * Return the queue length.
+     * @param {string} key
+     * @returns {Promise<number>}
+     */
+    length(key)
+    {
+        return this.client.llen(key);
+    }
+
+    /**
      * @param {(...args: any[])=> void} callback
      */
     onErrorRedLock(callback)
