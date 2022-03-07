@@ -8,7 +8,7 @@ const logFile = LogFile.createLogFile("sequencer");
 const logger = logFile.getLogger();
 
 // Create redis client
-const redisClient = new RedisClient(process.env.REDIS_HOST || "localhost", process.env.REDIS_PORT || 6379);
+const redisClient = new RedisClient(process.env.REDIS_HOST || "localhost", process.env.REDIS_PORT || 26379);
 
 // Register redis events
 redisClient.onError((err) => {
@@ -34,7 +34,6 @@ redisClient.onDisconnect(() => {
 // Connect to the redis client
 logger.debug(`Connecting to the redis database at ${process.env.REDIS_HOST ||
     "localhost"}:${process.env.REDIS_PORT || 6379}`);
-redisClient.connect();
 
 // Create an express router
 const router = express.Router();

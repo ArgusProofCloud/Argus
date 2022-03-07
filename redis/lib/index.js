@@ -3,7 +3,7 @@ const RedLock = require("redlock").default;
 
 /**
  * this class contains all methods needed to connect with a redis server
- * the constructor demands a host and port. If no port is given, the default port 6379 will be used
+ * the constructor demands a host and port. If no port is given, the default port 26379 will be used
  */
 class Redis
 {
@@ -11,12 +11,16 @@ class Redis
      * @param {string} host
      * @param {number} port
      */
-    constructor(host, port=6379)
+    constructor(host, port=26379)
     {
         this.client = new IoRedis({
-            port: port,
-            host: host
-            //password: x
+            sentinels: [
+                {
+                    port: port,
+                    host: host
+                }
+            ],
+            name: "mymaster"
         });
         this.redLock = new RedLock([this.client]);
     }
