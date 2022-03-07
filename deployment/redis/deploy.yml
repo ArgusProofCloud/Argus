@@ -8,7 +8,7 @@
 
     - name: Install Redis cluster
       kubernetes.core.helm:
-        name: "{{ redis.name }}"
+        name: "{{ app.name }}"
         chart_ref: dandydev/redis-ha
         release_namespace: "{{ cluster.namespace }}"
         release_values:

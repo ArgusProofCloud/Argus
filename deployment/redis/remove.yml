@@ -1,0 +1,20 @@
+- name: "Remove Redis Deployments"
+  hosts: configurator
+  tasks:
+    - name: Remove Redis cluster
+      tags:
+        - redis
+      kubernetes.core.helm:
+        name: "{{ redis.name }}"
+        chart_ref: dandydev/redis-ha
+        release_namespace: "{{ cluster.namespace }}"
+        state: absent
+
+    - name: "Remove Redis Sentinel Service"
+      tags:
+        - redis
+      kubernetes.core.k8s:
+        state: absent
+        kind: Service
+        namespace: "{{ cluster.namespace }}"
+        name: "{{ redis.name }}-redis-sentinel"

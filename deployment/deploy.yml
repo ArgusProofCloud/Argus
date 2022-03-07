@@ -28,17 +28,23 @@
     - k8s
     - setup
 
-- import_playbook: "./kubernetes/deploy-redis.yml"
+- import_playbook: "./redis/deploy.yml"
   tags:
     - kubernetes
     - k8s
     - redis
 
-- import_playbook: "./kubernetes/deploy-sequencer.yml"
+- import_playbook: "./services/sequencer.yml"
   tags:
     - kubernetes
     - k8s
     - sequencer
+
+- import_playbook: "./kubernetes/ingress.yml"
+  tags:
+    - kubernetes
+    - k8s
+    - ingress
 
 - import_playbook: "./fluentd/deploy.yml"
   tags:

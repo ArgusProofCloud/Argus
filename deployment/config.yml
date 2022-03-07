@@ -1,3 +1,7 @@
+app:
+  name: howsami
+  host: howsami.local
+
 build:
   # Build all images before deploying
   enabled: true
@@ -22,10 +26,6 @@ cluster:
   namespace: howsami
 
 redis:
-  # Name for the redis cluster
-  # Domain: <name>-redis-sentinel.<namespace>.svc.cluster.local
-  name: howsami
-
   # Run all instances on speperate hosts
   hostSeperated: true
 
@@ -38,19 +38,18 @@ redis:
 
 sequencer:
   # Amount of sequencer replicas
-  replicas: 3
+  replicas:
+    min: 1
+    max: 10
 
   # The docker tag to pull
   tag: latest
-
-  # The port the sequencer runs on
-  port: 80
 
   # The docker pull poliicy
   # - Never
   # - Always
   # - IfNotPresent
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 # All checks to deploy (and/or build) to the cluster.
 #   Name is the name of the image

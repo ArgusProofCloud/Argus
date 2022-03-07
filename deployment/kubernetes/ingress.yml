@@ -1,0 +1,32 @@
+- name: Deploy Ingress
+  hosts: configurator
+  tasks:
+    - name: Deploy Ingress
+      kubernetes.core.k8s:
+        state: present
+        namespace: "{{ cluster.namespace }}"
+        definition:
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          metadata:
+            name: "{{ app.name }}-ingress"
+            annotations:
+              kubernetes.io/ingress.class: traefik
+              traefik.ingress.kubernetes.io/frontend-entry-points: http, https
+              traefik.ingress.kubernetes.io/redirect-entry-point: https
+          spec:
+            tls:
+              - hosts:
+                - 'howsami.local'
+                secretName: howsami-local-tls
+            rules:
+              - host: "{{ app.host }}"
+                http:
+                  paths:
+                    - path: /api/v1
+                      pathType: Prefix
+                      backend:
+                        service:
+                          name: sequencer-server
+                          port:
+                            number: 3000
