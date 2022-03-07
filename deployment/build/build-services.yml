@@ -11,10 +11,7 @@
 
         build:
           path: ../../
-          dockerfile: docker/Dockerfile.service
-
-          args:
-            project: sequencer
+          dockerfile: docker/Dockerfile.sequencer
 
           pull: yes
 
