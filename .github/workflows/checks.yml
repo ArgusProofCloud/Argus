@@ -2,10 +2,6 @@
 name: Test checklist flows
 on:
   pull_request:
-    paths:
-      - 'check/**'
-      - 'checklist/**'
-      - '.github/workflows/checks.yml'
 jobs:
   test:
     runs-on: ubuntu-latest
