@@ -9,8 +9,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install Linter
-        run: apt update && apt install -y yamllint
-
       - name: Check Codestyle
-        run: yamllint .
+        uses: frenck/action-yamllint@v1
