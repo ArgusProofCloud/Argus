@@ -1,6 +1,6 @@
 ---
 - name: Remove Checklists
-  hosts: configurator
+  hosts: localhost
   tasks:
     - name: "Remove Checklists"
       with_items: "{{ checklists }}"

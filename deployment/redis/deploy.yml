@@ -1,5 +1,6 @@
+---
 - name: "Deploy Redis Cluster"
-  hosts: configurator
+  hosts: localhost
   tasks:
     - name: Add required helm repo
       kubernetes.core.helm_repository:

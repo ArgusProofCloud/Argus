@@ -1,10 +1,14 @@
+---
 app:
+  # The name of the application
   name: howsami
+
+  # The hostname for the ingress endpoint.
   host: howsami.local
 
-build:
-  # Build all images before deploying
-  enabled: true
+cluster:
+  # The kubernetes namespace to deploy to
+  namespace: howsami
 
 docker:
   # Registry / account to push the images to
@@ -14,22 +18,11 @@ docker:
   imagePullSecrets:
     - name: ghcr-io
 
-  # Push to registry
-  push: yes
-
-  # The tag of the build
-  #  <registry>/<image name>:<tag>
-  buildTag: latest
-
   # The docker pull poliicy
   # - Never
   # - Always
   # - IfNotPresent
-  pullPolicy: Always
-
-cluster:
-  # The kubernetes namespace to deploy to
-  namespace: howsami
+  pullPolicy: IfNotPresent
 
 redis:
   # Run all instances on speperate hosts
@@ -43,9 +36,17 @@ redis:
   replicas: 3
 
 sequencer:
+  # The log level of this service
+  #   - error
+  #   - warn
+  #   - info
+  #   - http (http access logs)
+  #   - verbose
+  #   - debug
+  #   - silly
   loglevel: http
 
-  # Amount of sequencer replicas
+  # Amount of sequencer minimum and maximum replicas.
   replicas:
     min: 1
     max: 10
@@ -53,17 +54,14 @@ sequencer:
   # The docker tag to pull
   tag: latest
 
-  # The docker pull poliicy
-  # - Never
-  # - Always
-  # - IfNotPresent
-  pullPolicy: Always
-
 # All checklists to deploy (and/or build) to the cluster.
 #   Name is the name of the image
 checklists:
 
   - name: dns
+
+    # The docker image tag: <name>-<tag>
+    tag: latest
 
     # Amount of jobs one instance can handle
     #  in the specified interval.
@@ -82,24 +80,49 @@ checklists:
       max: 5
 
   - name: https
+
+    # The docker image tag: <name>-<tag>
+    tag: latest
+
+    # Amount of jobs one instance can handle
+    #  in the specified interval.
     throughput: 20
-    stabilization: 200
+
+    # The interval (miliseconds) to periodicaly check
+    #  the size of the queue, and down/up scale
     interval: 10000
+
+    # The interval (miliseconds) to periodicaly check
+    #  the size of the queue, and down/up scale
+    stabilization: 200
+
+    # Define the range of amount of replicas to deploy.
     replicas:
       min: 1
       max: 5
 
   - name: ip
+
+    # The docker image tag: <name>-<tag>
+    tag: latest
+
+    # Amount of jobs one instance can handle
+    #  in the specified interval.
     throughput: 20
-    stabilization: 200
+
+    # The interval (miliseconds) to periodicaly check
+    #  the size of the queue, and down/up scale
     interval: 10000
+
+    # The interval (miliseconds) to periodicaly check
+    #  the size of the queue, and down/up scale
+    stabilization: 200
+
+    # Define the range of amount of replicas to deploy.
     replicas:
       min: 1
       max: 5
 
-autoscaler:
-  # https://github.com/jthomperoo/custom-pod-autoscaler-operator/releases
-  version: v1.2.0
 
 # Logging
 fluentd:
@@ -130,3 +153,22 @@ fluentd:
   #     ./fluentd/fluentd-config/custom.conf
   custom:
     enabled: false
+
+autoscaler:
+  enabled: true
+
+  # https://github.com/jthomperoo/custom-pod-autoscaler-operator/releases
+  version: v1.2.0
+
+build:
+  # Build all images before deploying
+  enabled: true
+
+  # The tags for building
+  #  <registry>/<image name>:<tag>
+  tags:
+    - latest
+    - dev
+
+  # Push to registry
+  push: yes

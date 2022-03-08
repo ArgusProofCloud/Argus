@@ -1,6 +1,6 @@
 ---
 - name: Deploy Sequencer
-  hosts: configurator
+  hosts: localhost
   tasks:
     - name: "Deploy Sequencer"
       kubernetes.core.k8s:
@@ -27,7 +27,7 @@
                 containers:
                   - name: "sequencer"
                     image: "{{ docker.registry }}/sequencer:{{ sequencer.tag }}"
-                    imagePullPolicy: "{{ sequencer.pullPolicy }}"
+                    imagePullPolicy: "{{ docker.pullPolicy }}"
                     ports:
                       - containerPort: 3000
                     resources:
@@ -66,6 +66,7 @@
                 targetPort: 3000
 
     - name: Deploy AutoScaler
+      when: "autoscaler.enabled == true"
       kubernetes.core.k8s:
         state: present
         namespace: "{{ cluster.namespace }}"

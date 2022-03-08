@@ -1,19 +1,10 @@
+---
 - name: "Load Config on localhost"
   hosts: localhost
-  connection: local
   tags:
     - config
   tasks:
     - name: "Load Config on localhost"
-      include_vars:
-        file: ./config.yml
-
-- name: "Load Config on configurator host"
-  tags:
-    - config
-  hosts: configurator
-  tasks:
-    - name: "Load Config on configurator host"
       include_vars:
         file: ./config.yml
 

@@ -1,5 +1,6 @@
+---
 - name: "Remove Kubernetes Deployments"
-  hosts: configurator
+  hosts: localhost
   tasks:
     - name: "Remove Ingress"
       tags:
@@ -17,4 +18,3 @@
         state: absent
         kind: Namespace
         name: "{{ cluster.namespace }}"
-

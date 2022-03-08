@@ -1,5 +1,6 @@
+---
 - name: "Remove Service Deployments"
-  hosts: configurator
+  hosts: localhost
   tasks:
     - name: "Remove Sequencer Deployment"
       tags:
@@ -18,3 +19,10 @@
         kind: Service
         namespace: "{{ cluster.namespace }}"
         name: sequencer-server
+
+    - name: Remove AutoScaler
+      kubernetes.core.k8s:
+        state: absent
+        namespace: "{{ cluster.namespace }}"
+        kind: HorizontalPodAutoscaler
+        name: sequencer-autoscaler

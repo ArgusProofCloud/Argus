@@ -1,6 +1,6 @@
 ---
 - name: Deploy Checklists
-  hosts: configurator
+  hosts: localhost
   tasks:
     - name: "Deploy Checklists Deployments"
       with_items: "{{ checklists }}"
@@ -29,7 +29,7 @@
                 imagePullSecrets: "{{ docker.imagePullSecrets }}"
                 containers:
                   - name: "{{ item.name }}-checklist"
-                    image: "{{ docker.registry }}/checklist:{{ item.name }}"
+                    image: "{{ docker.registry }}/checklist:{{ item.name }}-{{ item.tag }}"
                     imagePullPolicy: "{{ docker.pullPolicy }}"
                     env:
                       - name: SEQUENCER_URL
@@ -37,6 +37,7 @@
 
     - name: Deploy Autoscaler
       with_items: "{{ checklists }}"
+      when: "autoscaler.enabled == true"
       kubernetes.core.k8s:
         state: present
         namespace: "{{ cluster.namespace }}"

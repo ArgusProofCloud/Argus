@@ -1,5 +1,6 @@
+---
 - name: "Remove Redis Deployments"
-  hosts: configurator
+  hosts: localhost
   tasks:
     - name: Remove Redis cluster
       tags:
