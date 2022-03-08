@@ -3,4 +3,3 @@ name: ip
 stages:
   - name: IP Checks
     checks:
-      - geoIP.py
