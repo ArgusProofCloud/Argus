@@ -1,5 +1,5 @@
 ---
-name: Javascript Code Style
+name: Yaml Code Style
 on:
   pull_request:
 
@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install Linter
-        run: npm install eslint
+        run: apt update && apt install -y yamllint
 
       - name: Check Codestyle
-        run: npx eslint . --ext .js
+        run: yamllint .

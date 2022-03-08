@@ -1,6 +1,7 @@
+---
 name: Test checklist flows
 on:
-  push:
+  pull_request:
     paths:
       - 'check/**'
       - 'checklist/**'
