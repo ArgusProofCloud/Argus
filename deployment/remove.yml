@@ -17,6 +17,12 @@
       include_vars:
         file: ./config.yml
 
+- import_playbook: "./checklists/remove.yml"
+  tags:
+    - kubernetes
+    - k8s
+    - checklists
+
 
 - import_playbook: "./kubernetes/remove.yml"
   tags:

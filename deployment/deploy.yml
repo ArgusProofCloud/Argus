@@ -28,6 +28,12 @@
     - k8s
     - setup
 
+- import_playbook: "./autoscaler/deploy.yml"
+  tags:
+    - kubernetes
+    - k8s
+    - autoscaler
+
 - import_playbook: "./redis/deploy.yml"
   tags:
     - kubernetes
@@ -39,6 +45,12 @@
     - kubernetes
     - k8s
     - sequencer
+
+- import_playbook: "./checklists/deploy.yml"
+  tags:
+    - kubernetes
+    - k8s
+    - checklists
 
 - import_playbook: "./kubernetes/ingress.yml"
   tags:

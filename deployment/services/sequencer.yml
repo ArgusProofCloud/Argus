@@ -45,7 +45,7 @@
                       - name: REDIS_PORT
                         value: "26379"
                       - name: LOGLEVEL
-                        value: "http"
+                        value: "{{ sequencer.loglevel }}"
 
     - name: Deploy Sequencer Service
       kubernetes.core.k8s:
