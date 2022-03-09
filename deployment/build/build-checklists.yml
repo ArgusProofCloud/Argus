@@ -29,7 +29,7 @@
 
           args:
             registry: "{{ docker.registry }}"
-            checklist: "{{ item.name }}"
+            checklist: "{{ item[0].name }}"
 
         push: "{{ build.push }}"
 

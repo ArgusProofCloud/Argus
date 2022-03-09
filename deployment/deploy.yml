@@ -8,7 +8,7 @@
       include_vars:
         file: ./config.yml
 
-- import_playbook: "./build/build-services.yml"
+- import_playbook: "./build/build.yml"
   tags: build
   when: build.enabled == true
 
