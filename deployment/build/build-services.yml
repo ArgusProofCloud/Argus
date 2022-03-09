@@ -4,6 +4,7 @@
   tasks:
     - name: Build Sequencer
       community.docker.docker_image:
+        push: "{{ build.push }}"
         name: "{{ docker.registry }}/sequencer"
         tag: "{{ item }}"
 
@@ -15,7 +16,6 @@
 
           pull: yes
 
-        push: "{{ docker.push }}"
 
       with_items: "{{ build.tags }}"
 
@@ -23,6 +23,7 @@
       community.docker.docker_image:
         name: "{{ docker.registry }}/checklist"
         tag: template
+        push: "{{ build.push }}"
 
         source: build
 
@@ -32,4 +33,3 @@
 
           pull: yes
 
-        push: "{{ docker.push }}"

@@ -6,7 +6,7 @@
       tags:
         - redis
       kubernetes.core.helm:
-        name: "{{ redis.name }}"
+        name: "{{ app.name }}"
         chart_ref: dandydev/redis-ha
         release_namespace: "{{ cluster.namespace }}"
         state: absent
@@ -18,4 +18,4 @@
         state: absent
         kind: Service
         namespace: "{{ cluster.namespace }}"
-        name: "{{ redis.name }}-redis-sentinel"
+        name: "{{ app.name }}-redis-sentinel"
