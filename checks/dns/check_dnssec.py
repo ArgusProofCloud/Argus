@@ -12,12 +12,9 @@ ExitOK = 0
 ExitWarning = 1
 ExitCritical = 2
 ExitUnknown = 3
+default = "8.8.8.8"
 
-def testdnssec(opts):
-    domain = opts.domain
-    domain = domain.replace("https://", "")
-    domain = domain.replace("http://", "")
-    domain = domain.replace("www.", "")
+def testdnssec(domain):
     if domain:
         try:
             socket.gethostbyname_ex(domain)
@@ -32,7 +29,7 @@ def testdnssec(opts):
                 print('{"name": "DNSSEC", "score": 0, "message": "Unable to resolve %s"}'%domain)
                 sys.exit(ExitUnknown)
 
-        dig_requests = os.popen('dig @%s %s +noall +comments +dnssec'%(opts.dnsserver, domain)).read()
+        dig_requests = os.popen('dig @%s %s +noall +comments +dnssec'%(default, domain)).read()
         if "ad;" in dig_requests:
             ad_flag = 1
         else:
@@ -63,17 +60,8 @@ def testdnssec(opts):
         sys.exit(ExitUnknown)
 
 def main():
-    parser = OptionParser()
-    parser.add_option("-H","--domain", type=str,
-                      dest="domain", help="Domain name for check DNSSEC, for example: -H www.ciencias.ulisboa.pt")
-    parser.add_option("-d","--dnsserver", type=str, default="8.8.8.8", dest="dnsserver",
-                      help="Specify the DNS server you need to use for check DNSSEC, for example: -d 127.0.0.1, default value is 8.8.8.8")
-
-    (opts, args) = parser.parse_args()
-    if not opts.domain:
-        parser.error('{"name": "DNSSEC", "message": "Please, this program requires domain arguments, for example: -H www.ciencias.ulisboa.pt."}')
-
-    testdnssec(opts)
+    domain = sys.argv[1]
+    testdnssec(domain)
 
 if __name__ == '__main__':
     main()
