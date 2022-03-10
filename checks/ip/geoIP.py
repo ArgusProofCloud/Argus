@@ -7,22 +7,27 @@ import re
 
 
 
-def main(domein):
+def main(domain):
+   """Check if a domain is hosted in the EU.
+
+    Args:
+        domain (str): The domain to check.
+    """
     try:
-        result = dns.resolver.resolve(domein)
+        result = dns.resolver.resolve(domain)
         for ipval in result:
             ip = ipval.to_text()
     except:
         print("Er werd geen IP gevonden voor dit domein.")
         sys.exit()
     
-
     with geoip2.database.Reader('GeoLite2-City.mmdb') as reader:
         try:
             response = reader.city(ip)
         except:
             print("IP werd niet gevonden in database")
             sys.exit()
+
         country = response.country.iso_code
         eu_country = ["BE", "BG", "CZ", "DK", "DE", "EE", "IE", "EL", "ES", "FR", "HR", "IT", "CY",
                       "LV", "LT", "LU", "HU", "MT", "NL", "AT", "PL", "PT", "RO", "SI", "SK", "FI", "SE", "UK"]
@@ -38,5 +43,5 @@ def main(domein):
             print(f'{{"name": "geoIP", "score": 0, "message": "Uw website wordt niet gehost binnen de EU, meer bepaald in {country}, indien je persoonsgegevens verwerkt via je site kan dit problemen rond o.a. GDPR met zich meebrengen. Indien er geen persoonsgegevens verwerkt worden op je site, dan kan je deze score nuanceren."}}')
             
 if __name__ == "__main__":
-    domein = sys.argv[1]
-    main(domein)
+    domain = sys.argv[1]
+    main(domain)

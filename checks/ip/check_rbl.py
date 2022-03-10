@@ -331,6 +331,8 @@ on_blacklist = []
 
 
 class ThreadRBL(threading.Thread):
+    """A Blocklist check thread
+    """
     def __init__(self, queue):
         threading.Thread.__init__(self)
         self.queue = queue
@@ -353,9 +355,13 @@ class ThreadRBL(threading.Thread):
             # Signal queue that job is done
             self.queue.task_done()
 
-
-
 def main(argv, environ):
+    """Main function
+
+    Args:
+        argv (list): List of arguments from the command line.
+        environ (os.environ): The current environment variables.
+    """
     host = argv[1]
 
     if host:
@@ -369,7 +375,7 @@ def main(argv, environ):
         ip = ipaddress.ip_address(addr)
     else:
         ip = ipaddress.ip_address(unicode(addr))
-    if (ip.version == 6):
+    if ip.version == 6:
         addr_exploded = ip.exploded
         check_name = '.'.join([c for c in addr_exploded if c != ':'])[::-1]
     else:
@@ -400,11 +406,11 @@ def main(argv, environ):
     if on_blacklist:
         output = '%s on %s blacklist(s): %s' % (
             host, len(on_blacklist), ', '.join(on_blacklist))
-            
+
         # Status is CRITICAL
         if len(on_blacklist) >= 2:
             print('{"name": "Blacklist", "score": 0, "message": "CRITICAL: %s"}' % output)
-        
+
         # Status is WARNING
         elif len(on_blacklist) == 1:
             print('{"name": "Blacklist", "score": 5, "message": "WARNING: %s"}' % output)

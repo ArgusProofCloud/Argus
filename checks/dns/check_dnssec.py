@@ -15,6 +15,11 @@ ExitUnknown = 3
 default = "8.8.8.8"
 
 def testdnssec(domain):
+  """Test if DNSSEC is enabled for a specific domain.
+
+    Args:
+        domain (str): Input options.
+    """
     if domain:
         try:
             socket.gethostbyname_ex(domain)
@@ -60,8 +65,11 @@ def testdnssec(domain):
         sys.exit(ExitUnknown)
 
 def main():
+    """Main function
+    """
     domain = sys.argv[1]
     testdnssec(domain)
+
 
 if __name__ == '__main__':
     main()
