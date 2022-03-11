@@ -2,6 +2,7 @@
 import argparse
 import json
 import dns.resolver
+import os
 
 parser = argparse.ArgumentParser(description='Simple DMARC quick test.')
 parser.add_argument('domain', help='Domain name to test')
@@ -29,6 +30,10 @@ def dmarcTest(domain):
         result = {"name": "DMARC check", "score": score, "message": mes}
         return result
 
-result = dmarcTest(domain)
-jsonresult = json.dumps(result)
-print(jsonresult)
+envvar=os.environ.get("MXresult")
+if(envvar!=None):
+    result=dmarcTest(domain)
+    jsonresult=json.dumps(result)
+else:
+    jsonresult={}
+print(jsonresult) 
