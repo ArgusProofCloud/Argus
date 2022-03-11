@@ -14,8 +14,9 @@ ExitCritical = 2
 ExitUnknown = 3
 default = "8.8.8.8"
 
+
 def testdnssec(domain):
-  """Test if DNSSEC is enabled for a specific domain.
+    """Test if DNSSEC is enabled for a specific domain.
 
     Args:
         domain (str): Input options.
@@ -31,7 +32,7 @@ def testdnssec(domain):
                 domain = ("www.%s"%domain)
                 socket.gethostbyname_ex(domain)
             except:
-                print('{"name": "DNSSEC", "score": 0, "message": "Unable to resolve %s"}'%domain)
+                print("Unable to resolve %s"%domain, file=sys.stderr)
                 sys.exit(ExitUnknown)
 
         dig_requests = os.popen('dig @%s %s +noall +comments +dnssec'%(default, domain)).read()
