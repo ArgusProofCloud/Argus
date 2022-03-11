@@ -18,7 +18,7 @@ def MXtest(domain):
                 res={
                     "output":{"MX":"TRUE"}
                     }
-            return res                
+            return res
     except:
         res={}
     return res
