@@ -38,22 +38,22 @@ logger.debug(`Connecting to the redis database at ${process.env.REDIS_HOST ||
 // Create an express router
 const router = express.Router();
 
-router.post("/request", async (req, res)=>{     //TODO: authentication?
+router.post("/request", async (req, res) => {     //TODO: authentication?
     const domains = req.body.data.domains;
     const id = req.body.data.checklists;
 
     await redisClient.insert(id, domains);
     res.status(201).send({status: 201, message: "Checks have succesfully been requested", tracker: "..."});
-})
+});
 
-router.get("/poll", async (req, res)=>{         //TODO: authentication?
+router.get("/poll", async (req, res) => {         //TODO: authentication?
     const results = await redisClient.popEmpty("results");
     res.status(200).contentType("application/json").send(results);
-})
+});
 
-router.get("/checklists", async (req, res)=>{   //TODO: authentication?
-    res.status(200).send()
-})
+router.get("/checklists", async (req, res) => {   //TODO: authentication?
+    res.status(200).send();
+});
 
 // Create graceful shutdown method
 router.close = async () => {
