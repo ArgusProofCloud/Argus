@@ -72,7 +72,13 @@ router.post("/request", async (req, res) => {
 
 router.get("/poll", async (req, res) => {
     const results = await redisClient.popEmpty("results");
-    res.status(200).contentType("application/json").send(results);
+    if(results == "")
+    {
+        res.status(200).contentType("application/json").send([]);
+        return;
+    }
+
+    res.status(200).contentType("application/json").send(results.map(x => JSON.parse(x)));
 });
 
 router.get("/checklists", async (req, res) => {
