@@ -1,7 +1,7 @@
 {
   "name": "gateway",
-  "version": "0.0.0",
-  "description": "Service tho communicate with our infrastructure",
+  "version": "1.0.0",
+  "description": "Service to communicate with our infrastructure.",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
   "dependencies": {
     "express": "^4.17.3",
     "logfile": "file:../logger",
-    "redis": "file:../redis"
+    "redis": "file:../redis",
+    "uuid": "^8.3.2"
   }
 }

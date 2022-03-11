@@ -2,6 +2,7 @@ const process = require("process");
 const express = require("express");
 const LogFile = require("logfile");
 const RedisClient = require("redis");
+const { v4: uuid } = require("uuid");
 
 // Get the logger instance
 const logFile = LogFile.createLogFile("gateway");
@@ -38,21 +39,44 @@ logger.debug(`Connecting to the redis database at ${process.env.REDIS_HOST ||
 // Create an express router
 const router = express.Router();
 
-router.post("/request", async (req, res) => {     //TODO: authentication?
-    const domains = req.body.data.domains;
-    const id = req.body.data.checklists;
+router.post("/request", async (req, res) => {
 
-    await redisClient.insert(id, domains);
-    res.status(201).send({status: 201, message: "Checks have succesfully been requested", tracker: "..."});
+    const request = req.body;
+
+    if(!("tracker" in request))
+    {
+        request.tracker = uuid();
+    }
+
+    const promises = [];
+
+    for(const i in request.domains)
+    {
+        const domain = request.domains[i];
+
+        for(const j in request.checklists)
+        {
+            const checklist = request.checklists[j];
+            const job = {
+                id: checklist,
+                tracker: request.tracker,
+                domain: domain
+            };
+            promises.push(redisClient.insert("jobs:" + checklist, job));
+        }
+    }
+
+    await Promise.all(promises);
+    res.status(201).send({status: 201, message: "Checks have succesfully been requested", tracker: request.tracker});
 });
 
-router.get("/poll", async (req, res) => {         //TODO: authentication?
+router.get("/poll", async (req, res) => {
     const results = await redisClient.popEmpty("results");
     res.status(200).contentType("application/json").send(results);
 });
 
-router.get("/checklists", async (req, res) => {   //TODO: authentication?
-    res.status(200).send();
+router.get("/checklists", async (req, res) => {
+    res.status(501).send();
 });
 
 // Create graceful shutdown method
