@@ -41,7 +41,7 @@ def dkimTest():
         return result
 
 envvar = os.environ.get("MX")
-if envvar != None:
+if envvar is not None:
     result = dkimTest()
     jsonresult = json.dumps(result)
 else:

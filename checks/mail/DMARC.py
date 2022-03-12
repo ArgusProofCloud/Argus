@@ -31,7 +31,7 @@ def dmarcTest(domain):
         return result
 
 envvar = os.environ.get("MX")
-if envvar != None:
+if envvar is not None:
     result = dmarcTest(domain)
     jsonresult = json.dumps(result)
 else:

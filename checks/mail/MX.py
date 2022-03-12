@@ -16,8 +16,8 @@ def mxTest(domain):
         domain (any): you need give domain to the check 
     Returns:
     
-      json: decide to start other checks
-    """    
+        json: decide to start other checks
+    """
     try:
         for x in dns.resolver.resolve(domain, 'MX'):
             res = {"output":{"MX":"TRUE"}}

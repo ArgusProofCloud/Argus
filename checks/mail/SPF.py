@@ -30,7 +30,7 @@ def spefTest(domain):
         return result
 
 envvar = os.environ.get("MX")
-if envvar != None:
+if envvar is not None:
     result = spefTest(domain)
     jsonresult = json.dumps(result)
 else:
