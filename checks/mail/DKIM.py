@@ -46,5 +46,5 @@ if envvar is not None:
     jsonresult = json.dumps(result)
 else:
     jsonresult = {}
-print(jsonresult) 
+print(jsonresult)
 

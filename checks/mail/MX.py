@@ -13,9 +13,9 @@ def mxTest(domain):
     """Test if MX record found to start new stage
 
     Args:
-        domain (any): you need give domain to the check 
+        domain (any): you need give domain to the check
     Returns:
-    
+
         json: decide to start other checks
     """
     try:
@@ -26,6 +26,6 @@ def mxTest(domain):
         res = {}
     return res
 
-response = mxTest(domain) 
+response = mxTest(domain)
 jsonresult = json.dumps(response)
 print(jsonresult)
