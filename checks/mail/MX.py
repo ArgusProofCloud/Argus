@@ -1,29 +1,31 @@
 #!/usr/bin/python3
 import argparse
-from asyncio.windows_events import NULL
 import dns.resolver
 import json
 import os
 
-parser = argparse.ArgumentParser(description='Simple MX quick test.')
-parser.add_argument('domain', help='Domain name to test')
+parser = argparse.ArgumentParser(description = 'Simple MX quick test.')
+parser.add_argument('domain', help = 'Domain name to test')
 args = parser.parse_args()
 domain = args.domain
 
-def MXtest(domain):
+def mxTest(domain):
+    """Test if MX record found to start new stage
+
+    Args:
+        domain (any): you need give domain to the check 
+    Returns:
+    
+      json: decide to start other checks
+    """    
     try:
         for x in dns.resolver.resolve(domain, 'MX'):
-            check=x.to_text()
-            if(check!=NULL):
-                res={
-                    "output":{"MX":"TRUE"}
-                    }
+            res = {"output":{"MX":"TRUE"}}
             return res
     except:
-        res={}
+        res = {}
     return res
 
-response=MXtest(domain) 
-jsonresult=json.dumps(response)
-os.environ["MXresult"]=jsonresult
-print (os.environ.get("MXresult"))
+response = mxTest(domain) 
+jsonresult = json.dumps(response)
+print(jsonresult)

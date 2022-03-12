@@ -24,15 +24,15 @@ def spefTest(domain):
                 result = {"name": "SPF check", "score": score, "message": mes}
                 return result
     except:
-        mes="[FAIL] SPF record not found."
+        mes = "[FAIL] SPF record not found."
         score = 0
         result = {"name": "SPF check", "score": score, "message": mes}
         return result
 
-envvar=os.environ.get("MXresult")
-if(envvar!=None):
-    result=spefTest(domain)
-    jsonresult=json.dumps(result)
+envvar = os.environ.get("MX")
+if envvar != None:
+    result = spefTest(domain)
+    jsonresult = json.dumps(result)
 else:
-    jsonresult={}
+    jsonresult = {}
 print(jsonresult)
