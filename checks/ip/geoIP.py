@@ -42,6 +42,6 @@ def main(domain):
         elif not is_eu_land:
             print(f'{{"name": "geoIP", "score": 0, "message": "Uw website wordt niet gehost binnen de EU, meer bepaald in {country}, indien je persoonsgegevens verwerkt via je site kan dit problemen rond o.a. GDPR met zich meebrengen. Indien er geen persoonsgegevens verwerkt worden op je site, dan kan je deze score nuanceren."}}')
 
-    if __name__ == "__main__":
-        domain = sys.argv[1]
-        main(domain)
+if __name__ == "__main__":
+    domain = sys.argv[1]
+    main(domain)
