@@ -47,4 +47,3 @@ if envvar is not None:
 else:
     jsonresult = {}
 print(jsonresult)
-
