@@ -48,4 +48,3 @@ else:
     jsonresult = {}
 print(jsonresult)
 
-
