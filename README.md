@@ -1,6 +1,6 @@
 
-<h1 align="center"> 
-    <img src = "https://www.pngall.com/wp-content/uploads/4/Cyber-Security-Logo.png" align = "center" height = 45px>
+<h1 align="center">
+    <img src = "https://www.pngall.com/wp-content/uploads/4/Cyber-Security-Logo.png" align = "center" height = 100px> <br>
     HowSamI
 </h1>
 
