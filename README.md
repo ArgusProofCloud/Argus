@@ -1,6 +1,8 @@
-<img src="https://www.shareicon.net/data/512x512/2016/07/08/116959_key_512x512.png" alt="Logo of the project" align="right" height=45px>
 
-# HowSamI  [![npm](https://img.shields.io/npm/v/npm.svg?style=flat-square)](https://www.npmjs.com/package/npm)
+<h1 align="center"> 
+    <img src = "https://www.pngall.com/wp-content/uploads/4/Cyber-Security-Logo.png" align = "center" height = 45px>
+    HowSamI
+</h1>
 
 > How Safe am I? Really?
 
@@ -12,7 +14,11 @@ This project is created with a security mindset, but can be used for other (non-
 For more details about what lives in the environment, we refer you to our [wiki page](https://github.com/WatcherWhale/SecProA/wiki).  
 
 ## Getting started
-Before getting started, make sure you have installed [Docker](https://www.docker.com) on you machine.  
+
+### prerequisites
+To be able to set up the environment, make sure you have installed [Docker](https://www.docker.com) on you machine.  
+
+### Environment
 When ready to get started, execute following commands:
 ```shell
 setting up env
@@ -20,8 +26,8 @@ setting up env
 ```
 
 ## Developing
-### Built with
-Libraries used in this project:
+### Libraries
+A list of the libraries used in this project:
 | Library             | Version      |
 | ------------------- | ------------ |
 | IoRedis             | 4.28.5       |
@@ -31,21 +37,31 @@ Libraries used in this project:
 | Morgan              | 1.10.0       |
 
 ### Checks
-A list of all checks included in this project:
-| Name         | Description      |
-| ------------ | ---------------- |
-| IP           |                  |
-| DNS          |                  |
-| Mail         |                  |
-| Https        |                  |
-|              |                  |
+A list of all checks included:
+| Name         | Description                                                           |
+| ------------ | --------------------------------------------------------------------- |
+| IP           | Does the GEOIP test and checks if ipv6 is supported.                  |
+| DNS          | Checks if DNSSEC is present and enabled.                              |
+| Mail         | Gives a score based on the presence of 3 specific records.            |
+| Https        | Checks if there is a redirection from http to https.                  |
+|              |                                                                       |
 
-### Codestyle
-We reinforced some codestyle rules with linter which will automatically run in Git upon pushing.  
 
-Javascript rules found in: .eslintrc.js  
-Python rules found in: .pylintrc  
-Yaml rules found in: .yamllint  
-
-## Licensing
-licencing?
+<br><br><br>
+#
+<p align = "center">
+    Powered by
+    <p align= "center">
+        <img src="https://img.shields.io/badge/redis-%23DD0031.svg?&style=for-the-badge&logo=redis&logoColor=white">
+        <img src="https://img.shields.io/badge/kubernetes-326ce5.svg?&style=for-the-badge&logo=kubernetes&logoColor=white">
+        <img src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white">
+        <img src="https://img.shields.io/badge/Ansible-000000?style=for-the-badge&logo=ansible&logoColor=white">
+        <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white"> <br>
+        <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white">
+        <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white">
+        <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E"> 
+        <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue"><br>
+        <img src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white">
+        <img src="https://img.shields.io/badge/Alpine_Linux-0D597F?style=for-the-badge&logo=alpine-linux&logoColor=white">
+    </p>
+</p>
