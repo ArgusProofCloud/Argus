@@ -1,6 +1,6 @@
 
 <h1 align="center">
-    <img src = "https://www.pngall.com/wp-content/uploads/4/Cyber-Security-Logo.png" align = "center" height = 100px> <br>
+    <img src = "./.images/onetrustLogo.png" align = "center" height = 200px> <br> <br>
     HowSamI
 </h1>
 
@@ -17,13 +17,8 @@ For more details about what lives in the environment, we refer you to our [wiki 
 
 ### prerequisites
 To be able to set up the environment, make sure you have installed [Docker](https://www.docker.com) on you machine.  
-
 ### Environment
-When ready to get started, execute following commands:
-```shell
-setting up env
 
-```
 
 ## Developing
 ### Libraries
@@ -59,7 +54,7 @@ A list of all checks included:
         <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white"> <br>
         <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white">
         <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white">
-        <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E"> 
+        <img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E">
         <img src="https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue"><br>
         <img src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white">
         <img src="https://img.shields.io/badge/Alpine_Linux-0D597F?style=for-the-badge&logo=alpine-linux&logoColor=white">
