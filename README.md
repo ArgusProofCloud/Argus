@@ -13,11 +13,23 @@ A high selling point of our platform is the use of a Kubernetes cluster, which e
 This project is created with a security mindset, but can be used for other (non-security) purposes. The principle of "plug 'n play" is a definite here, just remove / add / replace the checks with your own scripts and you're good to go.
 For more details about what lives in the environment, we refer you to our [wiki page](https://github.com/WatcherWhale/SecProA/wiki).  
 
-## Getting started
+
+<!-- ## Getting started
 
 ### prerequisites
 To be able to set up the environment, make sure you have installed [Docker](https://www.docker.com) on you machine.  
-### Environment
+### Environment -->
+
+
+## Available checks
+A list of all checks included:
+| Name         | Description                                                           |
+| ------------ | --------------------------------------------------------------------- |
+| IP           | Does the GEOIP test and checks if ipv6 is supported.                  |
+| DNS          | Checks if DNSSEC is present and enabled.                              |
+| Mail         | Gives a score based on the presence of 3 specific records.            |
+| Https        | Checks if there is a redirection from http to https.                  |
+|              |                                                                       |
 
 
 ## Developing
@@ -30,16 +42,6 @@ A list of the libraries used in this project:
 | Redlock             | 5.0.0-beta.1 |
 | Winston             | 3.6.0        |
 | Morgan              | 1.10.0       |
-
-### Checks
-A list of all checks included:
-| Name         | Description                                                           |
-| ------------ | --------------------------------------------------------------------- |
-| IP           | Does the GEOIP test and checks if ipv6 is supported.                  |
-| DNS          | Checks if DNSSEC is present and enabled.                              |
-| Mail         | Gives a score based on the presence of 3 specific records.            |
-| Https        | Checks if there is a redirection from http to https.                  |
-|              |                                                                       |
 
 
 <br><br><br>
