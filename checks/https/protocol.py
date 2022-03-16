@@ -2,7 +2,7 @@ import socket, sys, ssl
 
 
 DOMAIN = sys.argv[1]
-context = ssl.create_unverified_context()
+context = ssl._create_unverified_context()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sslSocket = context.wrap_socket(s, server_hostname = DOMAIN)
 
