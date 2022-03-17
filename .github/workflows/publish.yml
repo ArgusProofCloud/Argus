@@ -1,5 +1,5 @@
 ---
-name: Test checklist flows
+name: Checklist
 on:
   push:
     branches:
