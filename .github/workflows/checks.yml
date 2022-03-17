@@ -1,6 +1,7 @@
 ---
 name: Test checklist flows
 on: push
+runs-on: self-hosted
 
 jobs:
   test:

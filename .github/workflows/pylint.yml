@@ -1,6 +1,7 @@
 ---
 name: Python Code Style
 on: push
+runs-on: self-hosted
 
 jobs:
   style:
