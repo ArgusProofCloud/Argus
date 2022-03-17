@@ -28,8 +28,21 @@ jobs:
         run: ./.actions/build.sh
         working-directory: checks
 
+  test:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Test checklists
+        run: ./.actions/test.sh $DOMAIN
+        working-directory: checks
+        env:
+          DOMAIN: ${{ secrets.DOMAIN }}
+
   push:
     runs-on: self-hosted
+    needs: test
     steps:
       - uses: actions/checkout@v2
 
