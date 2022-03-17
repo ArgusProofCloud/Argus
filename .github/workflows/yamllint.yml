@@ -1,6 +1,6 @@
 ---
 name: Yaml Code Style
-on: push
+on: pull_resuest
 
 jobs:
   style:

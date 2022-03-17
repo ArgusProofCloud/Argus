@@ -1,6 +1,9 @@
 ---
 name: Test checklist flows
-on: pull_request
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -25,13 +28,11 @@ jobs:
         run: ./.actions/build.sh
         working-directory: checks
 
-  test:
+  push:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
 
-      - name: Test checklists
-        run: ./.actions/test.sh $DOMAIN
+      - name: Push checklists to GitHub
+        run: ./.actions/push.sh
         working-directory: checks
-        env:
-          DOMAIN: ${{ secrets.DOMAIN }}
