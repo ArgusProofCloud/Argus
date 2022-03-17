@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-python@v2
+      #- uses: actions/setup-python@v2
 
       - name: Install Linter
         run: pip3 install pylint
