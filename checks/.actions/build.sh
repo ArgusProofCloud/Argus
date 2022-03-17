@@ -6,5 +6,5 @@ for DIR in $DIRS
 do
     echo "#############################################"
     echo "Building flow $DIR"
-    docker build -f Dockerfile --build-arg checklist=$DIR --build-arg registry=ghcr.io/watcherwhale -t ghcr.io/watcherwhale/checklist:$DIR-latest .
+    docker build --no-cache -f Dockerfile --build-arg checklist=$DIR --build-arg registry=ghcr.io/watcherwhale -t ghcr.io/watcherwhale/checklist:$DIR-latest .
 done

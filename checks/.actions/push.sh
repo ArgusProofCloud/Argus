@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DIRS="$(find . -type d -not -path ./.action | tail -n +2 | sed -e "s/\.\///g")"
+DIRS="$(find . -type d -not -path ./.actions | tail -n +2 | sed -e "s/\.\///g")"
 
 for DIR in $DIRS
 do
