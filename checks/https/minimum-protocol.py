@@ -13,6 +13,7 @@ class SSLAdapter(HTTPAdapter):
         super(SSLAdapter, self).__init__(**kwargs)
 
     def init_poolmanager(self, connections, maxsize, block=False):
+        # pylint: disable=all
         self.poolmanager = PoolManager(num_pools=connections,
                                        maxsize=maxsize,
                                        block=block,
