@@ -13,6 +13,9 @@
         chart_ref: bitnami/redis
         namespace: "{{ cluster.namespace }}"
         values:
+          commonLabels:
+            app: redis
+
           master:
             persistence:
               enabled: "{{ redis.persistence }}"
@@ -26,5 +29,5 @@
             enabled: true
 
           auth:
-            enabled: "{{ redis.auth }}"
-            sentinel: "{{ redis.auth }}"
+            enabled: true
+            sentinel: true

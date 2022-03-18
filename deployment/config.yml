@@ -32,9 +32,6 @@ redis:
   # Must be at least 3
   replicas: 3
 
-  # Authentication
-  auth: false
-
   # Persistent storage
   persistence: false
 
