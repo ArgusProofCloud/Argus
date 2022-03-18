@@ -35,7 +35,7 @@ for version in VERSIONS:
         print(f'{{"name": "minimum-protocol", "score": -1, "message": "Er is iets mis met uw certificaat. Kan geen ssl-versie vinden" }}')
         quit()
     except:
-        print("Dit domein bestaat niet.", file=sys.stderr)
+        print({})
         quit()
 
 if badSSL:

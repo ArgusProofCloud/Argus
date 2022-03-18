@@ -14,8 +14,7 @@ urllib3.disable_warnings()
 try:
     res = requests.get(url, verify=False)
 except:
-    print("Dit domein bestaat niet.", file=sys.stderr)
-
+    print({})
 else:
     new_url = res.url
     if HTTPS in new_url:

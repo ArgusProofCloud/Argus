@@ -11,7 +11,7 @@ sslSocket = context.wrap_socket(s, server_hostname = DOMAIN)
 try:
     sslSocket.connect((DOMAIN, 443))
 except:
-    print("Dit domein bestaat niet", file=sys.stderr)
+    print({})
     sslSocket.close()
 
 else:
