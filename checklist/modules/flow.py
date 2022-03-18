@@ -64,14 +64,12 @@ class Flow:
                     res = json.loads(output)
 
                     # If not a list create a list from the result
-                    if not isinstance(results, list):
-                        res = [res]
+                    if isinstance(res, list):
+                        reslist = res
+                    else:
+                        reslist = [ res ]
 
-                    for result in res:
-
-                        # Define score certainty
-                        if "certain" not in result:
-                            result["certain"] = True
+                    for result in reslist:
 
                         # Add all results to the global results list
                         if "score" in result:
@@ -86,9 +84,5 @@ class Flow:
                     # JSON Decoding error logging
                     print("JSON Format error!")
                     print(f"Output: {output}")
-
-                except Exception as err:
-                    # General error log
-                    print(err)
 
         return results
