@@ -47,24 +47,48 @@ class Flow:
 
             print(f"Executing stage {i + 1}/{stages}: {stage['name']}")
 
+            # Check if there are checks in the stage
             if stage['checks'] is None or len(stage['checks']) == 0:
                 continue
 
             checks = []
 
+            # Run all checks in stage
             for check in stage['checks']:
                 checks.append(Popen([sys.executable, os.path.join(os.getcwd(), check), domain], stdout=PIPE, encoding="utf-8", env=env))
 
             for check in checks:
                 output, err = check.communicate()
 
-                result = json.loads(output)
+                try:
+                    res = json.loads(output)
 
-                if "score" in result:
-                    results.append(result)
+                    # If not a list create a list from the result
+                    if not isinstance(results, list):
+                        res = [res]
 
-                if "output" in result:
-                    for key in result['output']:
-                        env[key] = result['output'][key]
+                    for result in res:
+
+                        # Define score certainty
+                        if "certain" not in result:
+                            result["certain"] = True
+
+                        # Add all results to the global results list
+                        if "score" in result:
+                            results.append(result)
+
+                        # Register output for later stages
+                        if "output" in result:
+                            for key in result['output']:
+                                env[key] = result['output'][key]
+
+                except json.decoder.JSONDecodeError as err:
+                    # JSON Decoding error logging
+                    print("JSON Format error!")
+                    print(f"Output: {output}")
+
+                except Exception as err:
+                    # General error log
+                    print(err)
 
         return results
