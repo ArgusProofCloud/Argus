@@ -21,7 +21,7 @@ class Redis
                 }
             ],
             name: "mymaster"
-        }
+        };
 
         if(password)
         {
