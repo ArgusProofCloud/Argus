@@ -1,5 +1,7 @@
 import socket, sys, ssl
 
+from isort import file
+
 
 DOMAIN = sys.argv[1]
 context = ssl._create_unverified_context()
@@ -9,7 +11,7 @@ sslSocket = context.wrap_socket(s, server_hostname = DOMAIN)
 try:
     sslSocket.connect((DOMAIN, 443))
 except:
-    print("Dit domein bestaat niet")
+    print("Dit domein bestaat niet", file=sys.stderr)
     sslSocket.close()
 
 else:
