@@ -44,6 +44,11 @@
                         value: "redis"
                       - name: REDIS_PORT
                         value: "26379"
+                      - name: REDIS_PASSWORD
+                        valueFrom:
+                          secretKeyRef:
+                            name: redis
+                            key: redis-password
                       - name: LOGLEVEL
                         value: "{{ sequencer.loglevel }}"
 
