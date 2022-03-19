@@ -47,7 +47,7 @@ router.get("/poll", async (req, res) => {
 });
 
 router.get("/checklists", async (req, res) => {
-    const results = await redis.SortedGet("checklists");
+    const results = await redis.sortedGet("checklists");
     var checks = [];
 
     results.forEach(x => {
