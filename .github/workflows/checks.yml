@@ -1,6 +1,9 @@
 ---
 name: Checklist
 on:
+  push:
+    branches:
+      - master
   pull_request:
     branches:
       - master
@@ -39,3 +42,17 @@ jobs:
         working-directory: checks
         env:
           DOMAIN: ${{ secrets.DOMAIN }}
+
+  push:
+    runs-on: self-hosted
+    needs: test
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to GitHub container registry
+        run: echo "${{ secrets.GH_TOKEN }}" | docker login https://ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push checklists to GitHub
+        run: ./.actions/push.sh
+        working-directory: checks
