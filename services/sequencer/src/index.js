@@ -38,4 +38,11 @@ router.post("/results", async (req, res) => {
     res.status(201).send({status: 201, message: "Results successfully registered."});
 });
 
+router.post("/jobs/:id", async (req, res) => {
+
+    await redis.sortedSet("checklists", req.params.id);
+
+    res.status(201).send({status:201, massage: "checklist successfully updated"});
+});
+
 service.start();
