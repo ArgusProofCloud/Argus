@@ -63,7 +63,7 @@ router.get("/checklists", async (req, res) => {
 
     });
 
-    res.status(200).contentType("application/json").send(checks.map(x => JSON.parse(x)));
+    res.status(200).contentType("application/json").send(checks);
 });
 
 service.start();
