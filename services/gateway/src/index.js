@@ -51,10 +51,14 @@ router.get("/checklists", async (req, res) => {
     var checks = [];
 
     results.forEach(x => {
+        var index = results.indexOf(x);
 
-        if(results.indexOf(x) % 2 !== 0)
+        if(index % 2 === 0)
         {
-            checks.push(x);
+            if(results[index + 1] > Date.now())  //only select the checks that are not expired
+            {
+                checks.push(x);
+            }
         }
 
     });

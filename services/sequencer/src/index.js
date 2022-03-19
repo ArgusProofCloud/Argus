@@ -17,6 +17,8 @@ router.get("/job/:id", async (req, res) => {
         return;
     }
 
+    await redis.sortedSet("checklists", queueId);
+
     res.status(200).contentType("application/json").send(job);
 });
 
@@ -36,13 +38,6 @@ router.post("/results", async (req, res) => {
     await redis.insert("results", results);
 
     res.status(201).send({status: 201, message: "Results successfully registered."});
-});
-
-router.post("/jobs/:id", async (req, res) => {
-
-    await redis.sortedSet("checklists", req.params.id);
-
-    res.status(201).send({status:201, massage: "checklist successfully updated"});
 });
 
 service.start();

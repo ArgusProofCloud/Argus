@@ -107,14 +107,12 @@ class Redis
     /**
      * @param {string} key the queue in which the value will be stored
      * @param {any} value
-     * @returns {Promise<string>}
+     * @returns {Promise<any>}
      * performs a sorted set on a certain queue
      */
     sortedSet(key, value)
     {
-        // set expiration on key to 10 mins
-        this.client.setex(key,600,value);
-        return this.client.zadd(key, Date.now(), value);
+        return this.client.zadd(key, Date.now() +  600, value);
     }
 
     /**
