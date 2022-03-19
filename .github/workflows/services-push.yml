@@ -1,7 +1,7 @@
 ---
 name: Services
 on:
-  pull_request:
+  push:
     branches:
       - master
 
@@ -13,4 +13,14 @@ jobs:
 
       - name: Build service images
         run: ./.actions/build.sh
+        working-directory: services
+
+  push:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Push checklists to GitHub
+        run: ./.actions/push.sh
         working-directory: services
