@@ -35,4 +35,4 @@ module.exports = (serviceName) => {
         "localhost"}:${process.env.REDIS_PORT || 26379}`);
 
     return redisClient;
-}
+};

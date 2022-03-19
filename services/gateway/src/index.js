@@ -1,9 +1,8 @@
-const process = require("process");
 const { v4: uuid } = require("uuid");
 const createService = require("service");
 
 const service = createService("sequencer", "/api/v1");
-const { logger, redis, router } = service;
+const { redis, router } = service;
 
 router.post("/request", async (req, res) => {
 

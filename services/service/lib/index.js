@@ -14,7 +14,9 @@ module.exports = (serviceName, path = "") => {
 
     let server;
 
-    // Graceful Shutdown
+    /**
+     * Graceful Shutdown
+     */
     async function shutdown()
     {
         logger.info("Shutting down " + serviceName + ".");
@@ -40,5 +42,5 @@ module.exports = (serviceName, path = "") => {
         router: app.router,
         start: () => server = app.start(serviceName, path),
         shutdown: shutdown
-    }
-}
+    };
+};
