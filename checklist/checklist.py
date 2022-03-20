@@ -2,12 +2,15 @@ import os
 import time
 from modules.flow import Flow
 from modules import jobs
+from logger.Json_Logger import CustomLogging
 
 TIMEOUT = 5
 
 def main():
-    """The main method.
     """
+    The main method.
+    """
+    logger = CustomLogging.getLogger("checklist", "DEBUG")
     flow = Flow()
 
     while True:
@@ -25,6 +28,8 @@ def main():
             jobs.pushResults(job)
         except Exception:
             time.sleep(TIMEOUT)
+
+
 
 if __name__ == "__main__":
 
