@@ -2,7 +2,7 @@ import os
 import time
 from modules.flow import Flow
 from modules import jobs
-from logger.Json_Logger import CustomLogging
+from modules.logger import getLogger
 
 TIMEOUT = 5
 
@@ -10,12 +10,13 @@ def main():
     """
     The main method.
     """
-    logger = CustomLogging.getLogger("checklist", "DEBUG")
     flow = Flow()
+    logger = getLogger("Checklist")
 
     while True:
         try:
             job = jobs.requestJob(flow.getName())
+            logger.info("started flow", flow.getName)
 
             if job is None:
                 time.sleep(TIMEOUT)
