@@ -10,13 +10,14 @@ def main():
     """
     The main method.
     """
-    flow = Flow()
     logger = getLogger("Checklist")
+    logger.info("Starting service")
+    flow = Flow()
+    logger.info(f"loaded flow {flow.getName}", flow.getName)
 
     while True:
         try:
             job = jobs.requestJob(flow.getName())
-            logger.info("started flow", flow.getName)
 
             if job is None:
                 time.sleep(TIMEOUT)

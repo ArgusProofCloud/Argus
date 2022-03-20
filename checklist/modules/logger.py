@@ -11,13 +11,22 @@ class CustomLogging(json_logging.JSONLogFormatter):
         """"
         all the properties displayed when logging
         """
-        json_customized_log_object = ({
-            "level": record.levelname,
-            "service": record.name,
-            "message": record.msg,
-            "timestamp": record.created,     #in UNIX time
-            "flow": record.args[0]
-        })
+
+        if(len(record.args) > 0):
+            json_customized_log_object = ({
+                "level": record.levelname,
+                "service": record.name,
+                "message": record.msg,
+                "timestamp": record.created,     #in UNIX time
+                "flow": record.args[0]
+            })
+        else:
+            json_customized_log_object = ({
+                "level": record.levelname,
+                "service": record.name,
+                "message": record.msg,
+                "timestamp": record.created,     #in UNIX time
+            })
         return json.dumps(json_customized_log_object)
 
 def getLogger(name):
@@ -32,6 +41,8 @@ def getLogger(name):
     return logger
 
 
-logger = getLogger("test")
+# #testflow
+# logger = getLogger("test")
 
-logger.info("help", "flow1")
+# logger.info("help", "flwooooo")
+# logger.info("noflow")
