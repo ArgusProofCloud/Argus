@@ -8,11 +8,12 @@ class CustomLogging(json_logging.JSONLogFormatter):
     Class to customise json logging
     """
     def format(self, record):
+        # Pylint: disabme = all
         """"
         all the properties displayed when logging
         """
 
-        if(len(record.args) > 0):
+        if len(record.args) > 0:
             json_customized_log_object = ({
                 "level": record.levelname,
                 "service": record.name,
@@ -40,9 +41,3 @@ def getLogger(name):
 
     return logger
 
-
-# #testflow
-# logger = getLogger("test")
-
-# logger.info("help", "flwooooo")
-# logger.info("noflow")
