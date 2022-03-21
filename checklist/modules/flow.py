@@ -5,16 +5,21 @@ import yaml
 import json
 
 from subprocess import Popen, PIPE
+from modules.logger import getLogger
 
 class Flow:
     """A flow executor class
     """
+
     def __init__(self):
+        self.logger = getLogger("Flow")
+        self.logger.info("loading flow")
         self.load()
 
     def load(self):
         """Load the flow file (flow.yml).
         """
+        self.logger.info("loading flow file")
         with open("flow.yml", "r", encoding="utf-8") as stream:
             self.flow = yaml.safe_load(stream)
 
@@ -40,15 +45,16 @@ class Flow:
         results = []
         env = {}
 
-        print(f"Starting flow {self.flow['name']} with {stages} stages.")
+        self.logger.info(f"Starting flow with {stages} stages.", self.flow['name'])
 
         for i in range(stages):
             stage = self.flow['stages'][i]
 
-            print(f"Executing stage {i + 1}/{stages}: {stage['name']}")
+            self.logger.info(f"Executing stage {i + 1}/{stages}: {stage['name']}", self.flow['name'])
 
             # Check if there are checks in the stage
             if stage['checks'] is None or len(stage['checks']) == 0:
+                self.logger.info("no checks in the stage", self.flow['name'])
                 continue
 
             checks = []
@@ -82,7 +88,7 @@ class Flow:
 
                 except json.decoder.JSONDecodeError as err:
                     # JSON Decoding error logging
-                    print("JSON Format error!")
-                    print(f"Output: {output}")
+                    self.logger.error("JSON Format error", self.flow['name'])
+                    self.logger.error(f"Output: {output}", self.flow['name'])
 
         return results

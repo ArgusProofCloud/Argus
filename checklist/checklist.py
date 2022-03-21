@@ -11,24 +11,27 @@ def main():
     The main method.
     """
     logger = getLogger("Checklist")
-    logger.info("Starting service")
+    logger.info("starting service")
     flow = Flow()
     logger.info(f"loaded flow {flow.getName}", flow.getName)
 
     while True:
         try:
+            logger.info("requesting job")
             job = jobs.requestJob(flow.getName())
 
             if job is None:
+                logger.info("no job found")
                 time.sleep(TIMEOUT)
                 continue
 
+            logger.info(f"running job: {job}", flow.getName())
             results = flow.run(job['domain'])
-
             job['checks'] = results
 
             jobs.pushResults(job)
         except Exception:
+            logger.error("an exception has occured", flow.getName())
             time.sleep(TIMEOUT)
 
 
