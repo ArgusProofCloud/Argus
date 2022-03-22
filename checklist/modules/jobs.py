@@ -4,7 +4,7 @@ import requests
 from modules.logger import getLogger
 
 URL = os.environ.get("SEQUENCER_URL") + "/api/v1/"
-logger = getLogger("Jobs")
+logger = getLogger("checklist")
 
 def requestJob(name: str) -> dict | None:
     """Request a job from a sequencer server.
@@ -15,7 +15,6 @@ def requestJob(name: str) -> dict | None:
     Returns:
         dict: The job request or None when no jobs are available.
     """
-    logger.info("requesting jobs")
     req = requests.get(URL + f"job/{name}")
 
     if req.status_code == 200:
@@ -33,7 +32,6 @@ def pushResults(results: dict) -> bool:
     Returns:
         bool: Has the push been successfull.
     """
-    logger.info("posting job request")
     req = requests.post(URL + "results", json=results)
 
     return req.status_code == 201

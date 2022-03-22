@@ -1,3 +1,4 @@
+from distutils.log import error
 import sys
 import os
 
@@ -12,7 +13,7 @@ class Flow:
     """
 
     def __init__(self):
-        self.logger = getLogger("Flow")
+        self.logger = getLogger("checklist")
         self.logger.info("loading flow")
         self.load()
 
@@ -45,7 +46,7 @@ class Flow:
         results = []
         env = {}
 
-        self.logger.info(f"Starting flow with {stages} stages.", self.flow['name'])
+        self.logger.info(f"Starting flow with {stages} stages.", self.getName())
 
         for i in range(stages):
             stage = self.flow['stages'][i]
@@ -88,7 +89,9 @@ class Flow:
 
                 except json.decoder.JSONDecodeError as err:
                     # JSON Decoding error logging
-                    self.logger.error("JSON Format error", self.flow['name'])
-                    self.logger.error(f"Output: {output}", self.flow['name'])
+                    self.logger.error(f"JSON Format error: {err}", self.getName())
+                    self.logger.error(f"Output: {output}", self.getName())
+                except:
+                    self.logger.error(f"an exception has occured: {error}", self.getName())
 
         return results

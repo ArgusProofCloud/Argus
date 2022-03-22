@@ -10,7 +10,7 @@ def main():
     """
     The main method.
     """
-    logger = getLogger("Checklist")
+    logger = getLogger("checklist")
     logger.info("starting service")
     flow = Flow()
     logger.info(f"loaded flow {flow.getName}", flow.getName)
