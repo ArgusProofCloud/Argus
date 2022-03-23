@@ -15,7 +15,7 @@ jobs:
           PACKAGE_NAME: checklist
           PER_PAGE: 2
         with:
-          github-token: ${{ secrets.DELETE_PACKAGES_TOKEN }}
+          github-token: ${{ secrets.GH_TOKEN }}
           script: |
             const response = await github.request("GET /${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions",
               { per_page: ${{ env.PER_PAGE }}
@@ -34,7 +34,7 @@ jobs:
           PACKAGE_NAME: sequencer
           PER_PAGE: 2
         with:
-          github-token: ${{ secrets.DELETE_PACKAGES_TOKEN }}
+          github-token: ${{ secrets.GH_TOKEN }}
           script: |
             const response = await github.request("GET /${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions",
               { per_page: ${{ env.PER_PAGE }}
