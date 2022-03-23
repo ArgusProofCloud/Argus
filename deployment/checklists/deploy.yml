@@ -23,6 +23,8 @@
                 app: "checklist"
             template:
               metadata:
+                annotations:
+                  autocert.step.sm/name: "{{ item.name }}-checklist.{{ cluster.namespace }}.svc.cluster.local"
                 labels:
                   app: "checklist"
               spec:
@@ -34,6 +36,14 @@
                     env:
                       - name: SEQUENCER_URL
                         value: "http://sequencer-server:3000"
+
+                      # Certificates
+                      - name: CERT_PATH
+                        value: "/var/run/autocert.step.sm/site.crt"
+                      - name: KEY_PATH
+                        value: "/var/run/autocert.step.sm/site.key"
+                      - name: CA_PATH
+                        value: "/var/run/autocert.step.sm/root.crt"
 
     - name: Deploy Autoscaler
       with_items: "{{ checklists }}"

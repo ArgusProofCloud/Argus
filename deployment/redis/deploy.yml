@@ -13,15 +13,19 @@
         chart_ref: bitnami/redis
         namespace: "{{ cluster.namespace }}"
         values:
-          commonLabels:
-            app: redis
-
           master:
+            podAnnotations:
+              autocert.step.sm/name: "redis.{{ cluster.namespace }}.svc.cluster.local"
+
             persistence:
               enabled: "{{ redis.persistence }}"
 
           replica:
             replicaCount: "{{ redis.replicas }}"
+
+            podAnnotations:
+              autocert.step.sm/name: "redis.{{ cluster.namespace }}.svc.cluster.local"
+
             persistence:
               enabled: "{{ redis.persistence }}"
 
