@@ -22,7 +22,7 @@ docker:
   # - Never
   # - Always
   # - IfNotPresent
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 redis:
   # Docker tag of the redis pods
