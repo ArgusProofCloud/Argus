@@ -23,7 +23,11 @@ module.exports = {
 
             if(!req.client.authorized)
             {
-                res.status(401).send({status: 401, msg: "Unauthorized, invalid client certificate.", reason: req.client.authorizationError})
+                res.status(401).send({
+                    status: 401,
+                    msg: "Unauthorized, invalid client certificate.",
+                    reason: req.client.authorizationError
+                });
                 return;
             }
 

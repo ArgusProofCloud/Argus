@@ -7,10 +7,11 @@ temp.track();
 
 class StepProvisioner
 {
-    constructor(root, caUrl, stepCli = "step")
+    constructor(root, caUrl, logger, stepCli = "step")
     {
         this.root = root;
         this.caUrl = caUrl;
+        this.logger = logger;
         this.stepCli = stepCli;
     }
 
@@ -35,43 +36,23 @@ class StepProvisioner
         });
     }
 
-    async revoke(cert)
-    {
-        const serial = await this.getSerialNumber(cert);
-        await this.revokeSerial(serial);
-    }
-
-    async revokeSerial(serial)
-    {
-        await exec(`${this.stepCli} ca revoke --root="${this.root}" --ca-url="${this.caUrl}" ${serial}`)
-    }
-
     async renew(crt, key)
     {
-        const crtFile = await this.getTempFile(crt);
-        const keyFile = await this.getTempFile(key);
-        const newFile = await this.getTempFile();
+        return new Promise(async (resolve, reject) => {
+            const crtFile = await this.getTempFile(crt);
+            const keyFile = await this.getTempFile(key);
+            const newFile = await this.getTempFile();
 
-        try
-        {
-            await exec(`${this.stepCli} ca renew -f --root="${this.root}" --ca-url="${this.caUrl}" "${crtFile}" "${keyFile}" --out "${newFile}"`);
-            return fs.readFileSync(newFile);
-        }
-        catch(e)
-        {
-            console.log(e);
-            return null;
-        }
-    }
+            exec(`${this.stepCli} ca renew -f --root="${this.root}" ` +
+                `--ca-url="${this.caUrl}" "${crtFile}" "${keyFile}" --out "${newFile}"`)
+            .catch(e => {
 
-    async getSerialNumber(cert)
-    {
-        const crtFile = await this.getTempFile(cert);
-
-        const { stdout } = await exec(`${this.stepCli} certificate inspect "${crtFile}" --format json`);
-        const certInfo = JSON.parse(stdout);
-
-        return certInfo.serial_number;
+                this.logger.error("Failed renewing certificate", e);
+                reject();
+            }).then(() => {
+                resolve(fs.readFileSync(newFile));
+            });
+        });
     }
 }
 
