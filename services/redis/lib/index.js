@@ -1,5 +1,3 @@
-const fs = require("fs");
-const process = require("process");
 const IoRedis = require("ioredis");
 const RedLock = require("redlock").default;
 
