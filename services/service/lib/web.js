@@ -21,7 +21,7 @@ module.exports = {
 
         app.use((req, res, next) => {
 
-            if(clientAuth && !req.client.authorized)
+            if( clientAuth && !req.client.authorized && req.headers["ssl-client-verify"] !== "SUCCESS" )
             {
                 res.status(401).send({
                     status: 401,
