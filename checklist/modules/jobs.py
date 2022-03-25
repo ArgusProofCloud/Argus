@@ -15,8 +15,9 @@ def requestJob(name: str) -> dict | None:
         name (str): The checklist name.
 
     Returns:
-        dict: The job request or None when no jobs are avalable.
+        dict: The job request or None when no jobs are available.
     """
+    logger.debug("requesting jobs")
     req = requests.get(URL + f"job/{name}", cert=(CERT, KEY), verify=CA)
 
     if req.status_code == 200:
