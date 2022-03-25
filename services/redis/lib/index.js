@@ -1,3 +1,5 @@
+const fs = require("fs");
+const process = require("process");
 const IoRedis = require("ioredis");
 const RedLock = require("redlock").default;
 
@@ -13,9 +15,19 @@ class Redis
      */
     constructor(host, port=26379, sentinel = true, password = "")
     {
+        let tlsSettings = {
+            ca: [fs.readFileSync(process.env.CA_PATH)],
+            cert: fs.readFileSync(process.env.CERT_PATH),
+            key: fs.readFileSync(process.env.KEY_PATH),
+            rejectUnauthorized: false,
+        };
+
         let options = {
             host: host,
-            port: port
+            port: port,
+            tls: tlsSettings,
+            sentinelTLS: tlsSettings,
+            enableTLSForSentinelMode: true,
         };
 
         if(sentinel)

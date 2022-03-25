@@ -24,7 +24,7 @@
             template:
               metadata:
                 annotations:
-                  autocert.step.sm/name: "{{ item.name }}-checklist.{{ cluster.namespace }}.svc.cluster.local"
+                  autocert.step.sm/name: "{{ item.name }}-checklist"
                 labels:
                   app: "checklist"
               spec:
@@ -35,7 +35,7 @@
                     imagePullPolicy: "{{ docker.pullPolicy }}"
                     env:
                       - name: SEQUENCER_URL
-                        value: "http://sequencer-server:3000"
+                        value: "https://sequencer-server:3000"
 
                       # Certificates
                       - name: CERT_PATH

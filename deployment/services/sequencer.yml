@@ -21,7 +21,7 @@
             template:
               metadata:
                 annotations:
-                  autocert.step.sm/name: "sequencer-server.{{ cluster.namespace }}.svc.cluster.local"
+                  autocert.step.sm/name: "sequencer-server"
                 labels:
                   app: "sequencer"
               spec:

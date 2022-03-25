@@ -4,6 +4,10 @@ import requests
 
 URL = os.environ.get("SEQUENCER_URL") + "/api/v1/"
 
+CERT = os.environ.get("CERT_PATH")
+KEY = os.environ.get("KEY_PATH")
+CA = os.environ.get("CA_PATH")
+
 def requestJob(name: str) -> dict | None:
     """Request a job from a sequencer server.
 
@@ -13,7 +17,7 @@ def requestJob(name: str) -> dict | None:
     Returns:
         dict: The job request or None when no jobs are avalable.
     """
-    req = requests.get(URL + f"job/{name}")
+    req = requests.get(URL + f"job/{name}", cert=(CERT, KEY), verify=CA)
 
     if req.status_code == 200:
         return json.loads(req.text)

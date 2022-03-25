@@ -21,7 +21,7 @@
             template:
               metadata:
                 annotations:
-                  autocert.step.sm/name: "gateway-server.{{ cluster.namespace }}.svc.cluster.local"
+                  autocert.step.sm/name: "gateway-server"
                 labels:
                   app: "gateway"
               spec:
