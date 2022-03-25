@@ -9,7 +9,7 @@ const router = express.Router();
 
 module.exports = {
     router: router,
-    start: (serviceName, path) => {
+    start: (serviceName, path, clientAuth = true) => {
         const logFile = LogFile.createLogFile(serviceName);
         const logger = logFile.getLogger();
 
@@ -21,7 +21,7 @@ module.exports = {
 
         app.use((req, res, next) => {
 
-            if(!req.client.authorized)
+            if(clientAuth && !req.client.authorized)
             {
                 res.status(401).send({
                     status: 401,
@@ -51,7 +51,7 @@ module.exports = {
             key: fs.readFileSync(process.env.KEY_PATH || "cert.key"),
 
             ca: fs.readFileSync(process.env.CA_PATH || "ca.crt"),
-            requestCert: true,
+            requestCert: clientAuth,
             rejectUnauthorized: false
 
         }, app).listen(process.env.PORT || 3000, () => {

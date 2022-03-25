@@ -23,11 +23,12 @@
                 app: "checklist"
             template:
               metadata:
-                annotations:
-                  autocert.step.sm/name: "{{ item.name }}-checklist"
                 labels:
                   app: "checklist"
               spec:
+                metadata:
+                  annotations:
+                    autocert.step.sm/name: "{{ item.name }}-checklist"
                 imagePullSecrets: "{{ docker.imagePullSecrets }}"
                 containers:
                   - name: "{{ item.name }}-checklist"

@@ -11,6 +11,8 @@
           kind: Ingress
           metadata:
             name: "{{ app.name }}-ingress"
+
+            nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
           spec:
             tls:
               - hosts:
