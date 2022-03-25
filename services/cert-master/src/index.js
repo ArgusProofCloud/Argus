@@ -6,7 +6,7 @@ const StepProvisioner = require("./step.js");
 const service = createService("cert-master", "/api/v1", { redis: { enabled: false } });
 const { logger, router } = service;
 
-const step = new StepProvisioner(process.env.ROOT_CRT || "ca.crt", process.env.CA_URL || ":443", 
+const step = new StepProvisioner(process.env.ROOT_CRT || "ca.crt", process.env.CA_URL || ":443",
     logger, process.env.STEP_CLI || "step");
 
 router.use(express.text());
@@ -24,7 +24,7 @@ router.post("/renew", async (req, res) => {
         logger.info("Renewed " + serial + ".");
         res.contentType("text/plain").send(newCert);
     }).catch(e => {
-        logger.warn("Failed renewing " + serial + ".");
+        logger.warn("Failed renewing " + serial + ".", e);
 
         res.status(500).send({
             status: 500,

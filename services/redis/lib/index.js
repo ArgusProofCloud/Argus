@@ -15,7 +15,7 @@ class Redis
      */
     constructor(host, port=26379, sentinel = true, password = "")
     {
-        let tlsSettings = {
+        const tlsSettings = {
             ca: [fs.readFileSync(process.env.CA_PATH)],
             cert: fs.readFileSync(process.env.CERT_PATH),
             key: fs.readFileSync(process.env.KEY_PATH),

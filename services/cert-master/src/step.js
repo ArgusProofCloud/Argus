@@ -36,7 +36,7 @@ class StepProvisioner
         });
     }
 
-    async renew(crt, key)
+    renew(crt, key)
     {
         return new Promise(async (resolve, reject) => {
             const crtFile = await this.getTempFile(crt);
@@ -45,13 +45,13 @@ class StepProvisioner
 
             exec(`${this.stepCli} ca renew -f --root="${this.root}" ` +
                 `--ca-url="${this.caUrl}" "${crtFile}" "${keyFile}" --out "${newFile}"`)
-            .catch(e => {
+                .catch(e => {
 
-                this.logger.error("Failed renewing certificate", e);
-                reject();
-            }).then(() => {
-                resolve(fs.readFileSync(newFile));
-            });
+                    this.logger.error("Failed renewing certificate", e);
+                    reject();
+                }).then(() => {
+                    resolve(fs.readFileSync(newFile));
+                });
         });
     }
 }
