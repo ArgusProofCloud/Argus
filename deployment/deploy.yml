@@ -43,6 +43,12 @@
     - k8s
     - gateway
 
+- import_playbook: "./services/cert-master.yml"
+  tags:
+    - kubernetes
+    - k8s
+    - cert-master
+
 - import_playbook: "./services/sequencer.yml"
   tags:
     - kubernetes
