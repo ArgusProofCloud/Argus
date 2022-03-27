@@ -220,7 +220,7 @@ if __name__ == "__main__":
     if not parsed.scheme:
         url = 'http://' + url # default to http if scheme not provided
 
-
+    result=[]
     headers = foo.checkHeaders(url, redirects)
 
     if not headers:
@@ -231,34 +231,31 @@ if __name__ == "__main__":
         #headers check
         if value['warn'] == 1:
             if value['defined'] is False:
-                score+=0
+                result.append({'name':header,"score":0,'message': header+" is missing"})
             else:
-                score+=0
+                result.append({'name':header,"score":0,'message': header+" contains value "+value['contents']})
         elif value['warn'] == 0:
             if value['defined'] is False:
-                score+=1
+                result.append({'name':header,"score":10,'message': header+" is missing"})
             else:
-                score+=1
+                result.append({'name':header,"score":10,'message': header+" contains value "+value['contents']})
 
     https = foo.testHttps(url)
     #check https check
     if https['supported']:
-        score+=1
+        result.append({'name':"Https","score":10,'message':"Https is supported"})
+
     else:
-        score+=0
+        result.append({'name':"Https","score":0,'message':"Https is not supported"})
 
     if https['certvalid']:
-        score+=1
+        result.append({'name':"Https certificate","score":10,'message':"Https cetificate is valid"})
     else:
-        score+=0
+        result.append({'name':"Https certificate","score":0,'message':"Https cetificate is not valid"})
     if foo.testHttpToHttps(url, 5):
-        score+=1
+        result.append({'name':"Http to Https","score":10,'message':"Can redirect from Http to Https"})
     else:
-        score+=0
+        result.append({'name':"Http to Https","score":0,'message':"Can not redirect from Http to Https"})
 
-if score >=10:
-    score=10
-
-result={"name":"Header check ","score":score}
 jsonresult = json.dumps(result)
 print(jsonresult)
