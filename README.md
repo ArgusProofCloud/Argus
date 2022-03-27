@@ -1,10 +1,10 @@
 
 <h1 align="center">
-    <img src = "./.images/onetrustLogo.png" align = "center" height = 200px> <br> <br>
+    <img src = "./.images/Argus.png" align = "center" height = 200px> <br> <br>
     Argus
 </h1>
 
-> Argus: An "all-seeing" primordial giant
+> Argus: the "all-seeing" primordial giant
 
 Argus was a responsibility given to the students of "Security Project", a course at AP Hogeschool.  
 The idea is to create a highly available, agile platform to execute checks that control a given domain.
