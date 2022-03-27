@@ -13,19 +13,18 @@ const step = new StepProvisioner(process.env.CA_PATH || "ca.crt", process.env.CA
 router.use(express.text());
 
 router.post("/renew", async (req, res) => {
-    const clientCert = req.socket.getPeerCertificate();
+    const crtkey = req.body;
 
-    const serial = BigInt("0x" + clientCert.serialNumber);
+    const crt = crtkey.substr(0, /-*BEGIN.*KEY-*/g.exec(crtkey).index).trim();
+    const key = crtkey.substr(/-*BEGIN.*KEY-*/g.exec(crtkey).index).trim();
 
+    const serial = await step.getSerialNumber(crt);
 
-    const rawCert = clientCert.raw.toString("base64");
-    const crt = "-----BEGIN CERTIFICATE-----\n" + rawCert + "\n-----END CERTIFICATE-----";
-
-    step.renew(crt, req.body).then(newCert => {
-        logger.info("Renewed " + serial + ".");
+    step.renew(crt, key).then(newCert => {
+        logger.info(`Renewed ${serial}.`);
         res.contentType("text/plain").send(newCert);
     }).catch(e => {
-        logger.warn("Failed renewing " + serial + ".", e);
+        logger.warn(`Failed renewing ${serial}.`, e);
 
         res.status(500).send({
             status: 500,

@@ -36,6 +36,16 @@ class StepProvisioner
         });
     }
 
+    async getSerialNumber(cert)
+    {
+        const crtFile = await this.getTempFile(cert);
+
+        const { stdout } = await exec(`${this.stepCli} certificate inspect "${crtFile}" --format json`);
+        const certInfo = JSON.parse(stdout);
+
+        return certInfo.serial_number;
+    }
+
     renew(crt, key)
     {
         return new Promise(async (resolve, reject) => {
