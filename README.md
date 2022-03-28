@@ -1,7 +1,5 @@
-
 <h1 align="center">
     <img src = "./.images/Argus.png" align = "center" height = 200px> <br> <br>
-    Argus
 </h1>
 
 > Argus: the "all-seeing" primordial giant
