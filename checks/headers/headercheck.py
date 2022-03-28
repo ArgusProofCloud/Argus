@@ -64,85 +64,6 @@ class SecurityHeaders():
                 warn = 0
 
         return {'defined': True, 'warn': warn, 'contents': contents}
-
-    def testHttps(self, url):
-        """_summary_
-
-        Args:
-            self(security headers)
-            url (string): url of the target
-
-        Returns:
-            json: result of the test
-        """
-        parsed = urlparse(url)
-        protocol = parsed[0]
-        hostname = parsed[1]
-        path = parsed[2]
-        sslerror = False
-
-        conn = http.client.HTTPSConnection(hostname, context = ssl.create_default_context() )
-        try:
-            conn.request('GET', '/')
-            res = conn.getresponse()
-        except socket.gaierror:
-            return {'supported': False, 'certvalid': False}
-        except ssl.CertificateError:
-            return {'supported': True, 'certvalid': False}
-        except:
-            sslerror = True
-
-        # if tls connection fails for unexcepted error, retry without verifying cert
-        if sslerror:
-            conn = http.client.HTTPSConnection(hostname, timeout=5, context = ssl._create_stdlib_context() )
-            try:
-                conn.request('GET', '/')
-                res = conn.getresponse()
-                return {'supported': True, 'certvalid': False}
-            except:
-                return {'supported': False, 'certvalid': False}
-
-        return {'supported': True, 'certvalid': True}
-
-    def testHttpToHttps(self, url, followRedirects = 5):
-        """try to redirect http to https
-
-        Args:
-            url (string): _description_
-
-        Returns:
-            boolean: _description_
-        """
-        parsed = urlparse(url)
-        protocol = parsed[0]
-        hostname = parsed[1]
-        path = parsed[2]
-        if not protocol:
-            protocol = 'http' # default to http if protocl scheme not specified
-
-        if protocol == 'https' and followRedirects != 5:
-            return True
-        elif protocol == 'https' and followRedirects == 5:
-            protocol = 'http'
-
-        if protocol == 'http':
-            conn = http.client.HTTPConnection(hostname)
-        try:
-            conn.request('HEAD', path)
-            res = conn.getresponse()
-            headers = res.getheaders()
-        except socket.gaierror:
-            #if https request failed
-            return False
-
-
-        if (res.status >= 300 and res.status < 400  and followRedirects > 0):
-            for header in headers:
-                if header[0].lower() == 'location':
-                    return self.testHttpToHttps(header[1], followRedirects - 1)
-
-        return False
-
     def checkHeaders(self, url, followRedirects = 0):
         """ Make the HTTP request and check if any of the pre-defined
         headers exists.
@@ -240,22 +161,7 @@ if __name__ == "__main__":
             else:
                 result.append({'name':header,"score":10,'message': header+" contains value "+value['contents']})
 
-    https = foo.testHttps(url)
-    #check https check
-    if https['supported']:
-        result.append({'name':"Https","score":10,'message':"Https is supported"})
 
-    else:
-        result.append({'name':"Https","score":0,'message':"Https is not supported"})
-
-    if https['certvalid']:
-        result.append({'name':"Https certificate","score":10,'message':"Https cetificate is valid"})
-    else:
-        result.append({'name':"Https certificate","score":0,'message':"Https cetificate is not valid"})
-    if foo.testHttpToHttps(url, 5):
-        result.append({'name':"Http to Https","score":10,'message':"Can redirect from Http to Https"})
-    else:
-        result.append({'name':"Http to Https","score":0,'message':"Can not redirect from Http to Https"})
 
 jsonresult = json.dumps(result)
 print(jsonresult)
