@@ -17,3 +17,4 @@ stages:
       - certificaat.py
       - protocol.py
       - minimum-protocol.py
+      - cookie.py
