@@ -2,4 +2,3 @@ requests
 isort
 datetime
 urllib3
-selenium
