@@ -64,7 +64,7 @@ class Redis
 
     insertFront(key, value)
     {
-        return this.client.lpush(key, JSON.stringify(value))
+        return this.client.lpush(key, JSON.stringify(value));
     }
 
     /**
