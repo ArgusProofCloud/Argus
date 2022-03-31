@@ -32,3 +32,6 @@ def pushResults(results: dict) -> bool:
     req = requests.post(URL + "results", json=results)
 
     return req.status_code == 201
+
+def pushBack(check: dict):
+    req = requests.post(URL + "pushback", json=check)
