@@ -36,6 +36,9 @@ class Flow:
         return self.flow['name']
 
     def stop(self):
+        """
+        Stop service
+        """
         self.running = False
 
     def run(self, domain: str) -> list:

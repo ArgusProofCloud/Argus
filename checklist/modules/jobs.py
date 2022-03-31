@@ -34,4 +34,7 @@ def pushResults(results: dict) -> bool:
     return req.status_code == 201
 
 def pushBack(check: dict):
+    """"
+    push job back in the reddis queue
+    """
     req = requests.post(URL + "pushback", json=check)
