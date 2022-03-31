@@ -37,10 +37,10 @@ def main(domain):
             if i == country:
                 is_eu_land = True
         if is_eu_land:
-            print(f'{{"name": "GeoIP", "score": 10, "message": "Your website is hosted inside Europe, country: {country}."}}')
+            print(f'{{"name": "GeoIP", "score": 10, "message": "Website hosted inside Europe, country: {country}."}}')
 
         elif not is_eu_land:
-            print(f'{{"name": "GeoIP", "score": 0, "message": "Your website is not hosted inside Europe, country: {country}."}}')
+            print(f'{{"name": "GeoIP", "score": 0, "message": "Website not hosted inside Europe, country: {country}."}}')
 
 if __name__ == "__main__":
     domain = sys.argv[1]

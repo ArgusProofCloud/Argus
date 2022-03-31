@@ -33,7 +33,7 @@ for version in VERSIONS:
         if version == ssl.PROTOCOL_TLSv1 or version == ssl.PROTOCOL_TLSv1_1:
             badSSL = True
     except requests.exceptions.SSLError:
-        print(f'{{"name": "supported-protocol", "score": 0, "certain": false, "message": "No SSL-version found." }}')
+        print(f'{{"name": "supported Protocol", "score": 0, "certain": false, "message": "No SSL-version found on domain {DOMAIN}." }}')
         quit()
     except:
         print({})
