@@ -1,2 +1,4 @@
 chromium
 chromium-chromedriver
+libffi-dev
+build-base
