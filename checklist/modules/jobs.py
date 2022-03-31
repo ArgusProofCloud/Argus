@@ -13,7 +13,6 @@ def requestJob(name: str) -> dict | None:
     Returns:
         dict: The job request or None when no jobs are available.
     """
-    logger.debug("requesting jobs")
     req = requests.get(URL + f"job/{name}")
 
     if req.status_code == 200:
