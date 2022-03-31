@@ -11,5 +11,6 @@ RUN cat packages.txt | xargs apk --no-cache add
 
 COPY ./$checklist/requirements.txt .
 RUN pip install -r requirements.txt
+RUN apk add libffi-dev
 
 COPY ./$checklist/ .
