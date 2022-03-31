@@ -1,7 +1,7 @@
 from selenium import webdriver
 import sys
 
-driver = webdriver.Firefox(executable_path='./SecProA/checks/https/geckodriver-v0.30.0-linux64/geckodriver')
+driver = webdriver.Chrome(executable_path=r'DRIVER_PATH')
 
 DOMAIN = sys.argv[1]
 url = 'http://' + DOMAIN

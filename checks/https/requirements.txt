@@ -3,3 +3,4 @@ isort
 datetime
 urllib3
 selenium
+webdrivermanager
