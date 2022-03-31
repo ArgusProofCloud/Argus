@@ -52,9 +52,9 @@ def main():
 
 
 def shutdown(sig, frame):
-    '''
-    shutdown the service
-    '''
+    """
+    shutdown service
+    """
     running = False
     flow.stop()
 
