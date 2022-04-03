@@ -17,8 +17,7 @@ def requestJob(name: str) -> dict | None:
     Returns:
         dict: The job request or None when no jobs are available.
     """
-    logger.debug("requesting jobs")
-    req = requests.get(URL + f"job/{name}", cert=(CERT, KEY), verify=CA)
+    req = requests.get(URL + f"job/{name}")
 
     if req.status_code == 200:
         return json.loads(req.text)
@@ -37,3 +36,9 @@ def pushResults(results: dict) -> bool:
     req = requests.post(URL + "results", json=results)
 
     return req.status_code == 201
+
+def pushBack(check: dict):
+    """"
+    push job back in the reddis queue
+    """
+    req = requests.post(URL + "pushback", json=check)

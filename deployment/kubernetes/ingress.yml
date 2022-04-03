@@ -22,8 +22,8 @@
             ingressClassName: nginx
             tls:
               - hosts:
-                  - 'howsami.local'
-                secretName: howsami-local-tls
+                  - 'argus.local'
+                secretName: argus-local-tls
             rules:
               - host: "{{ app.host }}"
                 http:
