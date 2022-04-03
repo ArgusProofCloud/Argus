@@ -18,7 +18,7 @@ def main(domain: str) -> None:
     selectorList.extend(domain.split(".")[:-1])
 
     # Print test results
-    print(json.dumps(dkimTest(domain, selectorList))
+    print(json.dumps(dkimTest(domain, selectorList)))
 
 def dkimTest(domain: str , selectorList: list) -> dict:
     """Test if a DKIM record is found for a specific domain.
