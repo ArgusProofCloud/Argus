@@ -1,8 +1,8 @@
 #!/usr/bin/python3
-import argparse
-import dns.resolver
-import json
 import os
+import sys
+import json
+import dns.resolver
 
 def main(domain: str):
     """main.
