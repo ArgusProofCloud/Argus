@@ -4,7 +4,12 @@ import json
 
 VERSIONS = ["1.3", "1.2", "1.1", "1.0"]
 
-def main(domain):
+def main(domain: str):
+    """main.
+
+    Args:
+        domain (str): domain
+    """
     acceptedVersions = []
 
     for version in VERSIONS:

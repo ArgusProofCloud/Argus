@@ -4,7 +4,12 @@ import json
 import dns.resolver
 import os
 
-def main(domain: str) -> None:
+def main(domain: str):
+    """main.
+
+    Args:
+        domain (str): domain
+    """
     if os.environ.get("MX") is None:
         print("{}")
         return
