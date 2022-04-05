@@ -18,6 +18,6 @@ for ipVal in result:
 print(json.dumps({
     "name": "IPv6",
     "score": 10,
-    "message": f"Domain: {DOMAIN} has oen or more IPv6 addresses.",
+    "message": f"Domain: {DOMAIN} has one or more IPv6 addresses.",
     "value": ips
 }))
