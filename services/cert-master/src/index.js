@@ -40,7 +40,7 @@ const interval = setInterval(async () => {
     }).catch((e) => {
         logger.error("Failed refreshing CA secret.", e);
     });
-}, 5 * 24 * 60 * 1000);
+}, 5 * 24 * 60 * 60 * 1000);
 
 refreshCA().then(() => {
     logger.info("Refreshed CA secret.");
