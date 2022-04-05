@@ -3,7 +3,11 @@
 import re
 import sys
 import json
-import requests
+
+import http.client
+from urllib.parse import urlparse
+
+import ssl
 
 def main(domain: str):
     """main.
@@ -31,7 +35,49 @@ def getHeaders(url: str):
     Args:
         url (str): The url to download from.
     """
-    return requests.get(url, allow_redirects=True).headers
+
+    parsedUrl = urlparse(url)
+    scheme = parsedUrl[0]
+    hostname = parsedUrl[1]
+    path = parsedUrl[2]
+
+    if scheme == "https":
+        ctx = ssl._create_stdlib_context()
+        conn = http.client.HTTPSConnection(hostname, context = ctx)
+    else:
+        conn = http.client.HTTPConnection(hostname)
+
+    try:
+        conn.request("HEAD", path)
+        res = conn.getresponse()
+        headers = buildHeaderDict(res.getheaders())
+    except ssl.SSLCertVerificationError:
+        return getHeaders(url.replace("https://", "http://", 1))
+    except Exception as err:
+        print("{}")
+        sys.exit(0)
+        return {}
+
+    if (res.status >= 300 and res.status < 400):
+        return getHeaders(headers["location"])
+
+    return headers
+
+def buildHeaderDict(headers: list) -> dict:
+    """Build a dictionary from a header list
+
+    Args:
+        headers (list): A list with headers.
+
+    Returns:
+        dict: The dictionary with headers.
+    """
+    headerDict = {}
+
+    for header in headers:
+        headerDict[header[0].lower()] = header[1]
+
+    return headerDict
 
 def checkHeaders(headers: dict, patterns: dict) -> list:
     """Check the headers against a header pattern.
@@ -58,7 +104,7 @@ def checkHeaders(headers: dict, patterns: dict) -> list:
 
             valueTest = False
             for value in pattern['values']:
-                if len(re.findall(value['pattern'], headers[headerKey].lower())) > 0:
+                if len(re.findall(value['pattern'].lower(), headers[headerKey].lower())) > 0:
                     results.append({
                         "name": headerKey,
                         "score": value['score'],
@@ -84,7 +130,6 @@ def checkHeaders(headers: dict, patterns: dict) -> list:
                 results.append({
                     "name": headerKey,
                     "score": 0,
-                    "message": f"{headerKey} is not correctly configured.",
                     "value": headers[headerKey]
                 })
 
@@ -92,7 +137,6 @@ def checkHeaders(headers: dict, patterns: dict) -> list:
             results.append({
                 "name": headerKey,
                 "score": 10,
-                "message": f"{headerKey} is correctly configured."
             })
         elif pattern['present'] is None:
             results.append({

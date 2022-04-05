@@ -16,15 +16,15 @@
         "present": false,
         "values": [
             {
-                "pattern": "0",
+                "pattern": "^0",
                 "score": 0
             },
             {
-                "pattern": "1",
+                "pattern": "^1$",
                 "score": 9
             },
             {
-                "pattern": "1; mode=block",
+                "pattern": "^1; mode=block",
                 "score": 10
             }
         ]
@@ -51,7 +51,7 @@
         "present": true,
         "values": [
             {
-                "pattern": "text/html; charset=utf-8",
+                "pattern": "text/html;\\ *charset=utf-8",
                 "score": 10
             }
         ]
@@ -60,11 +60,19 @@
         "present": true,
         "values": [
             {
-                "pattern": "max-age=\\d+; includeSubDomains; preload",
+                "pattern": "max-age=\\d+\\ *;\\ *includeSubDomains\\ *;\\ *preload",
                 "score": 10
             },
             {
-                "pattern": "max-age=\\d+; includeSubDomains",
+                "pattern": "max-age=\\d+\\ *;\\ *preload\\ *;\\ *includeSubDomains",
+                "score": 10
+            },
+            {
+                "pattern": "max-age=\\d+\\ *;\\ *preload",
+                "score": 8
+            },
+            {
+                "pattern": "max-age=\\d+\\ *;\\ *includeSubDomains",
                 "score": 8
             },
             {
