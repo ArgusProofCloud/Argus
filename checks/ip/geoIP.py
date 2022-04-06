@@ -30,6 +30,15 @@ def main(domain):
 
 
 def checkIp(ip: str, reader: geoip2.database.Reader) -> dict:
+    """Check if an ip is in the EU.
+
+    Args:
+        ip (str): The ip to check
+        reader (geoip2.database.Reader): The GeoIP list reader.
+
+    Returns:
+        dict: A result.
+    """
     try:
         response = reader.city(ip)
     except:

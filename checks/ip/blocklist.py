@@ -9,6 +9,11 @@ jobQueue = queue.Queue()
 blocked = []
 
 def main(domain: str):
+    """main.
+
+    Args:
+        domain (str): The domain to check
+    """
     results = []
     ips = enqueue(domain)
 
@@ -49,12 +54,37 @@ def main(domain: str):
     print(json.dumps(results))
 
 def readBlocklists() -> list:
+    """Read the blocklists list from file.
+
+    Returns:
+        list: A list of blocklists.
+    """
     with open("./blocklists.txt") as file:
         blocklists =  list(map(str.strip, file.readlines()))
         random.shuffle(blocklists)
         return blocklists
 
+def enqueue(domain: str):
+    """Enqueue all ips from a domain.
+
+    Args:
+        domain (str): The domain to get ip's from.
+    """
+    ips = []
+    blocklists = readBlocklists()
+    try:
+        result = dns.resolver.resolve(domain)
+        for ipVal in result:
+            ips.append(ipVal.to_text())
+            for blocklist in blocklists:
+                jobQueue.put((ipVal.to_text(), blocklist))
+        return ips
+    except:
+        print("{}")
+
 def checkThread():
+    """Checking thread
+    """
     global jobQueue
     while not jobQueue.empty():
         ip, blocklist = jobQueue.get()
@@ -69,19 +99,6 @@ def checkThread():
             pass
         finally:
             jobQueue.task_done()
-
-def enqueue(domain: str):
-    ips = []
-    blocklists = readBlocklists()
-    try:
-        result = dns.resolver.resolve(domain)
-        for ipVal in result:
-            ips.append(ipVal.to_text())
-            for blocklist in blocklists:
-                jobQueue.put((ipVal.to_text(), blocklist))
-        return ips
-    except:
-        print("{}")
         sys.exit(0)
 
 if __name__ == "__main__":
