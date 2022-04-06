@@ -26,8 +26,6 @@ def main(domain: str):
 
     jobQueue.join()
 
-    print("Done")
-
     if len(blocked) > 0:
         blockedIps = {}
         for ip, blocklist in blocked:
