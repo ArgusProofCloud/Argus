@@ -16,11 +16,17 @@ def main(domain: str):
     """
     results = []
     ips = enqueue(domain)
+    threads = []
 
     for i in range(100):
-        threading.Thread(target=checkThread, daemon=True).start()
+        threads.append(threading.Thread(target=checkThread, daemon=True))
+
+    for thread in threads:
+        thread.start()
 
     jobQueue.join()
+
+    print("Done")
 
     if len(blocked) > 0:
         blockedIps = {}
@@ -81,11 +87,11 @@ def enqueue(domain: str):
         return ips
     except:
         print("{}")
+        sys.exit(0)
 
 def checkThread():
     """Checking thread
     """
-    global jobQueue
     while not jobQueue.empty():
         ip, blocklist = jobQueue.get()
 
@@ -94,12 +100,10 @@ def checkThread():
             for ipVal in result:
                 if "127.0.0." in ipVal.to_text():
                     blocked.append((ip, blocklist))
-                    return
         except:
             pass
         finally:
             jobQueue.task_done()
-        sys.exit(0)
 
 if __name__ == "__main__":
     main(sys.argv[1])
