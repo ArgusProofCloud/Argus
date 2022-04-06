@@ -6,7 +6,7 @@ Depending on the source, the amount of daily spam emails being sent is anywhere 
 
 A blacklist is a list of blocked domains, email addresses or IP addresses. When a website gets on one of these lists, users can no longer access the site directly and servers that use these blacklists will block emails from the domain.
 
-## How do I get off a blacklist??
+## How do I get off a blacklist?
 
 Being listed on a smaller list is not that much of a concern as for the most part, it won’t impact your ability to communicate with your customers too much. However, if you land onto one of the bigger lists, used by ISPs to filter spam, it can have quite an impact on your emails being delivered and thus, your business.
 
@@ -14,4 +14,4 @@ If you’re blacklisted and believe you shouldn’t be, you will have to take ac
 
 ## Sources
 
-[Source 1](https://monovm.com/blog/why-do-domains-get-blacklisted-and-how-to-delist-them/#:~:text=A%20blacklist%20is%20a%20list,(what%20is%20domain%20name).)
+[Source 1](https://monovm.com/blog/why-do-domains-get-blacklisted-and-how-to-delist-them/#:~:text=A%20blacklist%20is%20a%20list,(what%20is%20domain%20name)
