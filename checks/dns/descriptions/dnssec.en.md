@@ -1,11 +1,30 @@
 # DNSSEC
 
+## What is DNS?
+
+The Domain Name System is a system used with every interaction on the internet. It allows us to visit a website using a human-friendly name. DNS will translate these names to IP addresses. Servers need these IP addresses to be able to communicate with each other and thus retrieve the required content from the right server.
+
+
+## What is DNSSEC?
+
+Because DNS is not safe, an encryption authentication standard has been developed; the Domain Name system Security Extensions. This means the DNS data is signed by the owner of the data using a digital signature. Comparable to signing an email with your personal signature.
+
+
 ## Why do I need DNSSEC?
 
-DNSSEC provides the DNS records with a digital signature, so that the requester can check whether the record that comes back is authentic. This means that "spoofing" of DNS, or so-called cache poisoning, is no longer possible.
+This standard ensures the retrieved data came from the origin it states and that the retrieved data wasn't modified in transit.
+The added security of DNSSEC means that "spoofing" is no longer possible.
+Spoofing occurs when an attacker intercepts the requested data, modifies it and forwards it again to the victim. The victim will then be redirected to an identical website of the attacker where he or she can receive the credentials the victim unknowingly enters on this website.
 
-![DNSSEC](https://realhosting.nl/app/uploads/2018/06/DNS-Spoofing.jpg)
+
+## How do I enable DNSSEC?
+
+How to enable DNSSEC depends on the used DNS manager. <br>
+Please look up how to enable dnssec in the documentation of your DNS manager.
+
 
 ## Sources
 
-[Source 1](https://realhosting.nl/helpdesk/wat-is-dnssec/)
+[Realhosting - wat is dnssec](https://realhosting.nl/helpdesk/wat-is-dnssec/)
+
+[ICANN - DNSSEC what is it and why is it important](https://www.icann.org/resources/pages/dnssec-what-is-it-why-important-2019-03-05-en)

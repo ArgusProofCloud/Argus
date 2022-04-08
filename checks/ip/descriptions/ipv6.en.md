@@ -1,11 +1,23 @@
 # IPV6
 
-## Why is IPV6 important?
+## What is IPV6?
 
-IPv6, the new version of the IP protocol, provides important new capabilities, including a larger address space, more flexible subnetting, simplified address assignment and improved security.
+Servers need IP-addresses to communicate with each other. Similar to us needing house adresses to write letters to people.
+The most used IP-addresses nowadays are IPV4 adresses.
+However, with the rapidly expanding internet, we find ourselves in need of more addresses than IPV4 can provide.
+This is mainly why IPV6 adresses were invented.
 
-As IPv6 adoption grows, DNS is becoming more important as a mechanism to help users, using both IPv4 and IPv6 hosts, reach the most appropriate IP address.
+
+## What are some benefits of IPV6?
+
+* larger address space; more adresses to hand out, future-proofing
+* flexible subnetting; easier to divide adresses into different sections.
+* improved security;
+    * Harder to scan an entire netwerk in search of users as ipv6 has more addresses to scan.
+    * more secure name resolution
 
 ## Sources
 
-[Source 1](https://ns1.com/resources/ipv6-dns-understanding-ipv6-and-a-quick-implementation-guide#:~:text=What%20is%20IPv6%20used%20for,space%2C%20which%20is%20almost%20exhausted.)
+[NS1 - IPV6 DNS understanding IPv6 and a quick implementation guide](https://ns1.com/resources/ipv6-dns-understanding-ipv6-and-a-quick-implementation-guide#:~:text=What%20is%20IPv6%20used%20for,space%2C%20which%20is%20almost%20exhausted.)
+
+[cybernews - ipv4 vs ipv6](https://cybernews.com/what-is-vpn/ipv4-vs-ipv6/)
