@@ -1,0 +1,16 @@
+ingress:
+  backends:
+    - path: /api/v1/checks
+      pathType: Prefix
+      backend:
+        service:
+          name: gateway-server
+          port:
+            number: 3000
+    - path: /api/v1/certificate
+      pathType: Prefix
+      backend:
+        service:
+          name: cert-master-server
+          port:
+            number: 3000

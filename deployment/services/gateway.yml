@@ -59,6 +59,8 @@
                         value: "{{ gateway.loglevel }}"
 
                       # Certificates
+                      - name: TLS_ENABLED
+                        value: "{{ (app.security.tls) | ternary('TRUE', 'FALSE') }}"
                       - name: CERT_PATH
                         value: "/var/run/autocert.step.sm/site.crt"
                       - name: KEY_PATH

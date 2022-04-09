@@ -36,7 +36,7 @@
                     imagePullPolicy: "{{ docker.pullPolicy }}"
                     env:
                       - name: SEQUENCER_URL
-                        value: "https://sequencer-server:3000"
+                        value: "{{ (app.security.tls) | ternary('https', 'http') }}://sequencer-server:3000"
 
                       # Certificates
                       - name: CERT_PATH
