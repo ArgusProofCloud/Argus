@@ -6,6 +6,8 @@ app:
   # The hostname for the ingress endpoint.
   host: argus.local
 
+  # The kubernetes namespace to deploy to
+  namespace: argus
 
   security:
     cluster:
@@ -36,10 +38,6 @@ app:
 
       # The tls secret for the ingress
       tlsSecret: "argus-tls"
-
-cluster:
-  # The kubernetes namespace to deploy to
-  namespace: argus
 
 docker:
   # Registry / account to push the images to
