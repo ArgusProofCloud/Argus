@@ -7,7 +7,7 @@ The calls to a server are called "requests" because clients request data stored 
 The calls to a client are called "responses" because these calls contain the data the clients requested from the server.
 
 
-## WHat is HTTPS
+## What is HTTPS
 
 HTTPS is HTTP with encryption. The difference between the two protocols is that HTTPS uses TLS or SSL to encrypt normal HTTP requests and responses.
 TLS and SSL are cryptographic protocols that provide the ability to set up a channel between server and client to send encrypted traffic.

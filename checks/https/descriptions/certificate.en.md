@@ -16,9 +16,28 @@ In short, with encryption an attacker cannot understand any of the communication
 
 For an SSL certificate to be valid, domains need to obtain it from a certificate authority (CA). A CA is an external organization, a trusted third party, that generates and gives out SSL certificates. The CA will also digitally sign the certificate with their own private key, allowing client devices to verify it.
 
+### Free vs Paid CA
+
+|                    | Free CA                            | Paid CA                      |
+|--------------------|:----------------------------------:|:----------------------------:|
+| Type               | Only a Domain Validation option    | Domain Validation, Organization Validation and Extended Validation |
+| Level of validation|Only identity of website owner      |in depth verification         |
+| Validity period    | 30-90 days                         | 1-2 years                    |
+| Support            | None                               | Chat, email, call...         |
+| Level of Trust     | Very little, only Domain Validation| A lot, visible trust in URL |
+| Warranty           | None                               | In case of catastrophy, get paid out between 10 thousand and 1.75 million |
+
+With this comparison table, we recommend using a paid CA as it delivers more certainty and trust. However, for non e-commerce websites, using a free CA will suffice.
+
+Free CA: letsencrypt, zerossl, cacert, sslforfree...
+paid CA: RapidSSL, Thawte SSL123, Sectigo SSL Certificate, GeoTrust QuickSSL Premium...
+
+
 
 ## Sources
 
 [digicert - how tls ssl certificates work](https://www.digicert.com/how-tls-ssl-certificates-work#:~:text=TLS%2FSSL%20certificates%20are%20used,interacting%20with%20legitimate%20website%20owners.)
 
 [cloudflare - what is an ssl certificate](https://www.cloudflare.com/learning/ssl/what-is-an-ssl-certificate/#:~:text=For%20an%20SSL%20certificate%20to,client%20devices%20to%20verify%20it.)
+
+[SSL renewals - difference between free ssl certificate & paid ssl certificate](https://sslrenewals.com/blog/difference-between-free-ssl-certificate-and-paid-ssl-certificate)

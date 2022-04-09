@@ -12,7 +12,7 @@ For various reasons the next version of the protocol (SSL 3.1) was named Transpo
 
 The SSL protocols have a large number of weaknesses, and should not be used in any circumstances.
 The newer versions of TLS almost always patch a previous weakness, it is recommended to use the last released version of TLS.
-At this moment, TLSv1.3 is the most secure option.
+At this moment, TLSv1.3 is the most secure option. Not all browsers are yet switched to the newest version, TLSv1.2 will also suffice because, security wise, there are no differences between the two versions.
 
 ## Sources
 
