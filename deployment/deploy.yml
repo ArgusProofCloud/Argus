@@ -24,7 +24,7 @@
     - k8s
     - certificates
     - ca
-  when: app.security.tls
+  when: app.security.cluster.tls
 
 - import_playbook: "./autoscaler/deploy.yml"
   tags:
@@ -49,7 +49,7 @@
     - kubernetes
     - k8s
     - cert-master
-  when: app.security.tls
+  when: app.security.cluster.tls
 
 - import_playbook: "./services/sequencer.yml"
   tags:
