@@ -6,7 +6,8 @@
       include_vars:
         file: ./backends.yml
 
-    - name: Deploy Ingress
+    - name: Deploy Ingress With Secured Backends
+      when: app.security.cluster.tls
       kubernetes.core.k8s:
         state: present
         namespace: "{{ app.namespace }}"
@@ -19,10 +20,15 @@
             annotations:
               nginx.ingress.kubernetes.io/auth-tls-verify-client: "{{ (app.security.ingress.clientAuth) | ternary('on', 'off') }}"
               nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
-              nginx.ingress.kubernetes.io/auth-tls-secret: "{{ (app.security.cluster.tls) | ternary( app.namespace + '/autocert-ca-certificate', (app.security.ingress.clientAuth) | ternary( app.security.ingress.caSecret, '' ) ) }}"
-              nginx.ingress.kubernetes.io/secure-backends: "{{ app.security.cluster.tls | string | lower }}"
-              nginx.ingress.kubernetes.io/backend-protocol: "{{ (app.security.cluster.tls) | ternary('HTTPS', 'HTTP') }}"
+              nginx.ingress.kubernetes.io/auth-tls-secret: "{{ app.namespace + '/autocert-ca-certificate' }}"
+              nginx.ingress.kubernetes.io/secure-backends: "true"
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           spec:
+            defaultBackend:
+              service:
+                name: gateway-server
+                port:
+                  number: 3000
             ingressClassName: nginx
             tls:
               - hosts:
@@ -31,4 +37,35 @@
             rules:
               - host: "{{ app.host }}"
                 http:
-                  paths: "{{ (app.security.cluster.tls) | ternary( ingress.backends, [ ingress.backends[0] ] ) }}"
+                  paths: "{{ ingress.backends }}"
+
+    - name: Deploy Ingress
+      when: not app.security.cluster.tls
+      kubernetes.core.k8s:
+        state: present
+        namespace: "{{ app.namespace }}"
+        definition:
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          metadata:
+            name: "{{ app.name }}-ingress"
+
+            annotations:
+              nginx.ingress.kubernetes.io/auth-tls-verify-client: "{{ (app.security.ingress.clientAuth) | ternary('on', 'off') }}"
+              nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
+              nginx.ingress.kubernetes.io/auth-tls-secret: "{{ (app.security.ingress.clientAuth) | ternary( app.security.ingress.caSecret, '' ) }}"
+              nginx.ingress.kubernetes.io/secure-backends: "false"
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          spec:
+            defaultBackend:
+              service:
+                name: gateway-server
+                port:
+                  number: 3000
+            ingressClassName: nginx
+            tls:
+              - hosts:
+                  - "{{ app.host }}"
+                secretName: "{{ app.security.ingress.tlsSecret }}"
+            rules:
+              - host: "{{ app.host }}"
