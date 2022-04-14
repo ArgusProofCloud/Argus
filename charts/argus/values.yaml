@@ -110,6 +110,7 @@ checklists:
 
 autoscaling:
   enabled: true
+  tag: latest
 
 redis:
   master:
