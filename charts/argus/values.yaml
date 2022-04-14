@@ -1,0 +1,130 @@
+---
+app:
+  name: argus
+  host: argus.local
+
+security:
+  cluster:
+    tls: false
+
+  ingress:
+    clientAuth: true
+    caSecret: "argus-ca"
+    tlsSecret: "argus-tls"
+
+image:
+  registry: "ghcr.io/watcherwhale"
+
+  imagePullSecrets:
+    - name: ghcr-io
+
+  pullPolicy: Always
+
+gateway:
+  loglevel: info
+
+  replicas:
+    min: 1
+    max: 10
+
+  tag: latest
+
+sequencer:
+  loglevel: info
+
+  replicas:
+    min: 1
+    max: 10
+
+  tag: latest
+
+certmaster:
+  loglevel: info
+
+  replicas:
+    min: 1
+    max: 3
+
+  tag: latest
+
+checklists:
+  - name: dns
+    tag: latest
+
+    annotations: {}
+
+    throughput: 100
+    interval: 10000
+    stabilization: 200
+    replicas:
+      min: 1
+      max: 5
+
+  - name: headers
+    tag: latest
+
+    annotations: {}
+
+    throughput: 50
+    interval: 10000
+    stabilization: 200
+    replicas:
+      min: 1
+      max: 5
+
+  - name: https
+    tag: latest
+
+    annotations: {}
+
+    throughput: 20
+    interval: 10000
+    stabilization: 200
+    replicas:
+      min: 1
+      max: 5
+
+  - name: ip
+    tag: latest
+
+    annotations: {}
+
+    throughput: 1
+    interval: 10000
+    stabilization: 200
+    replicas:
+      min: 1
+      max: 10
+
+  - name: mail
+    tag: latest
+
+    annotations: {}
+
+    throughput: 20
+    interval: 10000
+    stabilization: 200
+    replicas:
+      min: 1
+      max: 5
+
+autoscaling:
+  enabled: true
+
+redis:
+  master:
+    persistence:
+      enabled: false
+
+  replica:
+    replicaCount: 3
+
+    persistence:
+      enabled: false
+
+  sentinel:
+    enabled: true
+
+  auth:
+    enabled: true
+    sentinel: true

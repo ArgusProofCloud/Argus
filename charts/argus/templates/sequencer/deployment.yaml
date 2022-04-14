@@ -1,0 +1,71 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "sequencer"
+  labels:
+    {{- include "argus.labels" . | nindent 4 }}
+    app: "sequencer"
+spec:
+  replicas: {{ .Values.sequencer.replicas.min }}
+  selector:
+    matchLabels:
+      app: "sequencer"
+  template:
+    metadata:
+      annotations:
+        autocert.step.sm/name: "sequencer-server"
+      labels:
+        app: "sequencer"
+    spec:
+      imagePullSecrets: 
+        {{- toYaml .Values.image.imagePullSecrets | nindent 8 }}
+      containers:
+        - name: "sequencer"
+          image: "{{ .Values.image.registry }}/sequencer:{{ .Values.sequencer.tag }}"
+          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "15Mi"
+              cpu: "100m"
+            limits:
+              memory: "50Mi"
+              cpu: "300m"
+          env:
+            # Web port
+            - name: PORT
+              value: "3000"
+
+            # Redis settings
+            - name: REDIS_HOST
+              value: "{{ .Values.redis.fullnameOverride | default (printf "%s-redis" .Chart.Name ) }}"
+            - name: REDIS_PORT
+              value: "26379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.redis.fullnameOverride | default (printf "%s-redis" .Chart.Name ) }}"
+                  key: redis-password
+
+            - name: LOGLEVEL
+              value: "{{ .Values.sequencer.loglevel }}"
+
+            {{- if .Values.security.cluster.tls}}
+
+            - name: TLS_ENABLED
+              value: "TRUE"
+            - name: CERT_PATH
+              value: "/var/run/autocert.step.sm/site.crt"
+            - name: KEY_PATH
+              value: "/var/run/autocert.step.sm/site.key"
+            - name: CA_PATH
+              value: "/var/run/autocert.step.sm/root.crt"
+
+            {{- else }}
+
+            - name: TLS_ENABLED
+              value: "FALSE"
+
+            {{- end}}
