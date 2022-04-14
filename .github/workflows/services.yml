@@ -6,6 +6,15 @@ on:
       - master
 
 jobs:
+  security:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check dependencies for vulnerabilities
+        run: ./.actions/security.sh
+        working-directory: services
+
   build:
     runs-on: self-hosted
     steps:
