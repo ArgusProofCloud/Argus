@@ -28,7 +28,7 @@ spec:
         {{- toYaml $.Values.image.imagePullSecrets | nindent 8 }}
       containers:
         - name: "{{ .name }}-checklist"
-          image: "{{ $.Values.image.registry }}/checklist:{{ .name }}-v{{ .tag }}"
+          image: "{{ $.Values.image.registry }}/checklist:{{ .name }}-{{ .tag }}"
           imagePullPolicy: "{{ $.Values.image.pullPolicy }}"
           env:
             {{- if $.Values.security.cluster.tls }}

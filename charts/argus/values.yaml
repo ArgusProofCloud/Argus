@@ -27,7 +27,7 @@ gateway:
     min: 1
     max: 10
 
-  tag: 0.1.0
+  tag: v0.1.0
 
 sequencer:
   loglevel: info
@@ -36,7 +36,7 @@ sequencer:
     min: 1
     max: 10
 
-  tag: 0.1.0
+  tag: v0.1.0
 
 certmaster:
   loglevel: info
@@ -45,11 +45,11 @@ certmaster:
     min: 1
     max: 3
 
-  tag: 0.1.0
+  tag: v0.1.0
 
 checklists:
   - name: dns
-    tag: 0.2.0
+    tag: v0.2.0
 
     annotations: {}
 
@@ -61,7 +61,7 @@ checklists:
       max: 5
 
   - name: headers
-    tag: 0.2.0
+    tag: v0.2.0
 
     annotations: {}
 
@@ -73,7 +73,7 @@ checklists:
       max: 5
 
   - name: https
-    tag: 0.2.0
+    tag: v0.2.0
 
     annotations: {}
 
@@ -85,7 +85,7 @@ checklists:
       max: 5
 
   - name: ip
-    tag: latest
+    tag: v0.2.0
 
     annotations: {}
 
@@ -97,7 +97,7 @@ checklists:
       max: 10
 
   - name: mail
-    tag: 0.2.0
+    tag: v0.2.0
 
     annotations: {}
 
