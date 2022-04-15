@@ -4,7 +4,7 @@ app:
   name: argus
 
   # The hostname for the ingress endpoint.
-  host: argus.maes.family
+  host: argus.local
 
   # The kubernetes namespace to deploy to
   namespace: argus
@@ -28,7 +28,7 @@ security:
     #  but not further.
     #
     #  Default: true
-    clientAuth: false
+    clientAuth: true
 
     # Can be left empty when:
     #  app.security.cluster.tls is enabled
