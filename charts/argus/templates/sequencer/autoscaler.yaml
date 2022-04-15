@@ -9,7 +9,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: "{{ .Values.app.name }}-sequencer"
+    name: "sequencer"
   minReplicas: {{ .Values.sequencer.replicas.min }}
   maxReplicas: {{ .Values.sequencer.replicas.max }}
   targetCPUUtilizationPercentage: 90

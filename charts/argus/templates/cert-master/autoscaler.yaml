@@ -11,7 +11,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: "{{ .Values.app.name }}-cert-master"
+    name: "cert-master"
   minReplicas: {{ .Values.certmaster.replicas.min }}
   maxReplicas: {{ .Values.certmaster.replicas.max }}
   targetCPUUtilizationPercentage: 90
