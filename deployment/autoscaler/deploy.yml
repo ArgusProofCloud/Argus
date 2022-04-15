@@ -4,7 +4,7 @@
   tasks:
     - name: Install Custom Pod Autoscaler Operator
       kubernetes.core.helm:
-        name: "{{ app.name }}-autoscaler-operator"
-        chart_ref: "https://github.com/jthomperoo/custom-pod-autoscaler-operator/releases/download/{{ autoscaling.version }}/custom-pod-autoscaler-operator-{{ autoscaling.version }}.tgz"
+        name: "{{ config.app.name }}-autoscaler-operator"
+        chart_ref: "https://github.com/jthomperoo/custom-pod-autoscaler-operator/releases/download/{{ config.autoscaling.version }}/custom-pod-autoscaler-operator-{{ config.autoscaling.version }}.tgz"
         release_namespace: kube-system
       when: "config.autoscaling.enabled"
