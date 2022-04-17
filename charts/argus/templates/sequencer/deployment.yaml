@@ -6,6 +6,8 @@ metadata:
   labels:
     {{- include "argus.labels" . | nindent 4 }}
     app: "sequencer"
+  annotations:
+    {{- toYaml .Values.sequencer.annotations | nindent 4 }}
 spec:
   replicas: {{ .Values.sequencer.replicas.min }}
   selector:
@@ -14,11 +16,17 @@ spec:
   template:
     metadata:
       annotations:
-        autocert.step.sm/name: "sequencer-server"
+        {{- set .Values.sequencer.podAnnotations "autocert.step.sm/name" "sequencer-server" | toYaml | nindent 8 }}
       labels:
         app: "sequencer"
     spec:
-      imagePullSecrets: 
+      tolerations:
+        {{- toYaml .Values.sequencer.tolerations | nindent 8 }}
+      affinity:
+        {{- toYaml .Values.sequencer.affinity | nindent 8 }}
+      nodeSelector:
+        {{- toYaml .Values.sequencer.nodeSelector | nindent 8 }}
+      imagePullSecrets:
         {{- toYaml .Values.image.imagePullSecrets | nindent 8 }}
       containers:
         - name: "sequencer"

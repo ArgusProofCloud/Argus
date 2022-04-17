@@ -7,6 +7,8 @@ metadata:
   labels:
     {{- include "argus.labels" . | nindent 4 }}
     app: "cert-master"
+  annotations:
+    {{- toYaml .Values.gateway.annotations | nindent 4 }}
 spec:
   replicas: {{ .Values.certmaster.replicas.min }}
   selector:
@@ -15,12 +17,18 @@ spec:
   template:
     metadata:
       annotations:
-        autocert.step.sm/name: "cert-master-server"
+        {{- set .Values.certmaster.podAnnotations "autocert.step.sm/name" "cert-master-server" | toYaml | nindent 8 }}
       labels:
         app: "cert-master"
     spec:
       serviceAccount: cert-master
       serviceAccountName: cert-master
+      tolerations:
+        {{- toYaml .Values.gateway.tolerations | nindent 8 }}
+      affinity:
+        {{- toYaml .Values.gateway.affinity | nindent 8 }}
+      nodeSelector:
+        {{- toYaml .Values.gateway.nodeSelector | nindent 8 }}
       imagePullSecrets:
         {{- toYaml .Values.image.imagePullSecrets | nindent 8 }}
       containers:
