@@ -2,15 +2,11 @@
 name: Push & Deploy
 on:
   workflow_run:
-     workflows:
-       - Build Services
-       - Build Checklists
-     branches:
-       - master
-       # Test CI
-       - devops
-     types:
-       - completed
+    workflows:
+      - Build Services
+      - Build Checklists
+    types:
+      - completed
 
 jobs:
   push:
@@ -42,15 +38,3 @@ jobs:
 
       - name: "ArgoCD Sync"
         run: argocd app sync argus
-
-
-
-
-
-
-
-
-
-
-
-
