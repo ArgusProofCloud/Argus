@@ -3,7 +3,7 @@
 
 ## SSL vs TLS
 
-Secure Socket Layer (SSL) was the original protocol that was used to provide encryption for HTTP traffic, in the form of HTTPS. There were two publicly released versions of SSL - versions 2 and 3. Both of these have serious cryptographic weaknesses and should no longer be used.
+Secure Socket Layer (SSL) was the original protocol that was used to provide encryption for HTTP traffic, in the style of HTTPS. There were two publicly released versions of SSL - versions 2 and 3. Both of these have serious cryptographic weaknesses and should no longer be used.
 
 For various reasons the next version of the protocol (SSL 3.1) was named Transport Layer Security  version 1.0 (TLSv1.0). Subsequently TLS versions 1.1, 1.2 and 1.3 have been released.
 

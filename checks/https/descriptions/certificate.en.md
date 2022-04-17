@@ -1,9 +1,18 @@
 # SSL/TLS Certificates
 
 
+## What is SSL / TLS ?
+
+Secure Socket Layer (SSL) was the original protocol that was used to provide encryption for HTTP traffic, in the style of HTTPS. There were two publicly released versions of SSL - versions 2 and 3. Both of these have serious cryptographic weaknesses and should no longer be used.
+
+For various reasons the next version of the protocol (SSL 3.1) was named Transport Layer Security  version 1.0 (TLSv1.0). Subsequently TLS versions 1.1, 1.2 and 1.3 have been released.
+
+
 ## Why do I need a SSL/TLS Certificate?
 
 TLS/SSL certificates are used to authenticate the website's organization identity to ensure users are interacting with legitimate website owners.
+These certificates are similar to people having a passport or identity card.
+
 
 ### Encryption
 
@@ -20,16 +29,16 @@ For an SSL certificate to be valid, domains need to obtain it from a certificate
 
 |                    | Free CA                            | Paid CA                      |
 |--------------------|:----------------------------------:|:----------------------------:|
-| Type               | Only a Domain Validation option    | Domain Validation, Organization Validation and Extended Validation |
-| Level of validation|Only identity of website owner      |in depth verification         |
-| Validity period    | 30-90 days                         | 1-2 years                    |
-| Support            | None                               | Chat, email, call...         |
-| Level of Trust     | Very little, only Domain Validation| A lot, visible trust in URL |
-| Warranty           | None                               | In case of catastrophy, get paid out between 10 thousand and 1.75 million |
+| **Type**           | Only a Domain Validation option    | Domain Validation, Organization Validation and Extended Validation |
+| **Level of validation**|Only identity of website owner  |in depth verification         |
+| **Validity period**  | 30-90 days                       | 1-2 years                    |
+| **Support**          | None                             | Chat, email, call...         |
+| **Level of Trust**   | Very little, only Domain Validation| A lot, visible trust in URL|
+| **Warranty**         | None                             | In case of catastrophy, get paid out between 10 thousand and 1.75 million |
 
-With this comparison table, we recommend using a paid CA as it delivers more certainty and trust. However, for non e-commerce websites, using a free CA will suffice.
+With this comparison table, we recommend using a paid CA as it delivers more trust and certainty than an unpaid CA. However, for non e-commerce websites, using a free CA will suffice.
 
-Free CA: letsencrypt, zerossl, cacert, sslforfree...
+Free CA: letsencrypt, zerossl, cacert, sslforfree... <br>
 paid CA: RapidSSL, Thawte SSL123, Sectigo SSL Certificate, GeoTrust QuickSSL Premium...
 
 

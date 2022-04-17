@@ -35,7 +35,7 @@ This header is used to indicate which format is used for the data sent to the cl
 best value: "**text/html ; charset=UTF-8**"
 
 ### referrer-policy
-The referrer-policy header controls how much information about the original website will be included in the request when a user clicks on a link that redirects them to another website. This can be as lax as anything the request can find to very strict as nothing at all, a clean redirect.
+The referrer-policy header controls how much information about the original website will be included in the request when a user clicks on a link that redirects them to another website. This policy can be as strict or lax as intended, respectively varying from no information at all (this is a clean redirect) to every piece of information available.
 
 best value: "**strict-origin-when-cross-origin**"
 
@@ -54,7 +54,7 @@ best value: **not "null" or "*"**
 
 ### server
 This header is mostly performance enhancing by passing along which software is used by the server.
-There is however one caveat of this header. When the server shares overly-detailed values in this header, it is possibly easier for an attacker to find exploits in the used software.
+There is however one caveat to this header. When the server shares overly-detailed values in this header, it is possibly easier for an attacker to find exploits in the used software.
 
 best value: "**cloudflare**", "**website**" or "**webserver**"
 
