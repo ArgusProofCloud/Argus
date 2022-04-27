@@ -19,8 +19,8 @@ Spoofing occurs when an attacker intercepts the requested data, modifies it and 
 
 ## How do I enable DNSSEC?
 
-How to enable DNSSEC depends on the used DNS manager.
-Please look up how to enable dnssec in the documentation of your DNS Registrar. <br>
+How to enable DNSSEC depends on the used DNS registrar.
+Please look up how to enable dnssec in the documentation of your DNS registrar. <br>
 Some commonly used registrars and their guides on how to enable DNSSEC:
 * [Cloudflare](https://developers.cloudflare.com/dns/additional-options/dnssec/)
 * [Google](https://support.google.com/domains/answer/6387342)

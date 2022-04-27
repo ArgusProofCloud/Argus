@@ -28,15 +28,6 @@ The digital signature will also guarantee that the email was not modified in tra
   <li>Verify DKIM signing is on</li>
 </ol>
 
-**Troubleshoot DKIM issues**
-<ol>
-  <li>Verify DKIM is set up correctly</li>
-  <li>Verify messages pass DKIM authentication</li>
-  <li>Check message forwarding</li>
-  <li>Contact your admin for servers that reject DKIM-authenticated messages</li>
-  <li>Verify your domain providers TXT record character limits</li>
-</ol>
-
 
 ## Source
 
