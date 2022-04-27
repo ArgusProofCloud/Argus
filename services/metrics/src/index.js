@@ -1,4 +1,3 @@
-const process = require("process");
 const createService = require("service");
 
 const service = createService("metrics", "/api/v1");
