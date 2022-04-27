@@ -13,4 +13,4 @@ router.post("/jobs", async (req, res) => {
     res.status(200).contentType("application/json").send(len.toString());
 });
 
-service.start( (process.env.TLS_ENABLED || "FALSE").toLowerCase() === "false");
+service.start( false );
