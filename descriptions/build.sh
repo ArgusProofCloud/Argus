@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 for f in $(find ./descriptions -name "*.md" )
 do
