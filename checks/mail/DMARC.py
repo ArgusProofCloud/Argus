@@ -1,15 +1,22 @@
 #!/usr/bin/python3
-import argparse
+import sys
 import json
 import dns.resolver
 import os
 
-parser = argparse.ArgumentParser(description = 'Simple DMARC quick test.')
-parser.add_argument('domain', help = 'Domain name to test')
-args = parser.parse_args()
-domain = args.domain
+def main(domain: str):
+    """main.
 
-def dmarcTest(domain):
+    Args:
+        domain (str): domain
+    """
+    if os.environ.get("MX") is None:
+        print("{}")
+        return
+
+    print(json.dumps(dmarcTest(domain)))
+
+def dmarcTest(domain: str) -> dict:
     """Test if a DMARC record is found for a specific domain.
 
     Returns:
@@ -19,21 +26,14 @@ def dmarcTest(domain):
         test_dmarc = dns.resolver.resolve('_dmarc.' + domain , 'TXT')
 
         for dns_data in test_dmarc:
+
             if 'DMARC1' in str(dns_data):
-                mes = "[PASS] DMARC record found."
-                score = 10
-                result = {"name": "DMARC check", "score": score, "message": mes}
+                result = {"name": "Mail: DMARC", "score": 10, "message": "DMARK record found."}
                 return result
+
     except:
-        mes = "[FAIL] DMARC record not found."
-        score = 0
-        result = {"name": "DMARC check", "score": score, "message": mes}
+        result = {"name": "Mail: DMARC", "score": 0, "message": "No DMARC record found."}
         return result
 
-envvar = os.environ.get("MX")
-if envvar is not None:
-    result = dmarcTest(domain)
-    jsonresult = json.dumps(result)
-else:
-    jsonresult = {}
-print(jsonresult)
+if __name__ == "__main__":
+    main(sys.argv[1])

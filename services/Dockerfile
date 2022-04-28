@@ -2,6 +2,12 @@ from node:16-alpine
 
 # Run as node user
 USER node
+
+# Set default environment variables
+ENV PORT=3000
+ENV LOGLEVEL=http
+
+# Create folders
 RUN mkdir $HOME/logger && \
     mkdir $HOME/redis && \
     mkdir $HOME/service && \
@@ -43,10 +49,6 @@ RUN npm ci --production
 
 # Copy src files
 COPY --chown=node:node ./$service/src/ ./
-
-# Set default environment variables
-ENV PORT=3000
-ENV LOGLEVEL=http
 
 # Set entrypoint
 CMD [ "node", "index.js" ]

@@ -8,7 +8,7 @@
       kubernetes.core.k8s:
         state: absent
         kind: Deployment
-        namespace: "{{ cluster.namespace }}"
+        namespace: "{{ app.namespace }}"
         name: sequencer
 
     - name: "Remove Sequencer Service"
@@ -17,7 +17,7 @@
       kubernetes.core.k8s:
         state: absent
         kind: Service
-        namespace: "{{ cluster.namespace }}"
+        namespace: "{{ app.namespace }}"
         name: sequencer-server
 
     - name: Remove Sequencer AutoScaler
@@ -25,7 +25,7 @@
         - sequencer
       kubernetes.core.k8s:
         state: absent
-        namespace: "{{ cluster.namespace }}"
+        namespace: "{{ app.namespace }}"
         kind: HorizontalPodAutoscaler
         name: sequencer-autoscaler
 
@@ -35,7 +35,7 @@
       kubernetes.core.k8s:
         state: absent
         kind: Deployment
-        namespace: "{{ cluster.namespace }}"
+        namespace: "{{ app.namespace }}"
         name: gateway
 
     - name: "Remove Gateway Service"
@@ -44,7 +44,7 @@
       kubernetes.core.k8s:
         state: absent
         kind: Service
-        namespace: "{{ cluster.namespace }}"
+        namespace: "{{ app.namespace }}"
         name: gateway-server
 
     - name: Remove Gateway AutoScaler
@@ -52,6 +52,60 @@
         - gateway
       kubernetes.core.k8s:
         state: absent
-        namespace: "{{ cluster.namespace }}"
+        namespace: "{{ app.namespace }}"
         kind: HorizontalPodAutoscaler
         name: gateway-autoscaler
+
+    - name: Remove Service Account
+      tags:
+        - cert-master
+      kubernetes.core.k8s:
+        state: absent
+        name: cert-master
+        kind: ServiceAccount
+        namespace: "{{ app.namespace }}"
+
+    - name: Remove ClusterRole
+      tags:
+        - cert-master
+      kubernetes.core.k8s:
+        state: absent
+        name: cert-master-role
+        kind: ClusterRole
+        namespace: "{{ app.namespace }}"
+
+    - name: Remove ClusterRoleBinding
+      tags:
+        - cert-master
+      kubernetes.core.k8s:
+        state: absent
+        name: cert-master-role
+        kind: ClusterRole
+        namespace: "{{ app.namespace }}"
+
+    - name: Remove cert-master Deployment
+      tags:
+        - cert-master
+      kubernetes.core.k8s:
+        state: absent
+        name: cert-master
+        kind: Deployment
+        namespace: "{{ app.namespace }}"
+
+    - name: Remove cert-master Service
+      tags:
+        - cert-master
+      kubernetes.core.k8s:
+        state: absent
+        name: cert-master-server
+        kind: Service
+        namespace: "{{ app.namespace }}"
+
+    - name: Remove cert-master Service
+      tags:
+        - cert-master
+      kubernetes.core.k8s:
+        state: absent
+        name: cert-master-autoscaler
+        kind: HorizontalPodAutoscaler
+        namespace: "{{ app.namespace }}"
