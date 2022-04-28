@@ -2,7 +2,11 @@
 
 import os
 import sys
+import requests
 
+headers = {
+    'User-Agent': 'argus'
+}
 dnsResolver = "8.8.8.8"
 
 def main():

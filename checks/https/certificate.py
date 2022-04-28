@@ -5,7 +5,11 @@ import sys
 import OpenSSL
 import json
 import requests
+import requests
 
+headers = {
+    'User-Agent': 'argus'
+}
 def main(hostname: str, port: str = '443') -> int:
     """
     Get the validity of a certificate (expiration & trusted).

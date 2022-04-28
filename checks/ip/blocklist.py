@@ -4,7 +4,11 @@ import queue
 import random
 import threading
 import dns.resolver
+import requests
 
+headers = {
+    'User-Agent': 'argus'
+}
 jobQueue = queue.Queue()
 blocked = []
 

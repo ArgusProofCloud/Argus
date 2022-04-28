@@ -4,7 +4,11 @@ import sys
 import json
 import dns.resolver
 import geoip2.database
+import requests
 
+headers = {
+    'User-Agent': 'argus'
+}
 def main(domain):
     """Check if a domain is hosted in the EU.
 

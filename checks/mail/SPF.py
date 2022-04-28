@@ -3,7 +3,11 @@ import os
 import sys
 import json
 import dns.resolver
+import requests
 
+headers = {
+    'User-Agent': 'argus'
+}
 def main(domain: str):
     """main.
 

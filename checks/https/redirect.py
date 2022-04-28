@@ -5,7 +5,11 @@ import requests
 import sys
 
 import urllib3
+import requests
 
+headers = {
+    'User-Agent': 'argus'
+}
 DOMAIN = sys.argv[1]
 url = 'http://' + DOMAIN
 HTTPS = "https"

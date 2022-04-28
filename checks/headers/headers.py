@@ -8,7 +8,11 @@ import http.client
 from urllib.parse import urlparse
 
 import ssl
+import requests
 
+headers = {
+    'User-Agent': 'argus'
+}
 def main(domain: str):
     """main.
 
