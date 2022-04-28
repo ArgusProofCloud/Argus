@@ -1,3 +1,4 @@
+const process = require("process");
 const createService = require("service");
 
 const service = createService("sequencer", "/api/v1");
@@ -21,14 +22,6 @@ router.get("/job/:id", async (req, res) => {
     res.status(200).contentType("application/json").send(job);
 });
 
-router.post("/jobs", async (req, res) => {
-
-    const queueId = req.body.resource.metadata.labels.checklist;
-    const len = await redis.length("jobs:" + queueId);
-
-    res.status(200).contentType("application/json").send(len.toString());
-});
-
 // Post results
 router.post("/results", async (req, res) => {
 
@@ -39,4 +32,12 @@ router.post("/results", async (req, res) => {
     res.status(201).send({status: 201, message: "Results successfully registered."});
 });
 
-service.start();
+router.post("/pushback", async (req, res) => {
+
+    await redis.insertFront("jobs:" + req.body.id, req.body.domain);
+
+    res.status(201).send({status: 201, message: "Job succesfully inserted"});
+
+});
+
+service.start( (process.env.TLS_ENABLED || "TRUE").toLowerCase() === "true");

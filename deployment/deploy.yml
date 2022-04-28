@@ -18,6 +18,14 @@
     - k8s
     - setup
 
+- import_playbook: "./certificates/deploy.yml"
+  tags:
+    - kubernetes
+    - k8s
+    - certificates
+    - ca
+  when: app.security.cluster.tls
+
 - import_playbook: "./autoscaler/deploy.yml"
   tags:
     - kubernetes
@@ -36,6 +44,13 @@
     - k8s
     - gateway
 
+- import_playbook: "./services/cert-master.yml"
+  tags:
+    - kubernetes
+    - k8s
+    - cert-master
+  when: app.security.cluster.tls
+
 - import_playbook: "./services/sequencer.yml"
   tags:
     - kubernetes
@@ -46,6 +61,8 @@
   tags:
     - kubernetes
     - k8s
+    - checks
+    - checklist
     - checklists
 
 - import_playbook: "./kubernetes/ingress.yml"

@@ -6,7 +6,7 @@
       with_items: "{{ checklists }}"
       kubernetes.core.k8s:
         state: present
-        namespace: "{{ cluster.namespace }}"
+        namespace: "{{ app.namespace }}"
         definition:
           apiVersion: apps/v1
           kind: Deployment
@@ -23,9 +23,12 @@
                 app: "checklist"
             template:
               metadata:
+                annotations:
+                  autocert.step.sm/name: "{{ item.name }}-checklist"
                 labels:
                   app: "checklist"
               spec:
+                metadata:
                 imagePullSecrets: "{{ docker.imagePullSecrets }}"
                 containers:
                   - name: "{{ item.name }}-checklist"
@@ -33,22 +36,38 @@
                     imagePullPolicy: "{{ docker.pullPolicy }}"
                     env:
                       - name: SEQUENCER_URL
-                        value: "http://sequencer-server:3000"
+                        value: "{{ (app.security.cluster.tls) | ternary('https', 'http') }}://sequencer-server:3000"
+
+                      # Certificates
+                      - name: CERT_PATH
+                        value: "/var/run/autocert.step.sm/site.crt"
+                      - name: KEY_PATH
+                        value: "/var/run/autocert.step.sm/site.key"
+                      - name: CA_PATH
+                        value: "/var/run/autocert.step.sm/root.crt"
 
     - name: Deploy Autoscaler
       with_items: "{{ checklists }}"
       when: "autoscaler.enabled == true"
       kubernetes.core.k8s:
         state: present
-        namespace: "{{ cluster.namespace }}"
+        namespace: "{{ app.namespace }}"
         definition:
           apiVersion: custompodautoscaler.com/v1
           kind: CustomPodAutoscaler
           metadata:
             name: "{{ item.name }}-autoscaler"
+            annotations:
+              autocert.step.sm/name: "{{ item.name }}-autoscaler"
           spec:
             template:
+              metadata:
+                annotations:
+                  autocert.step.sm/name: "{{ item.name }}-autoscaler"
               spec:
+                metadata:
+                  annotations:
+                    autocert.step.sm/name: "{{ item.name }}-autoscaler"
                 imagePullSecrets: "{{ docker.imagePullSecrets }}"
                 containers:
                   - name: "{{ item.name }}-autoscaler"
