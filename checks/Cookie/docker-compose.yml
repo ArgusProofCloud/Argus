@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  selenium:
+    image: selenium/standalone-chrome
+    ports:
+    - "4444:4444"
+    shm_size: '1gb'
+    restart: always
+
+  app:
+    build:
+      context: .
+    volumes:
+     - ./app:/app
+    command: sh -c "python3 cookie.py"
+    depends_on:
+     - selenium
