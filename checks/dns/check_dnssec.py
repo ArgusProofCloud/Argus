@@ -6,6 +6,7 @@ import requests
 import urllib.request
 from optparse import OptionParser
 import socket
+from shlex import quote
 
 # define exit codes
 ExitOK = 0
@@ -35,7 +36,7 @@ def testdnssec(domain):
                 print("Unable to resolve %s"%domain, file=sys.stderr)
                 sys.exit(ExitUnknown)
 
-        dig_requests = os.popen('dig @%s %s +noall +comments +dnssec'%(default, domain)).read()
+        dig_requests = os.popen('dig @%s %s +noall +comments +dnssec'%(default, quote(domain))).read()
         if "ad;" in dig_requests:
             ad_flag = 1
         else:
