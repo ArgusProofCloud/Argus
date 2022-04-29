@@ -28,6 +28,8 @@ spec:
         {{- toYaml .Values.gateway.nodeSelector | nindent 8 }}
       imagePullSecrets:
         {{- toYaml .Values.image.imagePullSecrets | nindent 8 }}
+      securityContext:
+        {{- toYaml .Values.gateway.securityContext | nindent 8 }}
       containers:
         - name: "gateway"
           image: "{{ .Values.image.registry }}/gateway:{{ .Values.gateway.tag }}"

@@ -8,7 +8,7 @@ metadata:
     {{- include "argus.labels" . | nindent 4 }}
     app: "cert-master"
   annotations:
-    {{- toYaml .Values.gateway.annotations | nindent 4 }}
+    {{- toYaml .Values.certmaster.annotations | nindent 4 }}
 spec:
   replicas: {{ .Values.certmaster.replicas.min }}
   selector:
@@ -24,13 +24,15 @@ spec:
       serviceAccount: cert-master
       serviceAccountName: cert-master
       tolerations:
-        {{- toYaml .Values.gateway.tolerations | nindent 8 }}
+        {{- toYaml .Values.certmaster.tolerations | nindent 8 }}
       affinity:
-        {{- toYaml .Values.gateway.affinity | nindent 8 }}
+        {{- toYaml .Values.certmaster.affinity | nindent 8 }}
       nodeSelector:
-        {{- toYaml .Values.gateway.nodeSelector | nindent 8 }}
+        {{- toYaml .Values.certmaster.nodeSelector | nindent 8 }}
       imagePullSecrets:
         {{- toYaml .Values.image.imagePullSecrets | nindent 8 }}
+      securityContext:
+        {{- toYaml .Values.certmaster.securityContext | nindent 8 }}
       containers:
         - name: "cert-master"
           image: "{{ .Values.image.registry }}/cert-master:{{ .Values.certmaster.tag }}"
