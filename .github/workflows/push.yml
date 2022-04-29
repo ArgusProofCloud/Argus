@@ -11,7 +11,6 @@ on:
 jobs:
   push:
     runs-on: self-hosted
-    needs: test
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v2
@@ -26,15 +25,3 @@ jobs:
       - name: Push services to GitHub
         run: ./.actions/push.sh ${GITHUB_SHA}
         working-directory: services
-
-  deploy:
-    runs-on: self-hosted
-    needs: test
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    steps:
-
-      - name: "Login to ArgoCD"
-        run: argocd login ${{ secrets.ARGOCD_URL }} --insecure --username ${{ secrets.ARGOCD_USER }} --password ${{ secrets.ARGOCD_PASSWORD }}
-
-      - name: "ArgoCD Sync"
-        run: argocd app sync argus
