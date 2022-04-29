@@ -26,3 +26,7 @@ jobs:
       - name: Build service images
         run: ./.actions/build.sh ${GITHUB_SHA}
         working-directory: services
+
+      - name: Build descriptions service image
+        run: docker build ${GITHUB_SHA}/descriptions:latest .
+        working-directory: descriptions

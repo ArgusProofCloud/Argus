@@ -1,5 +1,5 @@
 ---
-name: Push & Deploy
+name: Push
 on:
   workflow_run:
     workflows:
@@ -25,3 +25,7 @@ jobs:
       - name: Push services to GitHub
         run: ./.actions/push.sh ${GITHUB_SHA}
         working-directory: services
+      - name: Push descriptions service
+        run: |
+          docker tag ${GITHUB_SHA}/descriptions:latest ghcr.io/watcherwhale/descriptions:latest
+          docker push ghcr.io/watcherwhale/descriptions:latest
