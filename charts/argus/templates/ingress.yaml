@@ -34,9 +34,16 @@ spec:
   {{- end}}
   rules:
     - host: "{{ .Values.app.host }}"
-      {{- if .Values.security.cluster.tls }}
       http:
         paths:
+          - path: /descriptions
+            pathType: Prefix
+            backend:
+              service:
+                name: descriptions
+                port:
+                  number: 80
+      {{- if .Values.security.cluster.tls }}
           - path: /api/v1/certificate
             pathType: Prefix
             backend:
