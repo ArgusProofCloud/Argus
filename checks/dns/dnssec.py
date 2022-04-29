@@ -2,6 +2,7 @@
 
 import os
 import sys
+from shlex import quote
 
 dnsResolver = "8.8.8.8"
 
@@ -18,7 +19,7 @@ def testdnssec(domain):
         domain (str): Input options.
     """
 
-    dig_requests = os.popen('dig @%s %s +noall +comments +dnssec'%(dnsResolver, domain)).read()
+    dig_requests = os.popen('dig @%s %s +noall +comments +dnssec'%(dnsResolver, quote(domain))).read()
 
     # Check ad flag
     if "ad;" in dig_requests:
@@ -39,13 +40,13 @@ def testdnssec(domain):
         status_noerror = 0
 
     if ad_flag == 1 and status_noerror == 1:
-        print('{"name": "DNSSEC", "score": 10, "message": "Domain %s is safe, it uses a valid DNSSEC."}'%domain)
+        print('{"name": "DNSSEC", "score": 10, "message": "Domain %s is safe, it uses a valid DNSSEC.", "description": "dnssec"}'%domain)
     elif status_error == 1:
-        print('{"name": "DNSSEC", "score": 5, "message": "Domain %s uses DNSSEC but is misconfigured or invalid."}'%domain)
+        print('{"name": "DNSSEC", "score": 5, "message": "Domain %s uses DNSSEC but is misconfigured or invalid.", "description": "dnssec"}'%domain)
     elif status_noerror == 1 and ad_flag == 0:
-        print('{"name": "DNSSEC", "score": 0, "message": "Domain %s does not use DNSSEC."}'%domain)
+        print('{"name": "DNSSEC", "score": 0, "message": "Domain %s does not use DNSSEC.", "description": "dnssec"}'%domain)
     else:
-        print('{"name": "DNSSEC", "score": 0, "message": "Cannot read the result."}')
+        print('{"name": "DNSSEC", "score": 0, "message": "Cannot read the result.", "description": "dnssec"}')
 
 
 if __name__ == '__main__':
