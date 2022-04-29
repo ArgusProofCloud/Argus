@@ -4,11 +4,10 @@ import queue
 import random
 import threading
 import dns.resolver
-import requests
+<<<<<<< Updated upstream
+=======
 
-headers = {
-    'User-Agent': 'argus'
-}
+>>>>>>> Stashed changes
 jobQueue = queue.Queue()
 blocked = []
 

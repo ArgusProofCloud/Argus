@@ -4,11 +4,7 @@ import os
 import sys
 import json
 import dns.resolver
-import requests
 
-headers = {
-    'User-Agent': 'argus'
-}
 def mxTest(domain: str) -> dict:
     """Test if MX record found to start new stage
 

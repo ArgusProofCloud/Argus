@@ -1,9 +1,5 @@
 import socket, sys, ssl
-import requests
 
-headers = {
-    'User-Agent': 'argus'
-}
 DOMAIN = sys.argv[1]
 context = ssl._create_unverified_context()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

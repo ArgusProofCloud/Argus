@@ -1,11 +1,7 @@
 import sys
 from subprocess import Popen, DEVNULL
 import json
-import requests
 
-headers = {
-    'User-Agent': 'argus'
-}
 VERSIONS = ["1.3", "1.2", "1.1", "1.0"]
 
 def main(domain: str):

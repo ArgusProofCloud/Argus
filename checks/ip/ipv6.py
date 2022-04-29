@@ -1,11 +1,7 @@
 import sys
 import json
 import dns.resolver
-import requests
 
-headers = {
-    'User-Agent': 'argus'
-}
 DOMAIN = sys.argv[1]
 
 try:

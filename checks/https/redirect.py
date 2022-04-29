@@ -16,7 +16,7 @@ HTTPS = "https"
 urllib3.disable_warnings()
 
 try:
-    res = requests.get(url, verify=False)
+    res = requests.get(url, verify=False,headers=headers)
 except:
     print({})
 else:
