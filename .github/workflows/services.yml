@@ -28,5 +28,5 @@ jobs:
         working-directory: services
 
       - name: Build descriptions service image
-        run: docker build ${GITHUB_SHA}/descriptions:latest .
+        run: docker build -t ${GITHUB_SHA}/descriptions:latest .
         working-directory: descriptions
