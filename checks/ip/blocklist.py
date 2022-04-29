@@ -4,10 +4,7 @@ import queue
 import random
 import threading
 import dns.resolver
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 jobQueue = queue.Queue()
 blocked = []
 

@@ -5,10 +5,7 @@ import json
 import dns.resolver
 import geoip2.database
 
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 def main(domain):
     """Check if a domain is hosted in the EU.
 
