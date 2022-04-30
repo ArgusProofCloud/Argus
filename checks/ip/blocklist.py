@@ -29,7 +29,7 @@ def main(domain: str):
     if len(blocked) > 0:
         blockedIps = {}
         for ip, blocklist in blocked:
-            
+
             try:
                 ips.remove(ip)
             except ValueError:
