@@ -93,7 +93,7 @@ certmaster:
 
 checklists:
   - name: dns
-    tag: v0.2.0
+    tag: latest
 
     annotations: {}
     podAnnotations: {}
@@ -101,6 +101,8 @@ checklists:
     nodeSelector: {}
     affinity: {}
     tolerations: []
+
+    env: {}
 
     throughput: 100
     interval: 10000
@@ -110,7 +112,7 @@ checklists:
       max: 5
 
   - name: headers
-    tag: v0.2.0
+    tag: latest
 
     annotations: {}
     podAnnotations: {}
@@ -118,6 +120,8 @@ checklists:
     nodeSelector: {}
     affinity: {}
     tolerations: []
+
+    env: {}
 
     throughput: 50
     interval: 10000
@@ -127,7 +131,7 @@ checklists:
       max: 5
 
   - name: https
-    tag: v0.2.0
+    tag: latest
 
     annotations: {}
     podAnnotations: {}
@@ -136,6 +140,7 @@ checklists:
     affinity: {}
     tolerations: []
 
+    env: {}
 
     throughput: 20
     interval: 10000
@@ -145,7 +150,7 @@ checklists:
       max: 5
 
   - name: ip
-    tag: v0.2.0
+    tag: latest
 
     annotations: {}
     podAnnotations: {}
@@ -153,6 +158,8 @@ checklists:
     nodeSelector: {}
     affinity: {}
     tolerations: []
+
+    env: {}
 
     throughput: 1
     interval: 10000
@@ -162,7 +169,7 @@ checklists:
       max: 10
 
   - name: mail
-    tag: v0.2.0
+    tag: latest
 
     annotations: {}
     podAnnotations: {}
@@ -171,7 +178,29 @@ checklists:
     affinity: {}
     tolerations: []
 
+    env: {}
+
     throughput: 20
+    interval: 10000
+    stabilization: 200
+    replicas:
+      min: 1
+      max: 10
+
+  - name: cookie
+    tag: latest
+
+    annotations: {}
+    podAnnotations: {}
+
+    nodeSelector: {}
+    affinity: {}
+    tolerations: []
+
+    env:
+      SELENIUM_URL: selenium
+
+    throughput: 1
     interval: 10000
     stabilization: 200
     replicas:
@@ -181,6 +210,14 @@ checklists:
 autoscaling:
   enabled: true
   tag: latest
+
+selenium:
+  enabled: true
+  tag: latest
+
+  nodeSelector: {}
+  affinity: {}
+  tolerations: []
 
 redis:
   master:
