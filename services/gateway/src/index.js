@@ -68,6 +68,16 @@ router.get("/checklists", async (req, res) => {
     res.status(200).contentType("application/json").send(await getChecklists());
 });
 
+/**
+     * @param {string} key the queue in which the value will be stored
+     * @param {any} value
+     * @returns {Promise<any>}
+     * performs a sorted set on a certain queue
+     */
+
+/**
+ * @returns {Array} array with all checklists and its flags
+ */
 async function getChecklists()
 {
     const results = await redis.sortedGet("checklists");

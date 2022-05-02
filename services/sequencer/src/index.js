@@ -38,7 +38,7 @@ router.post("/pushback", async (req, res) => {
     res.status(201).send({status: 201, message: "Job succesfully inserted."});
 });
 
-router.post("/advertise", async (req, res)=>{
+router.post("/advertise", async (req, res) => {
 
     await redis.sortedSet("checklists", req.body);
 
