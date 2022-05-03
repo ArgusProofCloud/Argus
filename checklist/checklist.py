@@ -14,6 +14,8 @@ CURRENT_JOB = None
 ADVERT_TIMEOUT = threading.Event()
 JOB_TIMEOUT = threading.Event()
 
+logger = getLogger("checklist")
+
 flow = None
 running = True
 
@@ -22,6 +24,7 @@ def advert():
     Advert thread
     """
     global flow
+    global running
 
     while running:
         try:
@@ -34,11 +37,12 @@ def main():
     The main method.
     """
     global flow
+    global logger
+    global running
 
-    logger = getLogger("checklist")
     logger.info("starting service")
     flow = Flow(logger)
-    logger.info(f"loaded flow {flow.getName}", flow.getName())
+    logger.info(f"loaded flow {flow.getName()}", flow.getName())
 
     threading.Thread(target=advert).start()
 
@@ -68,11 +72,19 @@ def main():
             logger.error(f"an exception has occured: {error}", flow.getName())
             JOB_TIMEOUT.wait(TIMEOUT)
 
+    logger.info("Checklist has finished.", flow.getName())
+
 
 def shutdown(sig, frame):
     """
     shutdown service
     """
+    global running
+    global logger
+    global flow
+
+    logger.info("Stopping checklist.", flow.getName())
+
     running = False
 
     # Stop timeouts
