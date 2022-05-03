@@ -81,7 +81,7 @@ router.post("/request", async (req, res) => {
     // Wait untilk everything is enqueued.
     await Promise.all(promises);
 
-    if(promises.length == 0)
+    if(promises.length === 0)
     {
         res.status(400).send({
             statuse: 400,
