@@ -11,6 +11,9 @@ from modules.logger import getLogger
 TIMEOUT = 5
 CURRENT_JOB = None
 
+ADVERT_TIMEOUT = threading.Event()
+JOB_TIMEOUT = threading.Event()
+
 flow = None
 running = True
 
@@ -24,7 +27,7 @@ def advert():
         try:
             jobs.advertise(flow.getFlowAdvertisment())
         finally:
-            time.sleep(5)
+            ADVERT_TIMEOUT.wait(5)
 
 def main():
     """
@@ -45,7 +48,7 @@ def main():
             CURRENT_JOB = jobs.requestJob(flow.getName())
 
             if CURRENT_JOB is None:
-                time.sleep(TIMEOUT)
+                JOB_TIMEOUT.wait(TIMEOUT)
                 continue
 
             logger.info(f"running job: {CURRENT_JOB}", flow.getName())
@@ -63,7 +66,7 @@ def main():
             jobs.pushResults(CURRENT_JOB)
         except Exception as error:
             logger.error(f"an exception has occured: {error}", flow.getName())
-            time.sleep(TIMEOUT)
+            JOB_TIMEOUT.wait(TIMEOUT)
 
 
 def shutdown(sig, frame):
@@ -71,6 +74,12 @@ def shutdown(sig, frame):
     shutdown service
     """
     running = False
+
+    # Stop timeouts
+    ADVERT_TIMEOUT.set()
+    JOB_TIMEOUT.set()
+
+    # Stop running job
     flow.stop()
 
 if __name__ == "__main__":
