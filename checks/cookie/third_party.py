@@ -12,31 +12,47 @@ if SELENIUM_URL is None or SELENIUM_URL == "":
     print("{}")
     exit()
 
-def checkCookies(driver, target):
+def checkCookies(driver, target, https = True):
     """Test if DNSSEC is enabled for a specific domain.
 
     Args:
         driver (selenium.webdriver.Remote): The selenium web driver
         target (str): The target to check
+        https (bool): Use https
     """
 
-    url = 'http://' + target
+    if https:
+        url = 'https://' + target
+    else:
+        url = 'http://' + target
 
-    driver.get(url)
+    try:
+        driver.get(url)
+    except:
+        if not https:
+            # If not https no connection can be made
+            #   no results should be returned.
+            print("{}")
+            return
+        else:
+            # Try http
+            return checkCookies(driver, target, False)
+
 
     time.sleep(5)
-
     cookies = driver.get_cookies()
 
-    domeinen = []
-    namen = []
+    cookieDomain = driver.execute_script("return location.hostname")
+
+    domains = []
+    names = []
 
     for array in cookies:
-        namen.append(array.get("name"))
-        domeinen.append(array.get("domain"))
+        names.append(array.get("name"))
+        domains.append(array.get("domain"))
 
-    for domein in domeinen:
-        if DOMAIN not in domein and domein not in DOMAIN:
+    for domain in domains:
+        if cookieDomain not in domain and domain not in cookieDomain:
             print(json.dumps({
                 "name": "third party",
                 "score": 0,
