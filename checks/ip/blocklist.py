@@ -123,6 +123,8 @@ def checkThread():
             for ipVal in result:
                 if "127.0.0." in ipVal.to_text():
                     blocked.append((ip, blocklist))
+        except:
+            pass
         finally:
             jobQueue.task_done()
 
