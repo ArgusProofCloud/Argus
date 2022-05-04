@@ -14,7 +14,7 @@
 
 {{- if contains "services." .Key }}
 
-{{- if regexMatch "^services\\.[A-Za-z]*$" .Key }}
+{{- if regexMatch "^services\\.[A-Za-z-]*$" .Key }}
 
 #### {{ substr 9 -1 .Key | title }}
 
@@ -23,11 +23,11 @@
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 {{- else }}
-| {{ regexReplaceAll "^services\\.[A-Za-z]*\\." .Key "" }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+| {{ regexReplaceAll "^services\\.[A-Za-z-]*\\." .Key "" }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
 {{- end }}
 
 {{- else if contains "." .Key }}
-| {{ .Key }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+| {{ regexReplaceAll "^checklists\\.[A-Za-z-]*\\." .Key "" }} | {{ .Type }} | {{ if .Default }}{{ .Default }}{{ else }}{{ .AutoDefault }}{{ end }} | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
 {{- else }}
 
 ### {{ .Key | title }}

@@ -64,6 +64,15 @@ services:
       # -- Maximum replicas.
       max: 10
 
+    # -- Pod resources
+    resources:
+      requests:
+        memory: "15Mi"
+        cpu: "100m"
+      limits:
+        memory: "50Mi"
+        cpu: "300m"
+
     # -- Image tag
     tag: v1.0.0
 
@@ -97,6 +106,15 @@ services:
       # -- Maximum replicas.
       max: 10
 
+    # -- Pod resources
+    resources:
+      requests:
+        memory: "15Mi"
+        cpu: "100m"
+      limits:
+        memory: "50Mi"
+        cpu: "300m"
+
     # -- Image tag
     tag: v1.0.0
 
@@ -126,6 +144,15 @@ services:
       min: 1
       # -- Maximum replicas.
       max: 10
+
+    # -- Pod resources
+    resources:
+      requests:
+        memory: "15Mi"
+        cpu: "100m"
+      limits:
+        memory: "50Mi"
+        cpu: "300m"
 
     # -- Image tag
     tag: v1.0.0
@@ -160,6 +187,15 @@ services:
       # -- Maximum replicas.
       max: 10
 
+    # -- Pod resources
+    resources:
+      requests:
+        memory: "15Mi"
+        cpu: "100m"
+      limits:
+        memory: "50Mi"
+        cpu: "300m"
+
     # -- Image tag
     tag: v1.0.0
 
@@ -193,6 +229,15 @@ services:
       min: 1
       # -- Maximum replicas.
       max: 10
+
+    # -- Pod resources
+    resources:
+      requests:
+        memory: "15Mi"
+        cpu: "100m"
+      limits:
+        memory: "50Mi"
+        cpu: "300m"
 
     # -- Image tag
     tag: v1.0.0

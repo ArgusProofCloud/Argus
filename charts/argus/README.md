@@ -1,6 +1,6 @@
 # Argus - Helm Chart
 
-![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square&logo=helm)
+![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square&logo=helm)
 
 An automated security checking platform that is highly extensible.
 
@@ -36,18 +36,18 @@ Autoscaling configuration.
 A list of all available checklists that need to be deployed. These can be customized to add your own checks. Default available checklists: `cookie`, `dns`, `headers`, `https`, `ip` and `mail`.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| checklists.dns.affinity | object | `{}` | Affinity for pod assignment. |
-| checklists.dns.annotations | object | `{}` | Deployment annotations. |
-| checklists.dns.env | object | `{}` | Custom environment variabled to add to the checklist. |
-| checklists.dns.interval | int | `10000` | The throughput interval, the interval to periodically check the current queue size. (ms) |
-| checklists.dns.nodeSelector | object | `{}` | Node Labels for pod assignment. |
-| checklists.dns.podAnnotations | object | `{}` | Pod annotations. |
-| checklists.dns.replicas.max | int | `5` | Maximum replicas |
-| checklists.dns.replicas.min | int | `1` | Minimum replicas |
-| checklists.dns.stabilization | int | `200` | The stabilization interval, used for down scaling. (s) |
-| checklists.dns.tag | string | `"v1.0.0"` | The image tag of the checklist container. |
-| checklists.dns.throughput | int | `100` | Check throughput The amount of request the checklist can handle in an interval. |
-| checklists.dns.tolerations | list | `[]` | Tolerations for pod assignment. |
+| affinity | object | `{}` | Affinity for pod assignment. |
+| annotations | object | `{}` | Deployment annotations. |
+| env | object | `{}` | Custom environment variabled to add to the checklist. |
+| interval | int | `10000` | The throughput interval, the interval to periodically check the current queue size. (ms) |
+| nodeSelector | object | `{}` | Node Labels for pod assignment. |
+| podAnnotations | object | `{}` | Pod annotations. |
+| replicas.max | int | `5` | Maximum replicas |
+| replicas.min | int | `1` | Minimum replicas |
+| stabilization | int | `200` | The stabilization interval, used for down scaling. (s) |
+| tag | string | `"v1.0.0"` | The image tag of the checklist container. |
+| throughput | int | `100` | Check throughput The amount of request the checklist can handle in an interval. |
+| tolerations | list | `[]` | Tolerations for pod assignment. |
 
 ### Image
 
@@ -93,7 +93,7 @@ The Selenium deployment configuration.
 
 All services
 
-#### Certmaster
+#### Cert-Master
 
 Cert-master service configuration. Only necessary when `security.cluster.tls` is enabled.
 
@@ -101,11 +101,13 @@ Cert-master service configuration. Only necessary when `security.cluster.tls` is
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for pod assignment. |
 | annotations | object | `{}` | Deployment annotations. |
+| basePath | string | `"/api/v1/certificate"` | Service base path |
 | loglevel | string | `"info"` | Log level. |
 | nodeSelector | object | `{}` | Node Labels for pod assignment. |
 | podAnnotations | object | `{}` | Pod annotations. |
 | replicas.max | int | `10` | Maximum replicas. |
 | replicas.min | int | `1` | Minimum replicas. |
+| resources | object | `{"limits":{"cpu":"300m","memory":"50Mi"},"requests":{"cpu":"100m","memory":"15Mi"}}` | Pod resources |
 | securityContext | object | `{}` | Pod security context. |
 | tag | string | `"v1.0.0"` | Image tag |
 | tolerations | list | `[]` | Tolerations for pod assignment. |
@@ -118,10 +120,12 @@ Descriptions service configuration.
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for pod assignment. |
 | annotations | object | `{}` | Deployment annotations. |
+| basePath | string | `"/descriptions"` | Service base path |
 | nodeSelector | object | `{}` | Node Labels for pod assignment. |
 | podAnnotations | object | `{}` | Pod annotations. |
 | replicas.max | int | `10` | Maximum replicas. |
 | replicas.min | int | `1` | Minimum replicas. |
+| resources | object | `{"limits":{"cpu":"300m","memory":"50Mi"},"requests":{"cpu":"100m","memory":"15Mi"}}` | Pod resources |
 | securityContext | object | `{}` | Pod security context. |
 | tag | string | `"v1.0.0"` | Image tag |
 | tolerations | list | `[]` | Tolerations for pod assignment. |
@@ -134,11 +138,13 @@ Gateway service configuration.
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for pod assignment. |
 | annotations | object | `{}` | Deployment annotations. |
+| basePath | string | `"/api/v1/checks"` | Service base path |
 | loglevel | string | `"info"` | Log level. |
 | nodeSelector | object | `{}` | Node Labels for pod assignment. |
 | podAnnotations | object | `{}` | Pod annotations. |
 | replicas.max | int | `10` | Maximum replicas. |
 | replicas.min | int | `1` | Minimum replicas. |
+| resources | object | `{"limits":{"cpu":"300m","memory":"50Mi"},"requests":{"cpu":"100m","memory":"15Mi"}}` | Pod resources |
 | securityContext | object | `{}` | Pod security context. |
 | tag | string | `"v1.0.0"` | Image tag |
 | tolerations | list | `[]` | Tolerations for pod assignment. |
@@ -151,11 +157,13 @@ Metrics service configuration.
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for pod assignment. |
 | annotations | object | `{}` | Deployment annotations. |
+| basePath | string | `"/api/v1"` | Service base path |
 | loglevel | string | `"info"` | Log level. |
 | nodeSelector | object | `{}` | Node Labels for pod assignment. |
 | podAnnotations | object | `{}` | Pod annotations. |
 | replicas.max | int | `10` | Maximum replicas. |
 | replicas.min | int | `1` | Minimum replicas. |
+| resources | object | `{"limits":{"cpu":"300m","memory":"50Mi"},"requests":{"cpu":"100m","memory":"15Mi"}}` | Pod resources |
 | securityContext | object | `{}` | Pod security context. |
 | tag | string | `"v1.0.0"` | Image tag |
 | tolerations | list | `[]` | Tolerations for pod assignment. |
@@ -168,11 +176,13 @@ Sequencer service configuration.
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for pod assignment. |
 | annotations | object | `{}` | Deployment annotations. |
+| basePath | string | `"/api/v1"` | Service base path |
 | loglevel | string | `"info"` | Log level. |
 | nodeSelector | object | `{}` | Node Labels for pod assignment. |
 | podAnnotations | object | `{}` | Pod annotations. |
 | replicas.max | int | `10` | Maximum replicas. |
 | replicas.min | int | `1` | Minimum replicas. |
+| resources | object | `{"limits":{"cpu":"300m","memory":"50Mi"},"requests":{"cpu":"100m","memory":"15Mi"}}` | Pod resources |
 | securityContext | object | `{}` | Pod security context. |
 | tag | string | `"v1.0.0"` | Image tag |
 | tolerations | list | `[]` | Tolerations for pod assignment. |
