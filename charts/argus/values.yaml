@@ -40,6 +40,9 @@ services:
     # -- Log level.
     loglevel: info
 
+    # -- Service base path
+    basePath: "/api/v1/checks"
+
     # -- Deployment annotations.
     annotations: {}
     # -- Pod annotations.
@@ -70,6 +73,9 @@ services:
     # -- Log level.
     loglevel: info
 
+    # -- Service base path
+    basePath: "/api/v1"
+
     # -- Deployment annotations.
     annotations: {}
     # -- Pod annotations.
@@ -97,6 +103,9 @@ services:
   # -- Descriptions service configuration.
   # @default -- Service config
   descriptions:
+    # -- Service base path
+    basePath: "/descriptions"
+
     # -- Deployment annotations.
     annotations: {}
     # -- Pod annotations.
@@ -127,6 +136,9 @@ services:
     # -- Log level.
     loglevel: info
 
+    # -- Service base path
+    basePath: "/api/v1"
+
     # -- Deployment annotations.
     annotations: {}
     # -- Pod annotations.
@@ -154,9 +166,12 @@ services:
   # -- Cert-master service configuration.
   # Only necessary when `security.cluster.tls` is enabled.
   # @default -- Service config
-  certmaster:
+  cert-master:
     # -- Log level.
     loglevel: info
+
+    # -- Service base path
+    basePath: "/api/v1/certificate"
 
     # -- Deployment annotations.
     annotations: {}
