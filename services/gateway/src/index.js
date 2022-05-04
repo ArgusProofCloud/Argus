@@ -135,7 +135,7 @@ async function getChecklists()
 
         if(index % 2 === 0)
         {
-            if(results[index + 1] > Date.now())  //only select the checks that are not expired
+            if(parseInt(results[index + 1]) > Date.now())  //only select the checks that are not expired
             {
                 checks.push(JSON.parse(x));
             }
