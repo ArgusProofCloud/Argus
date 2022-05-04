@@ -25,7 +25,7 @@ router.post("/request", async (req, res) => {
             const checkl = availableChecklists.filter( x => {
                 return x.tags.includes(tag);
             });
-            checkl.forEach(x => checklists.add(x.name));
+            checkl.forEach(x => checklists.add(x));
         }
     }
 
@@ -34,12 +34,12 @@ router.post("/request", async (req, res) => {
         const checkl = availableChecklists.filter( x => {
             return request.checklists.includes(x.name);
         });
-        checkl.forEach(x => checklists.add(x.name));
+        checkl.forEach(x => checklists.add(x));
     }
 
     // Build target set
     const targets = new Set();
-    const availableTypes = availableChecklists.flatMap(x => x.type);
+    const availableTypes = new Set(availableChecklists.flatMap(x => x.type));
 
     for(const type of availableTypes)
     {
@@ -56,11 +56,11 @@ router.post("/request", async (req, res) => {
 
     const promises = [];
 
-    for(const target in targets)
+    for(const target of targets)
     {
-        for(const checklist in checklists)
+        for(const checklist of checklists)
         {
-            if( !(target.type in availableChecklists.find(x => x.name === checklist).type) )
+            if(!checklist.type.includes(target.type))
             {
                 // Do not enqueue jobs that do not produce results
                 continue;
@@ -78,18 +78,18 @@ router.post("/request", async (req, res) => {
         }
     }
 
-    // Wait untilk everything is enqueued.
-    await Promise.all(promises);
-
     if(promises.length === 0)
     {
         res.status(400).send({
-            statuse: 400,
+            status: 400,
             message: "No checklists could be requested, malformed request.",
             requested: promises.length
         });
         return;
     }
+
+    // Wait until everything is enqueued.
+    await Promise.all(promises);
 
     // Send response
     res.status(201).send({
