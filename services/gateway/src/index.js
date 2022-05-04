@@ -68,13 +68,13 @@ router.post("/request", async (req, res) => {
 
             // Enqueue job
             const job = {
-                id: checklist,
+                id: checklist.name,
                 tracker: request.tracker,
                 target: target.target,
                 type: target.type
             };
 
-            promises.push(redis.insert("jobs:" + checklist, job));
+            promises.push(redis.insert("jobs:" + checklist.name, job));
         }
     }
 
