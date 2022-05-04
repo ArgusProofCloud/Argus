@@ -39,7 +39,7 @@ router.post("/request", async (req, res) => {
 
     // Build target set
     const targets = new Set();
-    const availableTypes = availableChecklists.flatMap(x => x.types);
+    const availableTypes = availableChecklists.flatMap(x => x.type);
 
     for(const type of availableTypes)
     {
@@ -60,7 +60,7 @@ router.post("/request", async (req, res) => {
     {
         for(const checklist in checklists)
         {
-            if( !(target.type in availableChecklists.find(x => x.name === checklist).types) )
+            if( !(target.type in availableChecklists.find(x => x.name === checklist).type) )
             {
                 // Do not enqueue jobs that do not produce results
                 continue;
