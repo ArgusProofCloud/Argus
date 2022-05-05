@@ -24,7 +24,7 @@ router.post("/metric", async (req, res) => {
     }
     else if(app === "selenium-node-chrome")
     {
-        SELENIUM_URL = process.env.SELENIUM_URL || "http://selenium-hub:4444";
+        const SELENIUM_URL = process.env.SELENIUM_URL || "http://selenium-hub:4444";
 
         const queueSize = (await axios.post(SELENIUM_URL + "/graphql", {
             query: "query Summary { grid { sessionQueueSize  }}"
