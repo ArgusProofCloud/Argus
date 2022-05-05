@@ -1,12 +1,12 @@
 ---
-# -- App settings
+# -- General app settings/metadata.
 app:
   # -- The name of the deployment.
   name: argus
   # -- The hostname used in the ingress.
   host: argus.local
 
-# -- Security Settings
+# -- Security Settings.
 security:
   cluster:
     # -- Enable mTLS & TLS throughout the cluster.
@@ -15,9 +15,9 @@ security:
   ingress:
     # -- Enable mTLS at the ingress.
     clientAuth: true
-    # -- The Certificate Authority Certificate secret.
+    # -- The CA Certificate secret.
     caSecret: "argus-ca"
-    # -- The tls secret for https.
+    # -- The TLS secret for https.
     tlsSecret: "argus-tls"
 
 # -- Container image settings.
@@ -26,21 +26,25 @@ image:
   registry: "ghcr.io/watcherwhale"
 
   # -- A list of image pull secrets to use.
+  # <br>
+  # Docker credentials secrets.
   imagePullSecrets:
     - name: ghcr-io
 
   # -- Default pullPolicy.
   pullPolicy: IfNotPresent
 
-# -- All services
+# -- Configuration for all services.
 services:
   # -- Gateway service configuration.
   # @default -- Service config
   gateway:
     # -- Log level.
+    #
+    # (`silly`, `debug`, `verbose`, `http`, `info`, `warn`, `error`)
     loglevel: info
 
-    # -- Service base path
+    # -- Base path of the service.
     basePath: "/api/v1/checks"
 
     # -- Deployment annotations.
@@ -64,7 +68,8 @@ services:
       # -- Maximum replicas.
       max: 10
 
-    # -- Pod resources
+    # -- Pod resources.
+    # @default -- Kuberenetes resource config.
     resources:
       requests:
         memory: "15Mi"
@@ -73,16 +78,18 @@ services:
         memory: "50Mi"
         cpu: "300m"
 
-    # -- Image tag
+    # -- Image tag.
     tag: v1.0.0
 
   # -- Sequencer service configuration.
   # @default -- Service config
   sequencer:
     # -- Log level.
+    #
+    # (`silly`, `debug`, `verbose`, `http`, `info`, `warn`, `error`)
     loglevel: info
 
-    # -- Service base path
+    # -- Base path of the service.
     basePath: "/api/v1"
 
     # -- Deployment annotations.
@@ -106,7 +113,8 @@ services:
       # -- Maximum replicas.
       max: 10
 
-    # -- Pod resources
+    # -- Pod resources.
+    # @default -- Kuberenetes resource config.
     resources:
       requests:
         memory: "15Mi"
@@ -115,13 +123,13 @@ services:
         memory: "50Mi"
         cpu: "300m"
 
-    # -- Image tag
+    # -- Image tag.
     tag: v1.0.0
 
   # -- Descriptions service configuration.
   # @default -- Service config
   descriptions:
-    # -- Service base path
+    # -- Base path of the service.
     basePath: "/descriptions"
 
     # -- Deployment annotations.
@@ -145,7 +153,8 @@ services:
       # -- Maximum replicas.
       max: 10
 
-    # -- Pod resources
+    # -- Pod resources.
+    # @default -- Kuberenetes resource config.
     resources:
       requests:
         memory: "15Mi"
@@ -154,16 +163,18 @@ services:
         memory: "50Mi"
         cpu: "300m"
 
-    # -- Image tag
+    # -- Image tag.
     tag: v1.0.0
 
   # -- Metrics service configuration.
   # @default -- Service config
   metrics:
     # -- Log level.
+    #
+    # (`silly`, `debug`, `verbose`, `http`, `info`, `warn`, `error`)
     loglevel: info
 
-    # -- Service base path
+    # -- Base path of the service.
     basePath: "/api/v1"
 
     # -- Deployment annotations.
@@ -187,7 +198,8 @@ services:
       # -- Maximum replicas.
       max: 10
 
-    # -- Pod resources
+    # -- Pod resources.
+    # @default -- Kuberenetes resource config.
     resources:
       requests:
         memory: "15Mi"
@@ -196,7 +208,7 @@ services:
         memory: "50Mi"
         cpu: "300m"
 
-    # -- Image tag
+    # -- Image tag.
     tag: v1.0.0
 
   # -- Cert-master service configuration.
@@ -204,9 +216,11 @@ services:
   # @default -- Service config
   cert-master:
     # -- Log level.
+    #
+    # (`silly`, `debug`, `verbose`, `http`, `info`, `warn`, `error`)
     loglevel: info
 
-    # -- Service base path
+    # -- Base path of the service.
     basePath: "/api/v1/certificate"
 
     # -- Deployment annotations.
@@ -230,7 +244,8 @@ services:
       # -- Maximum replicas.
       max: 10
 
-    # -- Pod resources
+    # -- Pod resources.
+    # @default -- Kuberenetes resource config.
     resources:
       requests:
         memory: "15Mi"
@@ -239,13 +254,12 @@ services:
         memory: "50Mi"
         cpu: "300m"
 
-    # -- Image tag
+    # -- Image tag.
     tag: v1.0.0
 
-# -- A list of all available checklists that need to be deployed.
-#
-# These can be customized to add your own checks.
-#
+# -- A list of all available checklists that you are able to deploy.
+# If desired, it is possible to add your own checks here.
+# <br>
 # Default available checklists: `cookie`, `dns`, `headers`, `https`, `ip` and `mail`.
 checklists:
   dns:
@@ -264,21 +278,21 @@ checklists:
     # -- Tolerations for pod assignment.
     tolerations: []
 
-    # -- Custom environment variabled to add to the checklist.
+    # -- Custom environment variables to add to the checklist.
     env: {}
 
-    # -- Check throughput
-    #
-    # The amount of request the checklist can handle in an interval.
+    # -- Check throughput.
+    # <br>
+    # The amount of request the checklist can handle in a specified interval.
     throughput: 100
-    # -- The throughput interval, the interval to periodically check the current queue size. (ms)
+    # -- The throughput interval, the interval to periodically check the current queue size (in ms).
     interval: 10000
-    # -- The stabilization interval, used for down scaling. (s)
+    # -- The stabilization interval, used for down scaling (in s).
     stabilization: 200
     replicas:
-      # -- Minimum replicas
+      # -- Minimum replicas.
       min: 1
-      # -- Maximum replicas
+      # -- Maximum replicas.
       max: 5
 
   headers:
@@ -382,7 +396,7 @@ autoscaling:
   # -- Enable/Disable autoscaling.
   enabled: true
 
-  # -- The image tag for the custom autoscaler.
+  # -- The image tag for the custom pod autoscaler.
   tag: v1.0.0
 
 # -- The Selenium deployment configuration.
@@ -403,27 +417,29 @@ selenium:
   tolerations: []
 
 # -- Bitnami Redis configuration.
+# <br>
 # See https://github.com/bitnami/charts/tree/master/bitnami/redis for more config options.
 # @default -- Bitnami Redis config
 redis:
-  # -- Master settings
+  # -- Master settings.
   master:
     persistence:
       enabled: false
 
   replica:
-    # Amount of replicas
+    # -- Amount of replicas.
     replicaCount: 3
 
     persistence:
       enabled: false
 
   sentinel:
-    # -- Enable or Disable sentinels
-    # Must be enabled
+    # -- Enable/Disable sentinels.
+    # <br>
+    # Must be enabled, to work correctly.
     enabled: true
 
-  # -- Auth settings
+  # -- Authentication settings.
   auth:
     enabled: true
     sentinel: true

@@ -17,7 +17,7 @@ An automated security checking platform that is highly extensible.
 
 ### App
 
-App settings
+General app settings/metadata.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | app.host | string | `"argus.local"` | The hostname used in the ingress. |
@@ -29,24 +29,24 @@ Autoscaling configuration.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | autoscaling.enabled | bool | `true` | Enable/Disable autoscaling. |
-| autoscaling.tag | string | `"v1.0.0"` | The image tag for the custom autoscaler. |
+| autoscaling.tag | string | `"v1.0.0"` | The image tag for the custom pod autoscaler. |
 
 ### Checklists
 
-A list of all available checklists that need to be deployed. These can be customized to add your own checks. Default available checklists: `cookie`, `dns`, `headers`, `https`, `ip` and `mail`.
+A list of all available checklists that you are able to deploy. If desired, it is possible to add your own checks here. <br> Default available checklists: `cookie`, `dns`, `headers`, `https`, `ip` and `mail`.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for pod assignment. |
 | annotations | object | `{}` | Deployment annotations. |
-| env | object | `{}` | Custom environment variabled to add to the checklist. |
-| interval | int | `10000` | The throughput interval, the interval to periodically check the current queue size. (ms) |
+| env | object | `{}` | Custom environment variables to add to the checklist. |
+| interval | int | `10000` | The throughput interval, the interval to periodically check the current queue size (in ms). |
 | nodeSelector | object | `{}` | Node Labels for pod assignment. |
 | podAnnotations | object | `{}` | Pod annotations. |
-| replicas.max | int | `5` | Maximum replicas |
-| replicas.min | int | `1` | Minimum replicas |
-| stabilization | int | `200` | The stabilization interval, used for down scaling. (s) |
+| replicas.max | int | `5` | Maximum replicas. |
+| replicas.min | int | `1` | Minimum replicas. |
+| stabilization | int | `200` | The stabilization interval, used for down scaling (in s). |
 | tag | string | `"v1.0.0"` | The image tag of the checklist container. |
-| throughput | int | `100` | Check throughput The amount of request the checklist can handle in an interval. |
+| throughput | int | `100` | Check throughput. <br> The amount of request the checklist can handle in a specified interval. |
 | tolerations | list | `[]` | Tolerations for pod assignment. |
 
 ### Image
@@ -54,28 +54,29 @@ A list of all available checklists that need to be deployed. These can be custom
 Container image settings.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.imagePullSecrets | list | `[{"name":"ghcr-io"}]` | A list of image pull secrets to use. |
+| image.imagePullSecrets | list | `[{"name":"ghcr-io"}]` | A list of image pull secrets to use. <br> Docker credentials secrets. |
 | image.pullPolicy | string | `"IfNotPresent"` | Default pullPolicy. |
 | image.registry | string | `"ghcr.io/watcherwhale"` | The image registry to use. |
 
 ### Redis
 
-Bitnami Redis configuration. See https://github.com/bitnami/charts/tree/master/bitnami/redis for more config options.
+Bitnami Redis configuration. <br> See https://github.com/bitnami/charts/tree/master/bitnami/redis for more config options.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| redis.auth | object | `{"enabled":true,"sentinel":true}` | Auth settings |
-| redis.master | object | `{"persistence":{"enabled":false}}` | Master settings |
-| redis.sentinel.enabled | bool | `true` | Enable or Disable sentinels Must be enabled |
+| redis.auth | object | `{"enabled":true,"sentinel":true}` | Authentication settings. |
+| redis.master | object | `{"persistence":{"enabled":false}}` | Master settings. |
+| redis.replica.replicaCount | int | `3` | Amount of replicas. |
+| redis.sentinel.enabled | bool | `true` | Enable/Disable sentinels. <br> Must be enabled, to work correctly. |
 
 ### Security
 
-Security Settings
+Security Settings.
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | security.cluster.tls | bool | `false` | Enable mTLS & TLS throughout the cluster. |
-| security.ingress.caSecret | string | `"argus-ca"` | The Certificate Authority Certificate secret. |
+| security.ingress.caSecret | string | `"argus-ca"` | The CA Certificate secret. |
 | security.ingress.clientAuth | bool | `true` | Enable mTLS at the ingress. |
-| security.ingress.tlsSecret | string | `"argus-tls"` | The tls secret for https. |
+| security.ingress.tlsSecret | string | `"argus-tls"` | The TLS secret for https. |
 
 ### Selenium
 
@@ -91,7 +92,7 @@ The Selenium deployment configuration.
 
 ### Services
 
-All services
+Configuration for all services.
 
 #### Cert-Master
 
@@ -101,15 +102,15 @@ Cert-master service configuration. Only necessary when `security.cluster.tls` is
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for pod assignment. |
 | annotations | object | `{}` | Deployment annotations. |
-| basePath | string | `"/api/v1/certificate"` | Service base path |
-| loglevel | string | `"info"` | Log level. |
+| basePath | string | `"/api/v1/certificate"` | Base path of the service. |
+| loglevel | string | `"info"` | Log level. (`silly`, `debug`, `verbose`, `http`, `info`, `warn`, `error`) |
 | nodeSelector | object | `{}` | Node Labels for pod assignment. |
 | podAnnotations | object | `{}` | Pod annotations. |
 | replicas.max | int | `10` | Maximum replicas. |
 | replicas.min | int | `1` | Minimum replicas. |
-| resources | object | `{"limits":{"cpu":"300m","memory":"50Mi"},"requests":{"cpu":"100m","memory":"15Mi"}}` | Pod resources |
+| resources | object | Kuberenetes resource config. | Pod resources. |
 | securityContext | object | `{}` | Pod security context. |
-| tag | string | `"v1.0.0"` | Image tag |
+| tag | string | `"v1.0.0"` | Image tag. |
 | tolerations | list | `[]` | Tolerations for pod assignment. |
 
 #### Descriptions
@@ -120,14 +121,14 @@ Descriptions service configuration.
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for pod assignment. |
 | annotations | object | `{}` | Deployment annotations. |
-| basePath | string | `"/descriptions"` | Service base path |
+| basePath | string | `"/descriptions"` | Base path of the service. |
 | nodeSelector | object | `{}` | Node Labels for pod assignment. |
 | podAnnotations | object | `{}` | Pod annotations. |
 | replicas.max | int | `10` | Maximum replicas. |
 | replicas.min | int | `1` | Minimum replicas. |
-| resources | object | `{"limits":{"cpu":"300m","memory":"50Mi"},"requests":{"cpu":"100m","memory":"15Mi"}}` | Pod resources |
+| resources | object | Kuberenetes resource config. | Pod resources. |
 | securityContext | object | `{}` | Pod security context. |
-| tag | string | `"v1.0.0"` | Image tag |
+| tag | string | `"v1.0.0"` | Image tag. |
 | tolerations | list | `[]` | Tolerations for pod assignment. |
 
 #### Gateway
@@ -138,15 +139,15 @@ Gateway service configuration.
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for pod assignment. |
 | annotations | object | `{}` | Deployment annotations. |
-| basePath | string | `"/api/v1/checks"` | Service base path |
-| loglevel | string | `"info"` | Log level. |
+| basePath | string | `"/api/v1/checks"` | Base path of the service. |
+| loglevel | string | `"info"` | Log level. (`silly`, `debug`, `verbose`, `http`, `info`, `warn`, `error`) |
 | nodeSelector | object | `{}` | Node Labels for pod assignment. |
 | podAnnotations | object | `{}` | Pod annotations. |
 | replicas.max | int | `10` | Maximum replicas. |
 | replicas.min | int | `1` | Minimum replicas. |
-| resources | object | `{"limits":{"cpu":"300m","memory":"50Mi"},"requests":{"cpu":"100m","memory":"15Mi"}}` | Pod resources |
+| resources | object | Kuberenetes resource config. | Pod resources. |
 | securityContext | object | `{}` | Pod security context. |
-| tag | string | `"v1.0.0"` | Image tag |
+| tag | string | `"v1.0.0"` | Image tag. |
 | tolerations | list | `[]` | Tolerations for pod assignment. |
 
 #### Metrics
@@ -157,15 +158,15 @@ Metrics service configuration.
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for pod assignment. |
 | annotations | object | `{}` | Deployment annotations. |
-| basePath | string | `"/api/v1"` | Service base path |
-| loglevel | string | `"info"` | Log level. |
+| basePath | string | `"/api/v1"` | Base path of the service. |
+| loglevel | string | `"info"` | Log level. (`silly`, `debug`, `verbose`, `http`, `info`, `warn`, `error`) |
 | nodeSelector | object | `{}` | Node Labels for pod assignment. |
 | podAnnotations | object | `{}` | Pod annotations. |
 | replicas.max | int | `10` | Maximum replicas. |
 | replicas.min | int | `1` | Minimum replicas. |
-| resources | object | `{"limits":{"cpu":"300m","memory":"50Mi"},"requests":{"cpu":"100m","memory":"15Mi"}}` | Pod resources |
+| resources | object | Kuberenetes resource config. | Pod resources. |
 | securityContext | object | `{}` | Pod security context. |
-| tag | string | `"v1.0.0"` | Image tag |
+| tag | string | `"v1.0.0"` | Image tag. |
 | tolerations | list | `[]` | Tolerations for pod assignment. |
 
 #### Sequencer
@@ -176,15 +177,15 @@ Sequencer service configuration.
 |-----|------|---------|-------------|
 | affinity | object | `{}` | Affinity for pod assignment. |
 | annotations | object | `{}` | Deployment annotations. |
-| basePath | string | `"/api/v1"` | Service base path |
-| loglevel | string | `"info"` | Log level. |
+| basePath | string | `"/api/v1"` | Base path of the service. |
+| loglevel | string | `"info"` | Log level. (`silly`, `debug`, `verbose`, `http`, `info`, `warn`, `error`) |
 | nodeSelector | object | `{}` | Node Labels for pod assignment. |
 | podAnnotations | object | `{}` | Pod annotations. |
 | replicas.max | int | `10` | Maximum replicas. |
 | replicas.min | int | `1` | Minimum replicas. |
-| resources | object | `{"limits":{"cpu":"300m","memory":"50Mi"},"requests":{"cpu":"100m","memory":"15Mi"}}` | Pod resources |
+| resources | object | Kuberenetes resource config. | Pod resources. |
 | securityContext | object | `{}` | Pod security context. |
-| tag | string | `"v1.0.0"` | Image tag |
+| tag | string | `"v1.0.0"` | Image tag. |
 | tolerations | list | `[]` | Tolerations for pod assignment. |
 
 ## Source Code
