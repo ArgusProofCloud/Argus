@@ -27,6 +27,8 @@ def main(type:str,domain:str):
 
 
         response = requests.get("https://api.shodan.io/shodan/host/"+host_ip+"?key="+key)
+
+
         try:
             keyval="tags"
             responselist=responsedr[keyval]
@@ -45,12 +47,24 @@ def main(type:str,domain:str):
                         {"name":"database",
                         "score":10,
                         "message":"database is not found",
-                        "description":"Shodan didn't found a database"})
+                        "description":"Shodan didn't found a database."})
         except:
             pass
 
         try:
             responsedr=json.loads(response.text)
+            datums=[entry['timestamp'] for entry in responsedr['data']]
+            datum=datums[0]
+            yy=datum[0:4]
+            mm=datum[5:7]
+            dd=datum[8:10]
+            hh=datum[11:13]
+            min=datum[14:16]
+            sec=datum[17:19]
+            datum=yy+"-"+mm+"-"+dd+" "+hh+":"+min+":"+sec
+
+
+
             portlist=[entry['port'] for entry in responsedr['data']]
             dbports=[5432,1433,1434,3306,3050,5432,3351,1583]
             adports=[9389,389,636,88,445]
@@ -66,7 +80,7 @@ def main(type:str,domain:str):
                  {"name":"badports",
                  "score":10-countp*2,
                  "message":"bad ports",
-                 "description":"Shodan has found "+str(countp)+ " bad ports"})
+                 "description":"Shodan has found "+str(countp)+ " bad ports. Datum:"+str(datum)})
 
         except:
             pass
@@ -76,3 +90,4 @@ def main(type:str,domain:str):
 
 if __name__ == "__main__":
     main(sys.argv[1],sys.argv[2])
+    print(results)
