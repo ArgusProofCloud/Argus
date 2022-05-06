@@ -24,12 +24,9 @@ def main(type:str,domain:str):
             host_ip = socket.gethostbyname(host_name)
         elif type=="ip":
             host_ip = domain
-
-
         response = requests.get("https://api.shodan.io/shodan/host/"+host_ip+"?key="+key)
-
-
         try:
+            responsedr=json.loads(response.text)
             keyval="tags"
             responselist=responsedr[keyval]
             dbfound=False
@@ -49,10 +46,10 @@ def main(type:str,domain:str):
                         "message":"database is not found",
                         "description":"Shodan didn't found a database."})
         except:
-            pass
+            results.append({})
 
         try:
-            responsedr=json.loads(response.text)
+
             datums=[entry['timestamp'] for entry in responsedr['data']]
             datum=datums[0]
             yy=datum[0:4]
@@ -62,8 +59,6 @@ def main(type:str,domain:str):
             min=datum[14:16]
             sec=datum[17:19]
             datum=yy+"-"+mm+"-"+dd+" "+hh+":"+min+":"+sec
-
-
 
             portlist=[entry['port'] for entry in responsedr['data']]
             dbports=[5432,1433,1434,3306,3050,5432,3351,1583]
@@ -76,17 +71,40 @@ def main(type:str,domain:str):
                     if port==dport:
                         foundbadports.append(port)
             countp=len(foundbadports)
+            score=10-countp*2
+            if score<0:
+                score=0
             results.append(
                  {"name":"badports",
-                 "score":10-countp*2,
+                 "score":score,
                  "message":"bad ports",
                  "description":"Shodan has found "+str(countp)+ " bad ports. Datum:"+str(datum)})
 
         except:
-            pass
+            results.append({})
+
+        try:
+            vulns=responsedr['vulns']
+            countcve=len(vulns)
+            score=10-countcve*2
+
+            if score<0:
+                score=0
+            results.append(
+                {"name":"Vulnabilities",
+                "score":score,
+                "message":"CVEs",
+                "description":"Shodan has found "+str(countcve)+ " CVEs."})
+        except:
+            results.append(
+                {"name":"Vulnabilities",
+                "score":10,
+                "message":"CVEs",
+                "description":"Shodan did not found any CVEs."})
 
     except:
-        pass
+        results.append({})
 
 if __name__ == "__main__":
     main(sys.argv[1],sys.argv[2])
+    print(results)
