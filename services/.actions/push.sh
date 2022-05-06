@@ -2,15 +2,22 @@
 
 set -e
 
-if [ "$1" ];
-then
-    REGISTRY="$1"
+services=( "gateway" "sequencer" "cert-master" "metrics" )
 
-    docker tag $REGISTRY/gateway:latest ghcr.io/watcherwhale/gateway:latest
-    docker tag $REGISTRY/sequencer:latest ghcr.io/watcherwhale/sequencer:latest
-    docker tag $REGISTRY/cert-master:latest ghcr.io/watcherwhale/cert-master:latest
-fi
+for service in ${services[@]}
+do
 
-docker push ghcr.io/watcherwhale/gateway:latest
-docker push ghcr.io/watcherwhale/sequencer:latest
-docker push ghcr.io/watcherwhale/cert-master:latest
+    if [ "$1" ];
+    then
+        REGISTRY="$1"
+        docker tag $REGISTRY/$service:latest ghcr.io/watcherwhale/$service:latest
+    fi
+
+    VERSION="$(jq -r .version sequencer/package.json)"
+
+    docker tag ghcr.io/watcherwhale/$service:latest ghcr.io/watcherwhale/$service:v$VERSION
+
+    docker push ghcr.io/watcherwhale/$service:latest
+    docker push ghcr.io/watcherwhale/$service:v$VERSION
+
+done

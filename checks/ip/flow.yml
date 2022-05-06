@@ -1,9 +1,9 @@
 ---
 name: ip
+version: 0.2.2
 tags:
-  - ip
   - passive
-  - geoip
+  - gdpr
 type:
   - domain
   - ip

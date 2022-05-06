@@ -2,14 +2,17 @@
 
 import os
 import sys
+from shlex import quote
 
 dnsResolver = "8.8.8.8"
 
 def main():
     """Main function
     """
-    domain = sys.argv[1]
-    testdnssec(domain)
+    type = sys.argv[1]
+    target = sys.argv[2]
+
+    testdnssec(target)
 
 def testdnssec(domain):
     """Test if DNSSEC is enabled for a specific domain.
@@ -18,7 +21,7 @@ def testdnssec(domain):
         domain (str): Input options.
     """
 
-    dig_requests = os.popen('dig @%s %s +noall +comments +dnssec'%(dnsResolver, domain)).read()
+    dig_requests = os.popen('dig @%s %s +noall +comments +dnssec'%(dnsResolver, quote(domain))).read()
 
     # Check ad flag
     if "ad;" in dig_requests:

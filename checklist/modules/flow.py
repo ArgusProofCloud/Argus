@@ -1,6 +1,7 @@
 import sys
 import os
 import time
+import copy
 
 import yaml
 import json
@@ -27,6 +28,15 @@ class Flow:
         with open("flow.yml", "r", encoding="utf-8") as stream:
             self.flow = yaml.safe_load(stream)
 
+    def getFlowAdvertisment(self):
+        """"
+        Method to get the tags of current flow
+        """
+        advert = copy.deepcopy(self.flow)
+        del advert["stages"]
+
+        return advert
+
     def getName(self) -> str:
         """Get the name of the this flow.
 
@@ -41,11 +51,11 @@ class Flow:
         """
         self.running = False
 
-    def run(self, domain: str) -> list:
-        """Run the flow on a specific domain.
+    def run(self, job: dict) -> list:
+        """Run a flow job.
 
         Args:
-            domain (str): The domain to execute the flow on.
+            job (dict): The job to run.
 
         Returns:
             list: A list of results from the indivdual checks.
@@ -53,7 +63,9 @@ class Flow:
         stages = len(self.flow['stages'])
 
         results = []
-        env = {}
+
+        # Add environment of parent
+        env = dict(os.environ)
 
         self.logger.info(f"Starting flow with {stages} stages.", self.getName())
 
@@ -71,7 +83,7 @@ class Flow:
 
             # Run all checks in stage
             for check in stage['checks']:
-                checks.append(Popen([sys.executable, os.path.join(os.getcwd(), check), domain], stdout=PIPE, encoding="utf-8", env=env))
+                checks.append(Popen([sys.executable, os.path.join(os.getcwd(), check), job["type"], job["target"]], stdout=PIPE, encoding="utf-8", env=env))
 
             busy = True
 

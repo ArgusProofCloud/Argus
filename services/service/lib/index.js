@@ -6,7 +6,7 @@ const app = require("./web.js");
 module.exports = (serviceName, path, options = { redis: { enabled : true, sentinel: true } }) => {
 
     // Create logger
-    const logFile = LogFile.createLogFile(serviceName, process.env.LOGLEVEL || "http");
+    const logFile = LogFile.createLogFile(serviceName, process.env.LOGLEVEL || "info");
     const logger = logFile.getLogger();
 
     // Create Redis client
@@ -41,6 +41,16 @@ module.exports = (serviceName, path, options = { redis: { enabled : true, sentin
     // Catch SIGINT and SIGTERM
     process.on("SIGINT", shutdown)
         .on("SIGTERM", shutdown);
+
+    app.router.get("/health", (req, res) => {
+        if(options.redis.enabled && !redis.isReady())
+        {
+            res.status(500).send("Not connected to the queue.");
+            return;
+        }
+
+        res.status(200).send("OK");
+    });
 
     // Return essential service objects
     return {

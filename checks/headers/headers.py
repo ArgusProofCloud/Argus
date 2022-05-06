@@ -9,14 +9,14 @@ from urllib.parse import urlparse
 
 import ssl
 
-def main(domain: str):
+def main(target: str):
     """main.
 
     Args:
         domain (str): domain
     """
     headerPatterns = loadPatterns()
-    headers = getHeaders("https://" + domain)
+    headers = getHeaders("https://" + target)
 
     print(json.dumps(checkHeaders(headers, headerPatterns)))
 
@@ -46,7 +46,6 @@ def getHeaders(url: str):
         conn = http.client.HTTPSConnection(hostname, context = ctx)
     else:
         conn = http.client.HTTPConnection(hostname)
-
     try:
         conn.request("HEAD", path)
         res = conn.getresponse()
@@ -154,4 +153,4 @@ def checkHeaders(headers: dict, patterns: dict) -> list:
     return results
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main(sys.argv[2])

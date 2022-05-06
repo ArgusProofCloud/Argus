@@ -1,7 +1,7 @@
 ---
 name: dns
+version: 0.2.1
 tags:
-  - dns
   - passive
 type:
   - domain

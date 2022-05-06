@@ -1,15 +1,11 @@
 ---
 name: https
+version: 0.2.1
 tags:
-  - https
   - passive
   - web
-  - tls
-  - ssl
 type:
   - domain
-  - ip
-  - ipv6
 stages:
   - name: HTTPS Checks
     checks:
