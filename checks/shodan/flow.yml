@@ -1,0 +1,13 @@
+---
+name: shodan
+version: 0.2.1
+tags:
+  - shodan
+  - passive
+type:
+  - domain
+  - ip
+stages:
+  - name: shodan Checks
+    checks:
+      - shodan.py

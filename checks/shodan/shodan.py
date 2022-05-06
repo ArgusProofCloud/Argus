@@ -3,6 +3,7 @@ import json
 import requests
 import socket
 import sys
+
 #source link db: https://www.networkinghowtos.com/howto/common-database-server-port-numbers/
 #source link ad: https://docs.microsoft.com/nl-NL/troubleshoot/windows-server/networking/service-overview-and-network-port-requirements#4
 #source link ad:https://isc.sans.edu/diary/Cyber+Security+Awareness+Month+-+Day+27+-+Active+Directory+Ports/7468
@@ -10,15 +11,21 @@ import sys
 
 key="4VdRQ9pNJvTsJNw4dF2VMQz3VczqbV0a"
 results=[]
-def main(domain:str):
+def main(type:str,domain:str):
     """_summary_
 
     Args:
+        type (str): type of request
         domain (str): Domain to check
     """
     try:
-        host_name = domain
-        host_ip = socket.gethostbyname(host_name)
+        if type=="domain":
+            host_name = domain
+            host_ip = socket.gethostbyname(host_name)
+        elif type=="ip":
+            host_ip = domain
+
+
         response = requests.get("https://api.shodan.io/shodan/host/"+host_ip+"?key="+key)
         try:
             keyval="tags"
@@ -68,4 +75,4 @@ def main(domain:str):
         pass
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main(sys.argv[1],sys.argv[2])
