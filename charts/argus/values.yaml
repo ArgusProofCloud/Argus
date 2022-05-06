@@ -407,6 +407,25 @@ checklists:
       min: 1
       max: 10
 
+  shodan:
+    tag: v0.2.1
+
+    annotations: {}
+    podAnnotations: {}
+
+    nodeSelector: {}
+    affinity: {}
+    tolerations: []
+
+    env: {}
+
+    throughput: 20
+    interval: 10000
+    stabilization: 200
+    replicas:
+      min: 1
+      max: 10
+
 # -- Autoscaling configuration.
 autoscaling:
   # -- Enable/Disable autoscaling.
