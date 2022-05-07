@@ -1,0 +1,11 @@
+---
+name: cve
+version: 0.1
+tags:
+  - passive
+type:
+  - cve
+stages:
+  - name: "cve check"
+    checks:
+      - cve.py
