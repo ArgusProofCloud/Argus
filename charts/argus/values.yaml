@@ -407,8 +407,8 @@ checklists:
       min: 1
       max: 10
 
-  shodan:
-    tag: v0.2.1
+  vulnerability:
+    tag: v1.0.0
 
     annotations: {}
     podAnnotations: {}
@@ -417,7 +417,8 @@ checklists:
     affinity: {}
     tolerations: []
 
-    env: {}
+    env:
+      SHODAN_KEY: "<Your Shodan API key here>"
 
     throughput: 20
     interval: 10000
