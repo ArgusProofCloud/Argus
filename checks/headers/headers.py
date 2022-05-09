@@ -127,15 +127,14 @@ def checkHeaders(headers: dict, patterns: dict) -> list:
                 results.append({
                     "name": headerKey,
                     "score": 10,
-                    "message": "Header is set up correctly."
-                    "value": headers[headerKey],
+                    "message": "Header is set up correctly.",
                     "description": "headers"
                 })
             elif not valueTest:
                 results.append({
                     "name": headerKey,
                     "score": 0,
-                    "message": "Header is not set up correctly."
+                    "message": "Header is not set up correctly.",
                     "value": [headers[headerKey]],
                     "description": "headers"
                 })
