@@ -10,7 +10,8 @@ dnsResolver = "8.8.8.8"
 def main():
     """Main function
     """
-    target = sys.argv[1]
+    type = sys.argv[1]
+    target = sys.argv[2]
 
     testdnssec(target)
 
