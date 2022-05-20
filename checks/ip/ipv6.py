@@ -47,7 +47,7 @@ def main(target: str, type: str):
         "name": "IPv6",
         "score": 10,
         "message": f"Domain: {target} has one or more IPv6 addresses.",
-        "value": ips,
+        "info": ips,
         "description": "ipv6"
     }))
 
