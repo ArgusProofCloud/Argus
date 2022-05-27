@@ -46,14 +46,14 @@ def testdnssec(domain):
         print(json.dumps({
             "name": "DNSSEC",
             "score": 10,
-            "message": "Domain %s is safe, it uses a valid DNSSEC.",
+            "message": "This domain is safe, it uses a valid DNSSEC.",
             "description": "DNSSEC"
         }) % domain)
     elif status_error == 1:
         print(json.dumps({
             "name": "DNSSEC",
             "score": 5,
-            "message": "Domain %s uses DNSSEC but is misconfigured or invalid.",
+            "message": "This domain uses DNSSEC but is misconfigured or invalid.",
             "description": "DNSSEC"
         }) % domain)
 
@@ -61,7 +61,7 @@ def testdnssec(domain):
         print(json.dumps({
             "name": "DNSSEC",
             "score": 0,
-            "message": "Domain %s does not use DNSSEC.",
+            "message": "This domain does not use DNSSEC.",
             "description": "DNSSEC"
         }) % domain)
     else:

@@ -72,7 +72,7 @@ def checkIp(ip: str, reader: geoip2.database.Reader) -> dict:
         return {
             "name": "GeoIP",
             "score": 10,
-            "message": f"{ip} is hosted in the EU.",
+            "message": "The ip address is hosted in the EU.",
             "info": [ip],
             "description": "geoIP"
         }
@@ -80,7 +80,7 @@ def checkIp(ip: str, reader: geoip2.database.Reader) -> dict:
         return {
             "name": "GeoIP",
             "score": 0,
-            "message": f"{ip} is not hosted in the EU.",
+            "message": "The ip address is not hosted in the EU.",
             "info": [ip],
             "description": "geoIP"
         }
