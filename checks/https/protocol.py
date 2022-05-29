@@ -18,7 +18,7 @@ else:
         print(json.dumps(
             {   "name": "Protocol",
                 "score": 10,
-                "message": "This domain uses version:"+ str(versie)+".",
+                "message": "This domain uses version: "+ str(versie)+".",
                 "description": "protocol"
             }))
     else:
@@ -26,7 +26,7 @@ else:
             {
                 "name": "Protocol",
                 "score": 0,
-                "message": "This domain uses version:"+str(versie)+", TLS version 1.2 or up required.",
+                "message": "This domain uses version: "+str(versie)+", TLS version 1.2 or up required.",
                 "description": "protocol"
             }))
     sslSocket.close()

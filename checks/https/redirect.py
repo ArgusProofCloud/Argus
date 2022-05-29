@@ -27,7 +27,7 @@ else:
             {
              "name": "Redirect HTTP",
              "score": 10,
-             "message": "Redirection present from http to https:"+str(url)+" to "+ str(new_url)+".",
+             "message": "Redirection present from http to https.",
              "description": "redirect"
             }))
     else:
